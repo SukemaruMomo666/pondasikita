@@ -48,21 +48,39 @@
 a { text-decoration: none; }
 
 .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: var(--navbar-surface);
-    border: 1px solid var(--navbar-border);
-    border-radius: 25px;
-    padding: 5px 15px;
-    width: 350px;
+  display: flex;
+  align-items: center;
+  background-color: var(--navbar-surface);
+  border: 1px solid var(--navbar-border);
+  border-radius: 25px;
+  padding: 15px 20px;
+  width: 680px;
+  
+  position: relative; /* 1. Buat .search-bar jadi 'induk' */
 }
-.search-bar i { color: #9CA3AF; margin-right: 10px; }
+
+.search-bar .fa-search { 
+  color: #9CA3AF; 
+  font-size: 24px;
+  
+  /* 2. Buat ikon 'melayang' */
+  position: absolute;
+  left: 20px; /* Sesuaikan jarak dari kiri */
+  top: 50%;   /* Posisikan 50% dari atas */
+  transform: translateY(-50%); /* Trik agar pas di tengah vertikal */
+  
+  /* Hapus margin-right karena sudah tidak di alur */
+}
+
 .search-bar input {
-    border: none;
-    background: transparent;
-    outline: none;
-    width: 100%;
-    font-size: 0.9rem;
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.9rem;
+  
+  /* 3. Beri padding kiri agar teks input tidak tertimpa ikon */
+  padding-left: 30px; /* (ukuran ikon 20px + spasi 10px) */
 }
 
 /* Kanan: Nav links & Actions */

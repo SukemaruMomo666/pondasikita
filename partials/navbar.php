@@ -31,11 +31,10 @@ if ($is_logged_in && $user_level !== 'admin') {
             <a href="/index.php" class="navbar-logo">
                 <h3>Pondasikita</h3>
             </a>
-            <form action="/pages/search.php" method="GET" class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" name="query" placeholder="Cari produk, toko, atau merek...">
-            </form>
-        </div>
+<form action="/pages/search.php" method="GET" class="search-bar">
+    <i class="fas fa-magnifying-glass"></i> 
+    <input type="text" ...>
+</form>
 
         <nav class="navbar-right">
             <ul class="nav-links">

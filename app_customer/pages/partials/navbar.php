@@ -36,7 +36,7 @@ if ($is_logged_in && $user_level !== 'admin' && $user_id !== null) { // Tambahka
     <div class="navbar-container">
         <div class="navbar-left">
             <a href="/index.php" class="navbar-logo">
-                <h3>Pondasikitaa</h3>
+                <h3>Pondasikita</h3>
             </a>
             <form action="../search.php" method="GET" class="search-bar">
                 <i class="fas fa-search"></i>
