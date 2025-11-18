@@ -6,9 +6,9 @@
 
 
 $db_host = 'localhost';
-$db_user = 'root'; // Ganti dengan username database Anda
-$db_pass = 'root';     // Ganti dengan password database Anda
-$db_name = 'pondasikita_db5';
+$db_user = 'root'; 
+$db_pass = '';     
+$db_name = 'pondasikita_db';
 
 $koneksi = new mysqli($db_host, $db_user, $db_pass, $db_name);
 
