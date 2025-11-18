@@ -1,0 +1,241 @@
+/* Live Chat Toggle Button */
+.live-chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px; /* Ubah ke right untuk posisi kanan bawah */
+    background-color: #5e1914; /* Warna primer, sesuaikan dengan tema Anda */
+    color: white;
+    border: none;
+    border-radius: 50px; /* Bentuk pil */
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 1000; /* Pastikan di atas elemen lain */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.live-chat-toggle:hover {
+    background-color: #581915; /* Warna lebih gelap saat hover */
+    transform: translateY(-2px);
+}
+
+.live-chat-toggle .chat-toggle-text {
+    font-weight: bold;
+}
+
+/* Live Chat Window */
+.live-chat-window {
+    position: fixed;
+    bottom: 90px; /* Di atas tombol toggle */
+    right: 20px; /* Sejajar dengan tombol toggle */
+    width: 320px;
+    height: 450px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1001;
+    transition: all 0.3s ease-in-out;
+    transform: scale(0); /* Sembunyikan secara default */
+    transform-origin: bottom right;
+    opacity: 0;
+}
+
+.live-chat-window.active {
+    transform: scale(1); /* Tampilkan saat aktif */
+    opacity: 1;
+}
+
+/* Chat Header */
+.chat-header {
+    background-color: #5e1914;
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.chat-header .status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Border agar terlihat jelas */
+}
+
+.chat-header .status-indicator.online {
+    background-color: #28a745; /* Hijau */
+}
+
+.chat-header .status-indicator.offline {
+    background-color: #dc3545; /* Merah */
+}
+
+.chat-header .close-chat-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.chat-header .close-chat-btn:hover {
+    opacity: 1;
+}
+
+/* Chat Messages Area */
+.chat-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message {
+    max-width: 80%;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 18px;
+    word-wrap: break-word;
+    font-size: 14px;
+}
+
+.chat-message.customer {
+    align-self: flex-end;
+    background-color: #e0f7fa; /* Light blue for customer */
+    color: #333;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-message.admin,
+.chat-message.bot {
+    align-self: flex-start;
+    background-color: #e2e6ea; /* Light gray for admin/bot */
+    color: #333;
+    border-bottom-left-radius: 4px;
+}
+
+/* Chat Input Area */
+.chat-input-area {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+    background-color: #fff;
+    position: relative; /* Untuk indikator mengetik */
+}
+
+.chat-input-area #chat-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.chat-input-area #chat-input:focus {
+    outline: none;
+    border-color: #5e1914;
+}
+
+.chat-input-area #send-chat-btn {
+    background-color: #5e1914;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.chat-input-area #send-chat-btn:hover {
+    background-color: #0056b3;
+}
+
+.typing-indicator {
+    position: absolute;
+    bottom: 55px; /* Di atas input field */
+    left: 15px;
+    font-size: 12px;
+    color: #666;
+    background-color: #e2e6ea;
+    padding: 3px 8px;
+    border-radius: 5px;
+    display: none; /* Sembunyikan secara default */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.typing-indicator.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Pre-Chat Form */
+.chat-pre-chat-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #f0f2f5;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #333;
+}
+
+.chat-pre-chat-form h3 {
+    margin-top: 0;
+    color: #5e1914;
+}
+
+.chat-pre-chat-form p {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.chat-pre-chat-form input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.chat-pre-chat-form button {
+    background-color: #671914;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.chat-pre-chat-form button:hover {
+    background-color: #5e1914;
+}

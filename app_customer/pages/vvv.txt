@@ -1,0 +1,60 @@
+<?php
+include '../config/koneksi.php';
+session_start();
+
+// Ambil ID user dari session (pastikan ini diset saat login)
+$id_user = $_SESSION['user_id'] ?? 1; // Gunakan 'user_id' sesuai konvensi session
+
+// Ambil data dari tabel keranjang dan barang
+$query = "SELECT k.id AS id_keranjang, b.nama_barang, b.harga, b.gambar_barang AS gambar, k.jumlah 
+          FROM tb_keranjang k 
+          JOIN tb_barang b ON k.barang_id = b.id 
+          WHERE k.user_id = $id_user";
+
+$result = mysqli_query($koneksi, $query);
+if (!$result) {
+    die("Query error: " . mysqli_error($koneksi));
+}
+
+$total = 0;
+?>
+
+<link rel="stylesheet" href="../assets/css/keranjang.css">
+<link rel="stylesheet" href="../assets/css/navbar.css">
+<?php include('../partials/navbar.php')?>
+
+<div class="keranjang-container">
+    <h2>Keranjang Belanja Anda</h2>
+
+    <?php if (mysqli_num_rows($result) > 0): ?>
+        <?php while($row = mysqli_fetch_assoc($result)): 
+            $subtotal = $row['harga'] * $row['jumlah'];
+            $total += $subtotal;
+        ?>
+        <div class="keranjang-item">
+            <img src="../assets/<?= $row['gambar'] ?>" alt="<?= $row['nama_barang'] ?>">
+            <div class="item-info">
+                <h4><?= $row['nama_barang'] ?></h4>
+                <p>Harga: Rp<?= number_format($row['harga'], 0, ',', '.') ?></p>
+               <form action="crud_keranjang/update_keranjang.php" method="post">
+                    <input type="hidden" name="id_keranjang" value="<?= $row['id_keranjang'] ?>">
+                    <input type="number" name="jumlah" value="<?= $row['jumlah'] ?>" min="1" style="width: 60px;">
+                    <button type="submit">Ubah</button>
+                </form>
+
+                <p>Subtotal: Rp<?= number_format($subtotal, 0, ',', '.') ?></p>
+            </div>
+            <div class="item-actions">
+                <a href="crud_keranjang/hapus_keranjang.php?id=<?= $row['id_keranjang'] ?>" class="btn-hapus">Hapus</a>
+            </div>
+        </div>
+        <?php endwhile; ?>
+
+        <div class="keranjang-total">
+            <h3>Total: Rp<?= number_format($total, 0, ',', '.') ?></h3>
+            <a href="checkout.php" class="btn-checkout">Checkout Sekarang</a>
+        </div>
+    <?php else: ?>
+        <p>Keranjang Anda kosong.</p>
+    <?php endif; ?>
+</div>

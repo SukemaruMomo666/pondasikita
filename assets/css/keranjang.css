@@ -1,0 +1,208 @@
+/* File: keranjang.css */
+
+/* --- Gaya Dasar (Desktop First) --- */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.keranjang-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.keranjang-container h2 {
+    color: #5E1914;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.keranjang-item {
+    display: flex;
+    align-items: center; /* Membuat gambar dan info sejajar di tengah secara vertikal */
+    gap: 20px;
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0;
+}
+
+.keranjang-item:last-child {
+    border-bottom: none;
+}
+
+.keranjang-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    flex-shrink: 0; /* Mencegah gambar 'gepeng' saat ruang sempit */
+}
+
+.item-info {
+    flex: 1; /* Membuat blok info mengisi sisa ruang yang tersedia */
+}
+
+.item-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.item-info p {
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Bagian untuk form kuantitas jika ada */
+.item-info form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.item-info input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 60px;
+    text-align: center;
+}
+
+.item-info button.btn-update { /* Beri class khusus agar tidak bentrok dengan hapus */
+    padding: 9px 12px;
+    background-color: #5E1914;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.item-info button.btn-update:hover {
+    background-color: #420D09;
+}
+
+
+/* Tombol hapus, kita letakkan di dalam .item-actions agar lebih rapi */
+.item-actions {
+    /* Jika Anda ingin tombol hapus di paling kanan, gunakan style ini di div pembungkusnya */
+    margin-left: auto; /* Mendorong tombol ke kanan */
+    padding-left: 20px;
+}
+
+.btn-hapus {
+    background-color: #5E1914; /* Sesuai warna tema Anda */
+    color: white;
+    padding: 8px 14px;
+    text-decoration: none;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.btn-hapus:hover {
+    background-color: #420D09;
+}
+
+/* Bagian Total */
+.keranjang-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    margin-top: 10px;
+    border-top: 2px solid #5E1914;
+}
+
+.keranjang-total h3 {
+    color: #5E1914;
+    margin: 0;
+}
+
+.btn-checkout {
+    background-color: #5E1914;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-checkout:hover {
+    background-color: #420D09;
+}
+
+
+/* --- Responsive / Mobile Friendly --- */
+@media (max-width: 768px) {
+    .keranjang-container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    /* INI PERUBAHAN UTAMANYA */
+    .keranjang-item {
+        /* Tata letak tetap horizontal, tidak ada `flex-direction: column` */
+        gap: 15px; /* Kurangi jarak antara gambar dan info */
+    }
+
+    .keranjang-item img {
+        /* Perkecil gambar agar ada cukup ruang untuk teks */
+        width: 80px;
+        height: 80px;
+    }
+    
+    .item-info h4 {
+        font-size: 16px; /* Perkecil sedikit font judul */
+    }
+
+    .item-info p {
+        font-size: 13px; /* Perkecil font detail */
+        margin: 3px 0;
+    }
+    
+    .btn-hapus {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    /* Tata letak checkout tetap dibuat vertikal agar tombol mudah ditekan */
+    .keranjang-total {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    
+    .keranjang-total h3 {
+        text-align: center;
+    }
+
+    .btn-checkout {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px;
+    }
+}
+
+
+        .btn-checkout:disabled {
+            background-color: #d3d3d3;
+            cursor: not-allowed;
+        }
+
+        .btn-checkout:disabled::after {
+            content: " (Pilih item terlebih dahulu)";
+            font-size: 12px;
+            color: #555;
+        }

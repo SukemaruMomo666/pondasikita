@@ -1,0 +1,7 @@
+proses_login.php        <-- Proses login
+│   ├── proses_register.php     <-- Proses daftar
+│   ├──     <-- Tambah ke keranjang
+│   ├──     <-- Update jumlah/hapus
+│   ├──      <-- Checkout (insert transaksi)
+│   ├── konfirmasi_pembayaran.php <-- Upload bukti bayar
+│   └──         

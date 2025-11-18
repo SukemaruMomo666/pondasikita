@@ -1,0 +1,463 @@
+/* assets/css/checkout_page_style.css */
+
+/* =================================================================== */
+/* STYLING HALAMAN CHECKOUT PONDASIKITA                              */
+/* =================================================================== */
+
+:root {
+    /* Variabel dari theme.css (disesuaikan agar konsisten) */
+    /* Pastikan variabel ini sama persis dengan yang ada di theme.css Anda */
+    /* Jika ada perbedaan, tema checkout akan terlihat berbeda */
+    --primary-color: #1a1a1a; /* Hitam pekat */
+    --secondary-color: #4B5563; /* Abu-abu tua untuk teks */
+    --background-color: #FFFFFF; /* Putih bersih */
+    --surface-color: #F9FAFB; /* Abu-abu sangat terang untuk permukaan */
+    --border-color: #E5E7EB; /* Abu-abu untuk border */
+    --accent-color: #007BFF; /* Aksen biru untuk button & link */
+    --error-color: #EF4444; /* Warna merah untuk error/diskon */
+    --success-color: #28a745; /* Hijau untuk sukses */
+
+    --font-family: 'Inter', sans-serif; /* Menggunakan Inter sesuai theme.css */
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: var(--font-family); /* Menggunakan font dari variabel */
+    background-color: var(--surface-color); /* Menggunakan surface-color untuk background halaman */
+    color: var(--secondary-color);
+}
+
+.checkout-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 15px; /* Padding horizontal */
+    padding-top: 60px; /* Ruang dari navbar */
+}
+
+.checkout-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--primary-color);
+}
+
+.checkout-header h1 {
+    font-weight: 700;
+    font-size: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.checkout-content {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr; /* Memberi ruang lebih pada ringkasan */
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* --- Styling Card yang Ditingkatkan --- */
+.card {
+    background-color: var(--background-color); /* Warna putih untuk card */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--box-shadow);
+    overflow: hidden; /* Penting untuk border-radius pada elemen anak */
+    transition: all 0.3s ease;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--surface-color); /* Latar belakang header card */
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    color: var(--primary-color); /* Warna teks header */
+}
+
+.card-header h3, .card-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-footer {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--surface-color); /* Latar belakang footer card */
+    border-top: 1px solid var(--border-color);
+    text-align: right; /* Default align to right for button */
+}
+
+.btn-edit-alamat {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+.btn-edit-alamat:hover {
+    color: #0056b3; /* Darker accent on hover */
+}
+
+/* --- Alert Messages --- */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+.alert-danger {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb; /* Red border */
+}
+.alert-danger i {
+    color: #dc3545; /* Error red icon */
+}
+
+
+/* --- Grup Produk per Toko (Product List) --- */
+.product-list {
+    /* No specific styles needed here, items will define their own layout */
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 0;
+}
+.product-item:not(:last-child) {
+    border-bottom: 1px solid #f0f2f5; /* Garis pemisah antar produk */
+}
+
+.product-image {
+    width: 65px;
+    height: 65px;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+.product-info {
+    flex-grow: 1;
+}
+
+.product-name {
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+    color: var(--primary-color);
+}
+
+.product-quantity {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.product-price {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--primary-color);
+    text-align: right;
+}
+
+/* --- Form Groups (Inputs, Selects, Textareas) --- */
+.form-group {
+    margin-bottom: 1rem;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+}
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    color: var(--secondary-color);
+    background-color: var(--background-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Accent color shadow */
+}
+
+/* --- Tipe Pengambilan & Opsi Pengiriman --- */
+.shipping-option {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border-color);
+}
+.shipping-option:first-of-type { /* Jika ada banyak shipping-option, hanya yang pertama tanpa border-top */
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* --- Voucher Section --- */
+.voucher-section {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--border-color);
+}
+.voucher-section input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    color: var(--secondary-color);
+}
+.voucher-section button {
+    padding: 10px 15px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.voucher-section button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Ringkasan Belanja (Aside) --- */
+.checkout-summary .summary-card {
+    position: sticky;
+    top: 20px; /* Menempel di bagian atas saat scroll */
+    margin-bottom: 0; /* Hindari margin bawah saat sticky */
+}
+
+.summary-row, .summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+.summary-row span:first-child {
+    color: var(--secondary-color);
+}
+.summary-row span:last-child,
+.summary-total span:last-child {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.summary-divider {
+    border: 0;
+    border-top: 1px dashed var(--border-color);
+    margin: 1.5rem 0;
+}
+
+.summary-total {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.summary-total span:last-child {
+    color: var(--accent-color); /* Total harga dengan warna aksen */
+    font-size: 1.4rem;
+}
+
+.summary-row.hidden {
+    display: none;
+}
+
+/* --- Tombol Submit --- */
+.btn-submit {
+    width: 100%;
+    background: linear-gradient(45deg, var(--accent-color), #0056b3); /* Gradient dari accent ke darker blue */
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); /* Shadow dengan accent color */
+}
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+}
+.btn-submit:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+.btn-submit:disabled {
+    background: #cccccc; /* Abu-abu polos saat disabled */
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+    transform: none;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    .checkout-content {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+    }
+    .checkout-summary .summary-card {
+        position: static; /* Disable sticky on smaller screens */
+        margin-bottom: 2rem; /* Add margin for spacing */
+    }
+}
+
+@media (max-width: 768px) {
+    .checkout-container {
+        margin: 1rem auto;
+        padding: 0 10px;
+    }
+    .checkout-header {
+        margin-bottom: 1.5rem;
+    }
+    .checkout-header h1 {
+        font-size: 1.8rem;
+    }
+    .card-header {
+        padding: 0.8rem 1rem;
+    }
+    .card-header h3 {
+        font-size: 1rem;
+    }
+    .card-body {
+        padding: 1rem;
+    }
+    .product-item {
+        flex-wrap: wrap; /* Allow items to wrap */
+        padding: 0.8rem 0;
+    }
+    .product-image {
+        width: 50px;
+        height: 50px;
+    }
+    .product-name {
+        font-size: 0.9rem;
+    }
+    .product-quantity {
+        font-size: 0.8rem;
+    }
+    .product-price {
+        font-size: 0.9rem;
+        width: 100%; /* Take full width on wrap */
+        text-align: left;
+        margin-top: 0.5rem;
+    }
+    .form-group label {
+        font-size: 0.85rem;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+    .voucher-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .voucher-section input, .voucher-section button {
+        width: 100%;
+    }
+    .summary-row, .summary-total {
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+    }
+    .summary-total {
+        font-size: 1.1rem;
+    }
+    .summary-total span:last-child {
+        font-size: 1.2rem;
+    }
+    .btn-submit {
+        padding: 12px;
+        font-size: 1rem;
+    }
+    /* Fixed footer for mobile summary */
+    .checkout-summary {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: var(--background-color); /* White background */
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.15); /* Shadow at top */
+        border-top: 1px solid var(--border-color);
+        padding: 1rem; /* Padding internal to the fixed summary */
+    }
+    .summary-card {
+        box-shadow: none; /* Remove redundant shadow */
+        border: none; /* Remove redundant border */
+        margin-bottom: 0; /* Remove margin if inside fixed summary */
+        border-radius: 0; /* Remove border radius */
+    }
+    .summary-card .card-header,
+    .summary-card .card-body,
+    .summary-card .card-footer {
+        padding: 0; /* Remove internal padding if outer div has padding */
+        border: none; /* Remove internal borders */
+        background-color: transparent; /* Transparent background for internal elements */
+    }
+    .summary-card .card-footer {
+        padding-top: 1rem; /* Add padding just above button */
+    }
+    /* Adjust body padding to prevent content from being hidden behind fixed footer */
+    body {
+        padding-bottom: 200px; /* Sesuaikan ini jika summary card masih menutupi content */
+    }
+}
+
+@media (max-width: 480px) {
+    .checkout-header h1 {
+        font-size: 1.5rem;
+    }
+    .product-image {
+        width: 40px;
+        height: 40px;
+    }
+    .product-name {
+        font-size: 0.85rem;
+    }
+    .product-quantity {
+        font-size: 0.75rem;
+    }
+    .product-price {
+        font-size: 0.85rem;
+    }
+    .btn-submit {
+        font-size: 0.95rem;
+    }
+    body {
+        padding-bottom: 180px; /* Slightly less padding for very small screens */
+    }
+}

@@ -1,0 +1,247 @@
+/* File: navbar.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+nav {
+    background-color: #5E1914;
+    padding: 20px 40px;
+    font-family: 'Segoe UI', sans-serif;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-logo h1 {
+    color: #ffffff;
+    font-size: 22px;
+
+}
+
+.navbar-logo a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbar-logo a:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+
+ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+ul.nav-links li {
+    position: relative;
+}
+
+ul.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+ul.nav-links li a:hover,
+ul.nav-links li a.active {
+    border-bottom: 3px solid white;
+    font-weight: bold;
+}
+
+/* Dropdown Styles */
+/* Dropdown Styles - PERBAIKAN */
+.dropdown .dropdown-content { /* Gunakan selector yang lebih spesifik */
+    display: none;
+    position: absolute;
+    top: 30px; /* Sesuaikan jarak dari menu atas */
+    left: 0;
+    background-color: #5E1914; /* Warna latar utama navbar */
+    border-radius: 8px; /* Sudut lebih modern */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 180px; /* Sedikit lebih lebar */
+    z-index: 10;
+    padding: 8px 0; /* Beri jarak vertikal di dalam dropdown */
+    overflow: hidden;
+    white-space: nowrap; /* Mencegah link turun ke baris baru */
+}
+/* Tambahkan ini ke file CSS navbar Anda */
+
+.nav-column {
+    display: flex;
+    flex-direction: column; /* Mengatur item agar tersusun ke bawah */
+    align-items: flex-start; /* Meratakan item ke kiri */
+    margin: 0 15px; /* Memberi jarak dari menu lain */
+}
+
+.nav-column .nav-heading {
+    font-weight: bold; /* Membuat "Tentang Kami" menjadi tebal */
+    margin-bottom: 5px; /* Jarak antara judul dan sub-link */
+    color: #fff !important; /* Pastikan warna teks putih */
+}
+
+.nav-column .nav-sub-links {
+    list-style-type: none; /* Menghilangkan bulatan/titik pada list */
+    padding: 0;
+    margin: 0;
+}
+
+.nav-column .nav-sub-links li a {
+    color: #e0e0e0 !important; /* Warna sub-link sedikit lebih redup */
+    font-size: 0.9em; /* Ukuran font lebih kecil */
+    padding: 2px 0; /* Memberi sedikit jarak vertikal */
+    display: block; /* Agar link memenuhi baris */
+}
+
+.nav-column .nav-sub-links li a:hover {
+    color: #ffffff !important; /* Warna saat cursor di atas link */
+    text-decoration: underline; /* Garis bawah saat hover */
+}
+/* PERBAIKI JUGA WARNA TEKSNYA */
+.dropdown-content a {
+    display: block; /* Kita tetap pakai block, tapi layoutnya diatur di container */
+    color: #f0f0f0; /* Warna putih yang tidak terlalu silau */
+    padding: 10px 20px; /* Padding yang lebih seimbang */
+    text-decoration: none;
+    font-size: 15px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-content a:hover,
+.dropdown-content a:focus {
+    background-color: #420D09; /* Warna hover lebih gelap */
+    color: #ffffff; /* Warna teks jadi putih terang */
+}
+
+/* Tampilkan dropdown saat menu utama di-hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+/* Sembunyikan panah default dari Bootstrap */
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+/* Search Bar Styles */
+.search-bar {
+    flex-grow: 1;
+    margin: 0 20px;
+    max-width: 500px;
+    display: flex;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    background-color: white;
+    border: none;
+    padding: 0 15px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    color: #5E1914;
+    transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #f0f0f0;
+}
+
+.fas.fa-search {
+    font-size: 16px;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.mobile-view {
+    display: none
+}
+.badge {
+    background-color: #FFD700;
+    color: #5E1914;
+    padding: 2px 6px;
+    font-size: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: -8px;
+    right: -10px;
+}
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-wrap: nowrap;
+        gap: 15px;
+    }
+
+    
+
+    /* ✅ PERBAIKAN: Gunakan opacity & transform untuk animasi */
+    .nav-links {
+        display: flex; /* <-- Tetap flex agar properti transform bekerja */
+        flex-direction: column;
+        background-color: #5E1914;
+        position: absolute;
+        top: 70px; 
+        right: 20px;
+        width: 200px;
+        border-radius: 8px;
+        padding: 10px;
+        
+        /* 1. Sembunyikan dengan cara ini, bukan display: none */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px); /* Efek turun sedikit saat muncul */
+        
+        /* 2. Tambahkan transisi untuk semua properti yang akan diubah */
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    }
+
+    /* ✅ PERBAIKAN: Ubah properti yang bisa dianimasikan saat aktif */
+    .nav-links.active {
+        /* 3. Tampilkan kembali dengan mengubah properti ini */
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .navbar-logo {
+        display: none;
+    }
+
+    .search-bar {
+        display: flex;
+        flex-grow: 1;
+        order: 1;
+        width: auto;
+        margin: 0;
+        max-width: none;
+    }
+
+    .hamburger {
+        display: block;
+        order: 2;
+    }
+}

@@ -1,0 +1,201 @@
+/* ========================================= */
+/* == STYLE UNTUK HALAMAN DETAIL PRODUK   == */
+/* ========================================= */
+
+/* --- 1. Layout Utama & Wadah --- */
+.detail-container {
+    max-width: 1200px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+}
+
+.product-main-card {
+    background-color: var(--surface-color);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    display: grid;
+    grid-template-columns: 40% 1fr; /* Kolom gambar 40%, sisanya info */
+    gap: 2.5rem;
+}
+
+/* --- 2. Galeri Gambar (Kiri) --- */
+.product-gallery .main-product-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+/* --- 3. Info Produk (Kanan) --- */
+.product-info-wrapper .product-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.product-info-wrapper .product-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-brand);
+    margin-bottom: 1rem;
+}
+
+.product-meta-info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+.product-meta-info .rating-stars {
+    color: var(--accent-yellow);
+}
+.product-meta-info .rating-stars .mdi {
+    font-size: 1.2rem;
+}
+.product-meta-info a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+.product-meta-info > div {
+    padding-right: 1rem;
+    border-right: 1px solid var(--border-color);
+}
+.product-meta-info > div:last-child {
+    border-right: none;
+}
+
+/* Info Penjual */
+.seller-info-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--main-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+.seller-info-card img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.seller-details .seller-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.seller-details .seller-location {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Kontrol Aksi */
+.action-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+.quantity-control .form-label {
+    margin: 0 1rem 0 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+.quantity-control .form-control {
+    text-align: center;
+    width: 70px;
+    padding: 0.6rem;
+}
+.action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-grow: 1;
+}
+.action-buttons .btn {
+    flex-grow: 1;
+    padding: 0.75rem;
+    font-weight: 500;
+}
+.btn-add-to-cart {
+    background-color: rgba(196, 36, 41, 0.1);
+    color: var(--primary-brand);
+    border: 1px solid var(--primary-brand);
+}
+.btn-add-to-cart:hover {
+    background-color: var(--primary-brand);
+    color: white;
+}
+.btn-buy-now {
+    background-color: var(--primary-brand);
+    color: white;
+}
+
+/* --- 4. Tab Detail & Ulasan --- */
+.product-tabs {
+    margin-top: 2.5rem;
+}
+.product-tabs .nav-tabs {
+    border-bottom: 1px solid var(--border-color);
+}
+.product-tabs .nav-link {
+    color: var(--text-secondary);
+    font-weight: 500;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 0.75rem 1rem;
+}
+.product-tabs .nav-link.active {
+    color: var(--primary-brand);
+    border-bottom-color: var(--primary-brand);
+    background: none;
+}
+.product-tabs .tab-content {
+    background-color: var(--surface-color);
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+}
+
+/* --- 5. RESPONSIVE --- */
+@media (max-width: 992px) {
+    .product-main-card {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 768px) {
+    .detail-container {
+        padding: 0;
+    }
+    .product-main-card {
+        padding: 1rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+    .product-title { font-size: 1.5rem; }
+    .product-price { font-size: 1.75rem; }
+    .action-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

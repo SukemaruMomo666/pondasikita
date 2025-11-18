@@ -1,0 +1,329 @@
+/* Styling untuk Halaman Profil Toko */
+.store-header {
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.store-header-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+.store-info-bar {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    transform: translateY(-50px);
+}
+
+.store-info-main {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.store-logo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 5px solid var(--primary-light);
+    background-color: var(--secondary-light);
+    object-fit: cover;
+}
+
+.store-details h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin: 0;
+}
+.store-details p {
+    font-size: 1rem;
+    color: var(--secondary-dark);
+    margin: 0;
+}
+.store-details i {
+    margin-right: 5px;
+}
+
+.store-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.store-content-layout {
+    display: flex;
+    max-width: 1200px;
+    margin: -20px auto 30px auto; /* Tarik ke atas untuk menutupi sisa space */
+    padding: 0 20px;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.store-sidebar {
+    flex: 0 0 260px;
+    background-color: var(--primary-light);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+.store-sidebar h3 {
+    margin-bottom: 20px;
+}
+.search-in-store {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.store-main-content {
+    flex: 1;
+}
+
+/* Menggunakan kembali style dari produk.css/produk_page_style.css */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px;
+    background-color: var(--primary-light);
+    border-radius: var(--border-radius);
+}
+
+@media (max-width: 768px) {
+    .store-info-bar {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transform: translateY(-40px);
+    }
+    .store-info-main {
+        flex-direction: column;
+        align-items: center;
+    }
+    .store-actions {
+        margin-top: 20px;
+    }
+    .store-content-layout {
+        flex-direction: column;
+    }
+    .store-sidebar {
+        width: 100%;
+    }
+}
+/* ========================================= */
+/* ==   STYLE UNTUK HALAMAN SEMUA TOKO    == */
+/* ========================================= */
+
+/* --- 1. Layout Utama --- */
+.page-container {
+    max-width: 1200px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+}
+
+/* --- 2. Filter Bar --- */
+.filter-bar {
+    background-color: var(--surface-color);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+.filter-bar .filter-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+.filter-bar .form-select {
+    width: auto;
+    min-width: 250px;
+}
+.filter-bar .btn {
+    padding: 0.6rem 1.5rem;
+}
+
+/* --- 3. Grid Toko --- */
+.shops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* --- 4. Kartu Toko --- */
+.shop-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.shop-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+.shop-card .shop-banner {
+    width: 100%;
+    height: 120px;
+    background-color: var(--main-bg);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.shop-card .shop-logo-wrapper {
+    position: absolute;
+    bottom: -30px;
+    left: 1.5rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid var(--surface-color);
+    background-color: var(--surface-color);
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.shop-card .shop-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.shop-card .shop-info {
+    padding: 2.5rem 1.5rem 1.5rem; /* Padding atas lebih besar untuk memberi ruang logo */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+.shop-info .shop-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+.shop-info .shop-location {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+.shop-info .shop-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+.shop-stats .stat-item span {
+    font-weight: 600;
+    color: var(--primary-brand);
+}
+
+/* ========================================= */
+/* ==    STYLE UNTUK HALAMAN PROFIL TOKO    == */
+/* ========================================= */
+
+/* --- 1. Layout & Header --- */
+.store-profile-container {
+    background-color: var(--main-bg);
+}
+
+.store-header {
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.store-header::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+}
+
+.store-info-bar {
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    margin-top: -80px; /* Tarik ke atas agar menimpa banner */
+    z-index: 2;
+}
+
+.store-info-content {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.store-info-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid var(--surface-color);
+    object-fit: cover;
+    background-color: var(--surface-color);
+}
+
+.store-info-details {
+    flex-grow: 1;
+}
+.store-info-details .store-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+.store-info-details .store-meta {
+    font-size: 0.9rem;
+    color: #f0f0f0;
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.25rem;
+}
+.store-info-details .store-meta .mdi {
+    margin-right: 5px;
+}
+
+.store-info-actions .btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid white;
+    color: white;
+}
+.store-info-actions .btn:hover {
+    background-color: white;
+    color: var(--text-primary);
+}
+
+/* --- 2. Konten Dinamis --- */
+.store-dynamic-content {
+    padding: 1.5rem 0;
+}
+.component-banner img {
+    width: 100%;
+    border-radius: 12px;
+}
+.component-featured-products .section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}

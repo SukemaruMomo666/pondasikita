@@ -1,0 +1,231 @@
+/* ======================================= */
+/* ====== HALAMAN PRODUK (TEMA PONDASIKITA) ====== */
+/* ======================================= */
+
+/* --- 1. LAYOUT UTAMA --- */
+.page-container {
+    display: flex;
+    max-width: 1400px;
+    margin: 20px auto;
+    gap: 20px;
+    padding: 0 16px;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* --- 2. SIDEBAR FILTER --- */
+.sidebar-filters {
+    flex: 0 0 260px; /* Lebar disamakan dengan sidebar admin */
+    background-color: var(--surface-color);
+    align-self: flex-start;
+    border-radius: 12px; /* Menggunakan variabel radius */
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.close-filter-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.filter-group {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.filter-group:last-of-type {
+    border-bottom: none;
+}
+
+.filter-title {
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.filter-group label.filter-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+.filter-group input[type="checkbox"] {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+.filter-harga {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.filter-harga input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--main-bg);
+}
+
+.apply-filter-btn {
+    width: calc(100% - 32px);
+    margin: 16px;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.apply-filter-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+/* --- 3. KONTEN PRODUK (KANAN) --- */
+.page-header {
+    background-color: var(--surface-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+.page-header h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+.page-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* --- 4. KARTU PRODUK --- */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.product-link {
+    text-decoration: none;
+    color: inherit;
+}
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+.product-image {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+}
+.product-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.product-details {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.product-details h3 {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    height: 54px;
+    overflow: hidden;
+    margin: 0 0 8px 0;
+    font-weight: 500;
+}
+.product-details .price {
+    color: var(--shopee-orange);
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+.product-seller-info {
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+}
+.store-name, .store-location {
+    display: block;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.store-name i, .store-location i {
+    margin-right: 5px;
+}
+
+/* --- 5. RESPONSIVE MOBILE --- */
+.filter-overlay { display: none; }
+.mobile-action-bar { display: none; }
+
+@media (max-width: 768px) {
+    .page-container { flex-direction: column; padding: 10px; gap: 10px; }
+    .sidebar-filters {
+        position: fixed; top: 0; left: -100%;
+        width: 85%; max-width: 320px; height: 100%;
+        z-index: 1001; transition: left 0.3s ease-in-out;
+        overflow-y: auto; border-radius: 0;
+    }
+    .sidebar-filters.active { left: 0; }
+    .close-filter-btn { display: block; }
+    .filter-overlay {
+        display: block; position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
+        z-index: 1000; opacity: 0; visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+    .filter-overlay.active { opacity: 1; visibility: visible; }
+    .mobile-action-bar {
+        display: flex; gap: 10px; padding-bottom: 10px;
+        margin-bottom: 10px; border-bottom: 1px solid var(--border-color);
+    }
+    .mobile-btn {
+        flex: 1; padding: 10px; background-color: var(--surface-color);
+        border: 1px solid var(--border-color); border-radius: 8px;
+    }
+    .page-header { display: none; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}

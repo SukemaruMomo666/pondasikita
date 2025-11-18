@@ -1,0 +1,587 @@
+/* ========================================= */
+/* ==      PONDASIKITA ADMIN STYLE        == */
+/* ========================================= */
+
+/* --- 1. FONT & VARIABEL GLOBAL --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --sidebar-bg: #1F2937; /* Warna sidebar admin sedikit beda (lebih gelap) */
+    --main-bg: #F9FAFB;
+    --surface-color: #FFFFFF;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --border-color: #E5E7EB;
+    --accent-color: #DC2626; /* Warna aksen admin (merah) untuk membedakan */
+    --accent-hover: #B91C1C;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+}
+
+/* --- 2. LAYOUT DASAR & TIPOGRAFI --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--main-bg);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container-scroller {
+    display: flex;
+    min-height: 100vh;
+}
+
+.page-body-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.main-panel {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Dibuat 100% agar bisa dipakai tanpa sidebar jika perlu */
+}
+
+.content-wrapper {
+    padding: 2.5rem;
+    flex-grow: 1;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* --- 3. KOMPONEN SIDEBAR ADMIN --- */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+/* ... (Style sidebar lainnya bisa menyusul atau disamakan dengan seller) ... */
+
+
+/* --- 4. KOMPONEN UMUM ADMIN --- */
+.card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+.card-body { padding: 1.5rem; }
+.card-title { font-size: 1.2rem; font-weight: 600; }
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-primary { background-color: var(--accent-color); color: white; }
+.btn-primary:hover { background-color: var(--accent-hover); }
+
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+.table th { background-color: #F9FAFB; font-weight: 600; }
+
+.status-badge { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: capitalize; }
+.status-badge.status-active { background-color: #D1FAE5; color: #065F46; }
+.status-badge.status-pending { background-color: #FEF3C7; color: #92400E; }
+.status-badge.status-suspended, .status-badge.status-rejected { background-color: #FEE2E2; color: #991B1B; }
+/* ========================================= */
+/* ==   STYLE UNTUK HALAMAN KELOLA PENGGUNA == */
+/* ========================================= */
+
+.user-info-cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.user-info-cell .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+.user-info-cell .user-details .username {
+    font-weight: 600;
+}
+.user-info-cell .user-details .full-name {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Status Badge untuk Verifikasi */
+.status-badge.status-verified {
+    background-color: #DBEAFE; /* Biru muda */
+    color: #1E40AF;
+}
+/* ========================================= */
+/* == STYLE UNTUK HALAMAN LAPORAN TRANSAKSI == */
+/* ========================================= */
+
+.report-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #F9FAFB;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+.report-filter-bar .filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.report-filter-bar label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Status Pembayaran di Tabel */
+.payment-status {
+    font-weight: 500;
+}
+.payment-status.paid { color: var(--success-color); }
+.payment-status.pending { color: var(--warning-color); }
+.payment-status.failed, .payment-status.cancelled { color: var(--danger-color); }
+/* ========================================= */
+/* == STYLE UNTUK HALAMAN LAPORAN TRANSAKSI == */
+/* ========================================= */
+
+.report-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #F9FAFB;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+.report-filter-bar .filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.report-filter-bar label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Status Pembayaran di Tabel */
+.payment-status {
+    font-weight: 500;
+}
+.payment-status.paid { color: var(--success-color); }
+.payment-status.pending { color: var(--warning-color); }
+.payment-status.failed, .payment-status.cancelled { color: var(--danger-color); }
+/* ========================================= */
+/* == STYLE UNTUK HALAMAN PENGATURAN KATEGORI == */
+/* ========================================= */
+
+.category-list {
+    list-style: none;
+    padding: 0;
+}
+.category-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    background-color: var(--surface-color);
+}
+.category-item .category-name {
+    font-weight: 500;
+    flex-grow: 1;
+}
+.category-item .category-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+.category-list .child-categories {
+    list-style: none;
+    padding-left: 2rem; /* Indentasi untuk anak kategori */
+    margin-top: 0.5rem;
+}
+/* ========================================= */
+/* ==    STYLE UNTUK HALAMAN DETAIL TOKO    == */
+/* ========================================= */
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+.stat-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+.stat-card .stat-title {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+.stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.info-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.info-list li:last-child {
+    border-bottom: none;
+}
+.info-list .label {
+    color: var(--text-secondary);
+}
+.info-list .value {
+    font-weight: 500;
+    text-align: right;
+}
+/* ========================================= */
+/* ==   STYLE UNTUK HALAMAN DETAIL TRANSAKSI == */
+/* ========================================= */
+
+/* Timeline Status Pesanan */
+.timeline {
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+.timeline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 6px;
+    width: 2px;
+    background-color: var(--border-color);
+}
+.timeline-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+.timeline-icon {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+    z-index: 1;
+}
+.timeline-item.completed .timeline-icon {
+    background-color: var(--success-color);
+}
+.timeline-content .status {
+    font-weight: 600;
+}
+.timeline-content .timestamp {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Detail Produk di dalam Transaksi */
+.order-item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.order-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.order-item:last-child {
+    border-bottom: none;
+}
+.order-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.order-item .item-details {
+    flex-grow: 1;
+}
+.order-item .item-name {
+    font-weight: 500;
+}
+.order-item .item-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+.order-item .item-price {
+    font-weight: 600;
+    text-align: right;
+}
+
+/* Rincian Pembayaran */
+.payment-summary {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+.payment-summary li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+}
+.payment-summary li.total {
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+/* ========================================= */
+/* ==   STYLE UNTUK HALAMAN DETAIL PRODUK   == */
+/* ========================================= */
+
+.product-detail-header {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+.product-detail-header .main-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.product-detail-header .header-info .product-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+.product-detail-header .header-info .product-meta {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+.product-detail-header .header-info .product-meta a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Galeri Gambar Produk */
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 1rem;
+}
+.image-gallery .gallery-item img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+}
+/* ========================================= */
+/* ==   STYLE UNTUK DASHBOARD ADMIN BARU    == */
+/* ========================================= */
+
+.stat-card-dashboard {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.stat-card-dashboard .stat-icon {
+    font-size: 2.5rem;
+    padding: 1rem;
+    border-radius: 50%;
+    color: white;
+}
+.stat-card-dashboard .stat-icon.icon-primary { background-color: var(--accent-color); }
+.stat-card-dashboard .stat-icon.icon-success { background-color: var(--success-color); }
+.stat-card-dashboard .stat-icon.icon-warning { background-color: var(--warning-color); }
+.stat-card-dashboard .stat-icon.icon-info { background-color: #3B82F6; }
+
+.stat-card-dashboard .stat-content .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+.stat-card-dashboard .stat-content .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+}
+/* ========================================= */
+/* ==   STYLE UNTUK HALAMAN DETAIL TRANSAKSI == */
+/* ========================================= */
+
+/* Timeline Status Pesanan */
+.timeline {
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+.timeline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 6px;
+    width: 2px;
+    background-color: var(--border-color);
+}
+.timeline-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+.timeline-icon {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+    z-index: 1;
+}
+.timeline-item.completed .timeline-icon {
+    background-color: var(--success-color);
+}
+.timeline-content .status {
+    font-weight: 600;
+}
+.timeline-content .timestamp {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Detail Produk di dalam Transaksi */
+.order-item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.order-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.order-item:last-child {
+    border-bottom: none;
+}
+.order-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.order-item .item-details {
+    flex-grow: 1;
+}
+.order-item .item-name {
+    font-weight: 500;
+}
+.order-item .item-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+.order-item .item-price {
+    font-weight: 600;
+    text-align: right;
+}
+
+/* Rincian Pembayaran */
+.payment-summary {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+.payment-summary li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+}
+.payment-summary li.total {
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Info List */
+.info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.info-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.info-list li:last-child {
+    border-bottom: none;
+}
+.info-list .label {
+    color: var(--text-secondary);
+}
+.info-list .value {
+    font-weight: 500;
+    text-align: right;
+}

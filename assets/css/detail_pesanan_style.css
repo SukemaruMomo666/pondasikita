@@ -1,0 +1,606 @@
+/* assets/css/detail_pesanan_style.css */
+
+/* Import Poppins Font (sesuai yang Anda gunakan di HTML) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Basic Reset & Variables (Inherit from theme.css if used globally) */
+:root {
+    /* Pastikan variabel warna ini sesuai dengan theme.css Anda */
+    --primary-color: #1a1a1a;
+    --secondary-color: #4B5563;
+    --background-color: #FFFFFF;
+    --surface-color: #F9FAFB;
+    --border-color: #E5E7EB;
+    --accent-color: #007BFF;
+    --error-color: #EF4444; /* Warna merah untuk error/diskon */
+    --success-color: #28a745; /* Hijau untuk sukses */
+    --warning-color: #ffc107; /* Kuning untuk warning/pending */
+    --info-color: #17a2b8; /* Biru untuk info */
+
+    --font-family-poppins: 'Poppins', sans-serif;
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --box-shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --box-shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: var(--font-family-poppins);
+    background-color: var(--surface-color);
+    color: var(--secondary-color);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.card {
+    background-color: var(--background-color);
+    border-radius: var(--border-radius-md);
+    margin-bottom: 25px;
+    box-shadow: var(--box-shadow-md);
+    border: 1px solid var(--border-color);
+}
+
+.card-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--surface-color); /* Light background for header */
+    border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.card-header span {
+    font-size: 0.9em;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+h4 {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* --- Alert Boxes (Success/Cancelled/Expired) --- */
+.alert-box {
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-md);
+    font-size: 0.95em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.alert-box i {
+    font-size: 1.2em;
+}
+.alert-success {
+    color: #155724; /* Dark green text */
+    background-color: #d4edda; /* Light green background */
+    border-color: #c3e6cb; /* Green border */
+}
+.status-cancelled, .status-expired {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8d7da; /* Light red */
+    border: 1px solid #f5c6cb; /* Red border */
+    border-radius: var(--border-radius-md);
+    margin-bottom: 20px;
+}
+.status-cancelled h3, .status-expired h3 {
+    margin: 0 0 5px 0;
+    color: var(--error-color);
+    font-size: 1.4em;
+    font-weight: 600;
+}
+.status-cancelled p, .status-expired p {
+    color: var(--secondary-color);
+    font-size: 0.9em;
+}
+
+
+/* --- Status Tracker --- */
+.status-tracker {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    position: relative;
+    padding: 0 10px; /* Add some padding to the ends */
+}
+.status-tracker::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 15px; /* Offset to align with first step */
+    right: 15px; /* Offset to align with last step */
+    height: 4px;
+    background-color: var(--border-color);
+    transform: translateY(-50%);
+    z-index: 1;
+    border-radius: 2px;
+}
+.status-tracker .line {
+    position: absolute;
+    top: 50%;
+    left: 15px; /* Match :before offset */
+    height: 4px;
+    background-color: var(--success-color);
+    transform: translateY(-50%);
+    z-index: 2;
+    transition: width 0.5s ease;
+    border-radius: 2px;
+}
+.status-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 3;
+    flex: 1; /* Distribute space evenly */
+    max-width: 150px; /* Limit step width on large screens */
+}
+.status-step .icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--background-color);
+    border: 4px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+.status-step.completed .icon {
+    border-color: var(--success-color);
+    background-color: var(--success-color);
+}
+.status-step.completed .icon i {
+    color: var(--background-color);
+}
+.status-step.active .icon {
+    border-color: var(--success-color);
+    background-color: var(--success-color);
+    transform: scale(1.2);
+}
+.status-step.active .icon i {
+    color: var(--background-color);
+}
+.status-step .label {
+    font-size: 0.85em;
+    margin-top: 10px;
+    color: var(--secondary-color);
+    font-weight: 500;
+    line-height: 1.3;
+    min-height: 2.6em; /* Ensure consistent height for multi-line labels */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.status-step.completed .label,
+.status-step.active .label {
+    font-weight: 600;
+    color: var(--primary-color); /* Atau sesuaikan dengan warna sukses */
+}
+
+/* Specific styles for failed/cancelled states */
+.status-tracker.failed .line {
+    background-color: var(--error-color);
+}
+.status-step.status-failed .icon { /* Class 'status-failed' for the specific step */
+    border-color: var(--error-color);
+}
+.status-step.status-failed.active .icon {
+    background-color: var(--error-color);
+}
+.status-step.status-failed.active .label {
+    color: var(--error-color);
+}
+
+
+/* --- Payment Card / Timer Section --- */
+.payment-card {
+    text-align: center;
+    padding: 20px 25px;
+}
+.payment-card h4 {
+    border-bottom: none;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+}
+.payment-card p {
+    color: var(--secondary-color);
+    font-size: 0.95em;
+    margin-bottom: 15px;
+}
+.payment-card .timer {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--error-color);
+    margin: 15px 0;
+}
+.btn-pay, .btn-cancel-payment {
+    display: block;
+    width: 100%;
+    padding: 12px 25px;
+    border-radius: var(--border-radius-md);
+    font-size: 1.1em;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: none;
+}
+.btn-pay {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+}
+.btn-pay:hover {
+    background-color: #0056b3;
+}
+.btn-pay:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+.btn-cancel-payment { /* Changed name for clarity */
+    background-color: transparent;
+    color: var(--error-color);
+    border: 1px solid var(--error-color);
+    margin-top: 10px;
+}
+.btn-cancel-payment:hover {
+    background-color: var(--error-color);
+    color: var(--background-color);
+}
+
+/* --- Info Grid (Alamat Pengiriman, Kontak, dll.) --- */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 30px;
+}
+.info-block p {
+    margin: 0;
+    font-size: 0.95em;
+    color: var(--secondary-color);
+}
+.info-block p strong {
+    color: var(--primary-color);
+}
+.info-block.full-width {
+    grid-column: 1 / -1; /* Spans full width */
+}
+
+
+/* --- Product Item List --- */
+.product-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px dashed var(--border-color); /* Dashed border for items */
+}
+.product-item:last-child {
+    border-bottom: none;
+}
+.product-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: var(--border-radius-sm);
+    margin-right: 15px;
+    border: 1px solid var(--border-color);
+}
+.product-details {
+    flex-grow: 1;
+}
+.product-details h4 {
+    margin: 0;
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--primary-color);
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.product-details p {
+    margin: 5px 0 0 0;
+    font-size: 0.85em;
+    color: var(--secondary-color);
+}
+.product-price {
+    text-align: right;
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* --- Payment Summary --- */
+.payment-summary div {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 0.95em;
+    color: var(--secondary-color);
+}
+.payment-summary .total {
+    font-weight: 700;
+    font-size: 1.2em;
+    color: var(--primary-color);
+    border-top: 1px solid var(--border-color);
+    margin-top: 15px;
+    padding-top: 15px;
+}
+.payment-summary .discount-row span:last-child {
+    color: var(--success-color); /* Green for discount */
+    font-weight: 600;
+}
+
+/* --- Buttons in Footer (btn-outline, btn-primary) --- */
+.card-footer { /* Assuming a .card-footer div wraps these buttons */
+    padding: 15px 25px 20px 25px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end; /* Align to right */
+    gap: 10px; /* Space between buttons */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+.btn { /* General button style */
+    padding: 10px 20px;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 1px solid transparent; /* Default transparent border for consistency */
+}
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--border-color);
+}
+.btn-outline:hover {
+    background-color: var(--surface-color);
+    border-color: var(--primary-color);
+}
+/* Reusing .btn-primary from global components if available */
+.btn-primary.ml-2 { /* Specific for the "Buy Again" button with margin */
+    margin-left: 10px; /* Apply margin for spacing */
+}
+.btn-ulasan {
+    background-color: var(--warning-color); /* Contoh warna kuning/oranye untuk ulasan */
+    color: var(--background-color);
+    padding: 8px 14px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+}
+.btn-ulasan:hover {
+    background-color: #e6b000; /* Darker yellow */
+}
+.btn-sudah-diulas {
+    background-color: #c8e6c9; /* Light green */
+    color: #388e3c; /* Dark green */
+    padding: 8px 14px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.9;
+    cursor: not-allowed;
+    margin-top: 10px;
+}
+
+/* --- Modal/Popup Styles (for review) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background-color: var(--background-color);
+    padding: 30px;
+    border-radius: var(--border-radius-md);
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--box-shadow-md);
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+}
+.modal-product {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.modal-product img {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--border-radius-sm);
+    margin-right: 15px;
+    object-fit: cover;
+}
+.star-rating {
+    margin-bottom: 20px;
+}
+.star-rating label {
+    display: block;
+    font-size: 1em;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.star-rating .stars {
+    font-size: 2.2em; /* Slightly larger stars */
+    color: var(--border-color); /* Default gray for unselected stars */
+    cursor: pointer;
+    user-select: none; /* Prevent text selection */
+}
+.star-rating .stars span {
+    transition: color 0.2s ease-in-out;
+}
+.star-rating .stars span:hover, 
+.star-rating .stars span.selected {
+    color: var(--warning-color); /* Yellow for selected/hovered stars */
+}
+.modal-content textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    font-family: var(--font-family-poppins);
+    font-size: 0.95em;
+}
+.modal-content .form-group {
+    margin-bottom: 15px;
+}
+.modal-content .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: var(--secondary-color);
+}
+.modal-content input[type="file"] {
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    border-radius: var(--border-radius-sm);
+    width: 100%;
+    background-color: var(--surface-color);
+}
+.modal-content .btn-pay {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px auto;
+    }
+    .card-header h2 {
+        font-size: 1.3em;
+    }
+    .card-header span {
+        font-size: 0.8em;
+    }
+    h4 {
+        font-size: 1.05em;
+    }
+    .status-tracker {
+        flex-wrap: wrap; /* Allow steps to wrap */
+        justify-content: center;
+        padding: 0;
+    }
+    .status-tracker::before, .status-tracker .line {
+        display: none; /* Hide line for wrapped layout */
+    }
+    .status-step {
+        width: 30%; /* Adjust width for 3 columns on small screens */
+        margin-bottom: 15px;
+    }
+    .info-grid {
+        grid-template-columns: 1fr; /* Stack columns on small screens */
+    }
+    .btn-pay, .btn-cancel-payment {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    .product-item {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    .product-image {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .product-details {
+        width: 100%;
+    }
+    .product-price {
+        width: 100%;
+        text-align: left;
+        margin-top: 10px;
+    }
+    .order-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .btn.btn-primary.ml-2 {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 15px auto;
+        padding: 0 10px;
+    }
+    .card-body {
+        padding: 15px;
+    }
+    .card-header h2 {
+        font-size: 1.1em;
+    }
+    .payment-card .timer {
+        font-size: 1.5em;
+    }
+    .status-step .label {
+        font-size: 0.75em;
+    }
+    .modal-content {
+        padding: 20px;
+    }
+}

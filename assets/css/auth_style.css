@@ -1,0 +1,363 @@
+/* Import Font & Global Style */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-dark: #111827;   /* Hitam Pekat */
+    --secondary-dark: #374151; /* Abu-abu Tua untuk Teks */
+    --primary-light: #FFFFFF; /* Putih Bersih */
+    --secondary-light: #F9FAFB;/* Latar Belakang Abu Terang */
+    --border-color: #D1D5DB;  /* Border Abu-abu */
+    --accent-color: #4F46E5;   /* Aksen Biru/Ungu untuk Fokus (Opsional) */
+    --success-color: #10B981;
+    --error-color: #EF4444;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--secondary-light);
+}
+
+/* Layout Container */
+.auth-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.auth-sidebar {
+    flex: 1;
+    background-color: var(--primary-dark);
+    color: var(--primary-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 50px;
+    background-image: url('https://images.unsplash.com/photo-1581092448348-7b96c3c5c93c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8Y29uc3RydWN0aW9uLHRlY2h8fHx8fHwxNzE5OTczOTk4&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080');
+    background-size: cover;
+    background-blend-mode: overlay;
+    background-color: rgba(17, 24, 39, 0.8);
+}
+
+.auth-sidebar h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.auth-sidebar p {
+    font-size: 1.1rem;
+    color: var(--border-color);
+}
+
+.auth-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 450px;
+}
+
+.form-wrapper h2 {
+    font-size: 2rem;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+
+.form-wrapper p {
+    margin-bottom: 2rem;
+    color: var(--secondary-dark);
+}
+
+.form-wrapper a {
+    color: var(--accent-color);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--secondary-dark);
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-dark);
+    color: var(--primary-light);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #374151;
+}
+
+/* Message Box */
+.message-box {
+    padding: 15px;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+}
+.message-box.success {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+.message-box.error {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .auth-sidebar {
+        display: none;
+    }
+    .auth-main {
+        padding: 40px 20px;
+    }
+}
+/* assets/css/auth_style.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #111827; /* Shopee Orange */
+    --secondary-color: #FFFFFF;
+    --text-color: #333333;
+    --light-text-color: #666666;
+    --border-color: #E0E0E0;
+    --error-bg: #FFEBEE;
+    --error-text: #D32F2F;
+    --success-bg: #E8F5E9;
+    --success-text: #388E3C;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #F5F5F5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.auth-container {
+    display: flex;
+    width: 100%;
+    max-width: 1024px;
+    min-height: 600px;
+    background-color: var(--secondary-color);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.auth-sidebar {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.auth-sidebar .logo {
+    max-width: 150px;
+    margin-bottom: 24px;
+}
+
+.auth-sidebar h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.auth-sidebar p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.auth-sidebar span {
+    font-size: 12px;
+}
+
+.auth-main {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 360px;
+}
+
+.form-wrapper h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.form-wrapper p {
+    font-size: 14px;
+    color: var(--light-text-color);
+    margin-bottom: 24px;
+}
+
+.form-wrapper p a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(238, 77, 45, 0.2);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #D73210;
+}
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Pesan Error dan Sukses */
+.message-box {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    border: 1px solid transparent;
+}
+.message-box.error {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border-color: var(--error-text);
+}
+.message-box.success {
+    background-color: var(--success-bg);
+    color: var(--success-text);
+    border-color: var(--success-text);
+}
+
+
+/* === THEME SPECIFIC STYLES === */
+
+/* Customer Theme (Orange) */
+.customer-theme .auth-sidebar {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+/* Seller Theme (White) */
+.seller-theme {
+    background-color: var(--secondary-color);
+}
+.seller-theme .auth-sidebar {
+    background-color: #FFF7F5; /* Warna latar belakang lembut */
+    color: var(--text-color);
+}
+.seller-theme .auth-sidebar h1 {
+    color: var(--primary-color);
+}
+
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    body {
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+    .auth-container {
+        flex-direction: column;
+        width: 90%;
+        max-width: 400px;
+        min-height: auto;
+    }
+    .auth-sidebar {
+        display: none; /* Sembunyikan sidebar di mobile untuk fokus ke form */
+    }
+    .auth-main {
+        padding: 30px 20px;
+    }
+}

@@ -1,0 +1,39 @@
+.cart-page-container { max-width: 950px; margin: 30px auto; padding: 20px; }
+.cart-page-container h2 { font-weight: 700; color: var(--primary-dark); margin-bottom: 20px; }
+
+.cart-header { padding: 10px; background: var(--primary-light); border: 1px solid var(--border-color); border-bottom: none; border-radius: 8px 8px 0 0; }
+.select-all-container { font-weight: 500; }
+
+.store-cart-group { background: var(--primary-light); border: 1px solid var(--border-color); margin-bottom: 20px; border-radius: 8px; }
+.store-header { display: flex; align-items: center; gap: 10px; padding: 15px; border-bottom: 1px solid var(--border-color); font-weight: 600; }
+.store-header a { color: var(--primary-dark); text-decoration: none; }
+.store-header a:hover { text-decoration: underline; }
+
+.cart-item { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 20px; padding: 15px; border-bottom: 1px solid #f0f0f0; }
+.cart-item:last-child { border-bottom: none; }
+.cart-item img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
+
+.item-info h4 { font-size: 1rem; font-weight: 600; margin: 0 0 5px 0; }
+.item-info .item-price { color: var(--secondary-dark); }
+
+.quantity-control { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.quantity-control button { background-color: #eee; border: 1px solid #ccc; border-radius: 4px; width: 28px; height: 28px; cursor: pointer; }
+.quantity-control .qty-display { font-weight: 500; }
+
+.item-subtotal { text-align: right; }
+.item-subtotal span { font-size: 0.8rem; color: var(--secondary-dark); }
+.item-subtotal p { font-weight: 600; font-size: 1rem; margin: 0; }
+
+.btn-remove { background: none; border: none; font-size: 1.5rem; color: var(--secondary-dark); cursor: pointer; }
+
+.cart-summary {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px; background-color: var(--primary-light);
+    border: 1px solid var(--border-color); border-radius: 8px;
+    position: sticky; bottom: 0; box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+}
+.total-price { font-size: 1.2rem; }
+.btn-checkout:disabled { background-color: #d3d3d3; cursor: not-allowed; }
+
+.cart-empty { text-align: center; padding: 50px; background: var(--primary-light); border-radius: 8px; }
+.cart-empty p { margin: 15px 0; }

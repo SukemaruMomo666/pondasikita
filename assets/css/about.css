@@ -1,0 +1,204 @@
+/* ======================================= */
+/* ====== HALAMAN TENTANG KAMI (about.css) ====== */
+/* ======================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Memberi jarak atas pada setiap section agar tidak tertutup navbar */
+.content-section {
+  /* Jarak ini akan digunakan saat scrolling ke ID section */
+  scroll-margin-top: 100px; /* << SESUAIKAN ANGKA INI dengan tinggi navbar Anda */
+  
+  /* Anda bisa juga menambahkan padding agar konten tidak terlalu mepet ke atas */
+
+}
+
+:root {
+    --primary-color: #7A1E1E;
+    --secondary-color: #f4f5f7;
+    --text-color: #333;
+    --heading-color: #1a1a1a;
+}
+
+body {
+    background-color: #fff;
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.7;
+    color: var(--text-color);
+}
+
+/* --- Hero Section --- */
+.about-hero {
+    background-color: var(--secondary-color);
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+.about-hero h1 {
+    font-size: 2.5rem;
+    color: var(--heading-color);
+    margin: 0 0 10px 0;
+}
+.about-hero strong {
+    color: var(--primary-color);
+}
+.about-hero .subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* --- Kontainer Utama --- */
+.content-container {
+    padding: 60px 20px;
+}
+
+/* --- Styling Section --- */
+.content-section {
+    max-width: 800px;
+    margin: 0 auto 60px auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+}
+.content-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-icon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.section-icon i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    border-radius: 50%;
+}
+
+.content-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--heading-color);
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.content-section p {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+/* --- Visi & Misi Grid --- */
+.vision-mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+.vision-mission-grid h4 {
+    font-size: 1.2rem;
+    color: var(--heading-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin: 0 0 15px 0;
+}
+.vision-mission-grid ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.vision-mission-grid ul li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+.vision-mission-grid ul i {
+    color: var(--primary-color);
+    margin-right: 10px;
+    margin-top: 4px;
+}
+
+/* --- Lokasi & Peta --- */
+.map-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* Aspect Ratio 16:9 */
+    border-radius: 8px;
+    margin-top: 20px;
+}
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* --- Kontak & Jam Operasional --- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-top: 20px;
+}
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.contact-item i {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+}
+.contact-item strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--heading-color);
+}
+.contact-item a, .contact-item span {
+    display: block;
+    font-size: 0.95rem;
+    color: #555;
+    text-decoration: none;
+}
+.contact-item a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* ====== RESPONSIVE UNTUK MOBILE ====== */
+@media (max-width: 768px) {
+    .about-hero {
+        padding: 40px 15px;
+    }
+    .about-hero h1 {
+        font-size: 2rem;
+    }
+    .content-container {
+        padding: 30px 15px;
+    }
+    .content-section {
+        padding: 25px;
+        margin-bottom: 40px;
+    }
+    .content-section h2 {
+        font-size: 1.8rem;
+    }
+
+    .vision-mission-grid, .contact-grid {
+        grid-template-columns: 1fr; /* Tumpuk ke bawah */
+        gap: 25px;
+    }
+}

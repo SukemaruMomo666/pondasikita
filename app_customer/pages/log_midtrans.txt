@@ -1,0 +1,180 @@
+2025-06-17 08:18:25 | RAW: {"transaction_time":"2023-11-15 18:45:13","transaction_status":"settlement","transaction_id":"513f1f01-c9da-474c-9fc9-d5c64364b709","status_message":"midtrans payment notification","status_code":"200","signature_key":"b57ef9b85d5f8c17ea95beac6ae295a5122c7b3fe136f9f19be8a12ff9d6b6f68d5941d53675bdf43aec48f4d5479e12c6c1c4a0af122ef227b8aabd73abbd00","settlement_time":"2023-11-15 22:45:13","payment_type":"gopay","order_id":"payment_notif_test_G931394843_ccd0c7a2-f5a3-41ee-be61-7cec0d1a23bf","merchant_id":"G931394843","gross_amount":"105000.00","fraud_status":"accept","currency":"IDR"}
+2025-06-17 08:20:34 | RAW: {"va_numbers":[{"va_number":"94843773006959294362663","bank":"bca"}],"transaction_time":"2025-06-17 13:20:39","transaction_status":"pending","transaction_id":"9fc69fca-691a-4bd3-b419-3929755fbaf7","status_message":"midtrans payment notification","status_code":"201","signature_key":"307547be5a4bdf8769ad7add8388f2be4a814a30ef1ee12be07e32380f519baaa6abd526fc3f86de3c3f4f10a8c380ca8e8a9206bc679800588f705e48368693","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750141226-1750141229","merchant_id":"G931394843","gross_amount":"15000.00","fraud_status":"accept","expiry_time":"2025-06-18 13:20:39","currency":"IDR"}
+2025-06-17 08:20:43 | RAW: {"va_numbers":[{"va_number":"94843773006959294362663","bank":"bca"}],"transaction_time":"2025-06-17 13:20:39","transaction_status":"settlement","transaction_id":"9fc69fca-691a-4bd3-b419-3929755fbaf7","status_message":"midtrans payment notification","status_code":"200","signature_key":"2e55a53abfc37eeab24f2edb5fd9ce5105839981d839cbf6841ea0d25e81610edcaca38d7ef3b9b6c0c2ab783e6c6492b6bea8f42a1e28b69ed7d36f37735d0e","settlement_time":"2025-06-17 13:20:48","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750141226-1750141229","merchant_id":"G931394843","gross_amount":"15000.00","fraud_status":"accept","expiry_time":"2025-06-18 13:20:39","currency":"IDR"}
+2025-06-17 09:28:31 | RAW: {"va_numbers":[{"va_number":"94843332747445672326171","bank":"bca"}],"transaction_time":"2025-06-17 13:43:38","transaction_status":"pending","transaction_id":"9582a0aa-58b0-4ac2-bfb1-c9db475388dd","status_message":"midtrans payment notification","status_code":"201","signature_key":"3770f8523d5b4f010569fba6663ff37b8519edf56d7243c8674de8d7fb12bc20fc9edcbcace75f280546ff0e196c8f58c538f7fbf9a08a9f2d33ab18efc13996","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750142609","merchant_id":"G931394843","gross_amount":"15000.00","fraud_status":"accept","expiry_time":"2025-06-18 13:43:38","currency":"IDR"}
+2025-06-17 09:28:32 | RAW: {"va_numbers":[{"va_number":"94843332747445672326171","bank":"bca"}],"transaction_time":"2025-06-17 13:43:38","transaction_status":"settlement","transaction_id":"9582a0aa-58b0-4ac2-bfb1-c9db475388dd","status_message":"midtrans payment notification","status_code":"200","signature_key":"1d58ce762cf5ed4e6bb27034fb9f9ebc9d5c209eaff0c4b220b920fc03331d428327b1c1e2a5304515e3f380fd3ff6fbe461e51b2dc732933f5f46ec72d8a024","settlement_time":"2025-06-17 13:43:45","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750142609","merchant_id":"G931394843","gross_amount":"15000.00","fraud_status":"accept","expiry_time":"2025-06-18 13:43:38","currency":"IDR"}
+2025-06-17 09:28:32 | WARNING: Order not found in DB for settlement. order_id: TRX-1750142609
+2025-06-17 09:28:33 | RAW: {"va_numbers":[{"va_number":"94843867076597382892353","bank":"bca"}],"transaction_time":"2025-06-17 13:50:28","transaction_status":"pending","transaction_id":"e7284b68-87cc-4199-8eb7-06fccf43af70","status_message":"midtrans payment notification","status_code":"201","signature_key":"574bb1ca5b6c4fd85db274eba3b32b0cdc099741db32d446a2ee5aa6c371078f8e372439bb5da4439a2d4bd1e9d0d02cc8096470ea6e80c5422f453173b4c95d","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750143019","merchant_id":"G931394843","gross_amount":"2000000.00","fraud_status":"accept","expiry_time":"2025-06-18 13:50:28","currency":"IDR"}
+2025-06-17 09:28:33 | RAW: {"va_numbers":[{"va_number":"94843867076597382892353","bank":"bca"}],"transaction_time":"2025-06-17 13:50:28","transaction_status":"settlement","transaction_id":"e7284b68-87cc-4199-8eb7-06fccf43af70","status_message":"midtrans payment notification","status_code":"200","signature_key":"1ac79f1afa6ef197b2cd85a76df3efd587134dc7df094004492d5c915fb75b6966ff8c90bfc2af72952a6334532fde52ed4cfbe40328c293b1029bb15c873681","settlement_time":"2025-06-17 13:50:35","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750143019","merchant_id":"G931394843","gross_amount":"2000000.00","fraud_status":"accept","expiry_time":"2025-06-18 13:50:28","currency":"IDR"}
+2025-06-17 09:28:33 | WARNING: Order not found in DB for settlement. order_id: TRX-1750143019
+2025-06-17 09:28:49 | RAW: {"va_numbers":[{"va_number":"94843578008270317762955","bank":"bca"}],"transaction_time":"2025-06-17 13:45:52","transaction_status":"pending","transaction_id":"e69fbead-6f5b-49f7-8030-2139dfd16620","status_message":"midtrans payment notification","status_code":"201","signature_key":"275b672d544c0031b8fb53241b0a519ccb3cf1053e3b1385e7dfe2b008269a7bf00d161a1cf7b43da2edb176022a34cfe607aa5f205c292b338a69ab7ee6b069","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750142457-1750142468","merchant_id":"G931394843","gross_amount":"1900000.00","fraud_status":"accept","expiry_time":"2025-06-18 13:45:52","currency":"IDR"}
+2025-06-17 09:28:49 | RAW: {"va_numbers":[{"va_number":"94843578008270317762955","bank":"bca"}],"transaction_time":"2025-06-17 13:45:52","transaction_status":"pending","transaction_id":"e69fbead-6f5b-49f7-8030-2139dfd16620","status_message":"midtrans payment notification","status_code":"201","signature_key":"275b672d544c0031b8fb53241b0a519ccb3cf1053e3b1385e7dfe2b008269a7bf00d161a1cf7b43da2edb176022a34cfe607aa5f205c292b338a69ab7ee6b069","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750142457-1750142468","merchant_id":"G931394843","gross_amount":"1900000.00","fraud_status":"accept","expiry_time":"2025-06-18 13:45:52","currency":"IDR"}
+e":"2025-06-18 13:45:52","currency":"IDR"}
+2025-06-17 09:28:49 | WARNING: Order not found in DB for settlement. order_id: TRX-1750142457-1750142468
+2025-06-17 09:28:49 | RAW: {"va_numbers":[{"va_number":"94843578008270317762955","bank":"bca"}],"transaction_time":"2025-06-17 13:45:52","transaction_status":"settlement","transaction_id":"e69fbead-6f5b-49f7-8030-2139dfd16620","status_message":"midtrans payment notification","status_code":"200","signature_key":"6114677e9625819997d7eb599d9e22359c4870da03c11aad668ac232250d00db3e4a0fa1efd2730582499cc9d2b62b8b9e180a10463c170300ab018b5fe78393","settlement_time":"2025-06-17 13:46:36","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750142457-1750142468","merchant_id":"G931394843","gross_amount":"1900000.00","fraud_status":"accept","expiry_time":"2025-06-18 13:45:52","currency":"IDR"}
+2025-06-17 09:28:49 | WARNING: Order not found in DB for settlement. order_id: TRX-1750142457-1750142468
+2025-06-17 09:33:34 | RAW: {"va_numbers":[{"va_number":"94843866508538101787265","bank":"bca"}],"transaction_time":"2025-06-17 14:11:07","transaction_status":"pending","transaction_id":"5b5aa251-6c28-4362-90fd-4292c96a8e9f","status_message":"midtrans payment notification","status_code":"201","signature_key":"b5bfe515f3ef5a1dc01b438d9d63321bbf282525d17b775bba6df543a9c7b0123575e6ad65a8230bb5485e9ea988d6915e1bbd428f526a1abe99e47f10c7bb70","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750144244","merchant_id":"G931394843","gross_amount":"90000.00","fraud_status":"accept","expiry_time":"2025-06-18 14:11:07","currency":"IDR"}
+2025-06-17 09:33:35 | RAW: {"va_numbers":[{"va_number":"94843866508538101787265","bank":"bca"}],"transaction_time":"2025-06-17 14:11:07","transaction_status":"settlement","transaction_id":"5b5aa251-6c28-4362-90fd-4292c96a8e9f","status_message":"midtrans payment notification","status_code":"200","signature_key":"0e622c7a9d628668292ed2d5d47d13beb7eaff5ab304dbd72999163be3048ae945103d92fd2909544e5e11e94e08d3f402c8aa979007dd8460244cbfb907471f","settlement_time":"2025-06-17 14:11:32","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750144244","merchant_id":"G931394843","gross_amount":"90000.00","fraud_status":"accept","expiry_time":"2025-06-18 14:11:07","currency":"IDR"}
+2025-06-17 09:33:35 | WARNING: Order not found in DB for settlement. order_id: TRX-1750144244
+2025-06-17 10:09:50 | RAW: {"transaction_time":"2023-11-15 18:45:13","transaction_status":"settlement","transaction_id":"513f1f01-c9da-474c-9fc9-d5c64364b709","status_message":"midtrans payment notification","status_code":"200","signature_key":"705392b2630c2d37b5033f98913586110debc4e7c34117db6fcde12364382568fd2bac9bf44ac8d254fd3e109e9e4357aaae1dd8d5d663c70e8e34888c3465fc","settlement_time":"2023-11-15 22:45:13","payment_type":"gopay","order_id":"payment_notif_test_G931394843_3be3897c-0771-4f7f-8d21-94c494908c1b","merchant_id":"G931394843","gross_amount":"105000.00","fraud_status":"accept","currency":"IDR"}
+2025-06-17 10:09:50 | WARNING: Order not found in DB for settlement. order_id: payment_notif_test_G931394843_3be3897c-0771-4f7f-8d21-94c494908c1b
+2025-06-17 10:10:02 | RAW: {"transaction_time":"2023-11-15 18:45:13","transaction_status":"settlement","transaction_id":"513f1f01-c9da-474c-9fc9-d5c64364b709","status_message":"midtrans payment notification","status_code":"200","signature_key":"682aadd87512b6dd8be55a843fdaa7f09d6b54924ddff2d296d8a2f3fe53e0b165c6b1bb25a30e16181bfed81d666a93afcf730bcf93eddb9e234ad709354332","settlement_time":"2023-11-15 22:45:13","payment_type":"gopay","order_id":"payment_notif_test_G931394843_47dc46c7-d39d-4bff-9bfc-aa45a84ee618","merchant_id":"G931394843","gross_amount":"105000.00","fraud_status":"accept","currency":"IDR"}
+2025-06-17 10:10:02 | WARNING: Order not found in DB for settlement. order_id: payment_notif_test_G931394843_47dc46c7-d39d-4bff-9bfc-aa45a84ee618
+2025-06-17 10:11:00 | RAW: {"va_numbers":[{"va_number":"94843962633480306051590","bank":"bca"}],"transaction_time":"2025-06-17 15:11:05","transaction_status":"pending","transaction_id":"313963d1-b8b4-4141-a9a1-297e2e2b8e7a","status_message":"midtrans payment notification","status_code":"201","signature_key":"b57377f411f9f93e5186bf983616d1f0afd0edf9855837f34d3eba348d35e725a2f59fee91c2cae57f8955bb206d3faf41672d893906b61ece36612209eeef90","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750147463-1750147852","merchant_id":"G931394843","gross_amount":"10000.00","fraud_status":"accept","expiry_time":"2025-06-18 15:11:05","currency":"IDR"}
+2025-06-17 10:11:12 | RAW: {"va_numbers":[{"va_number":"94843962633480306051590","bank":"bca"}],"transaction_time":"2025-06-17 15:11:05","transaction_status":"settlement","transaction_id":"313963d1-b8b4-4141-a9a1-297e2e2b8e7a","status_message":"midtrans payment notification","status_code":"200","signature_key":"c666fef6cf3d3b049f30bf04080513052ff79c98cc32d30b4d249e61f92a664283b290c8bb6eb6283ed5268065dd376744b0745669982f4d0e39076eb4f8ee8f","settlement_time":"2025-06-17 15:11:18","payment_type":"bank_transfer","payment_amounts":[],"order_id":"TRX-1750147463-1750147852","merchant_id":"G931394843","gross_amount":"10000.00","fraud_status":"accept","expiry_time":"2025-06-18 15:11:05","currency":"IDR"}
+2025-06-17 10:11:12 | WARNING: Order not found in DB for settlement. order_id: TRX-1750147463-1750147852
+2025-06-17 10:22:27 | VERIFIED: {}
+2025-06-17 10:22:27 | ERROR: Pesanan dengan kode TRX tidak ditemukan di database. | order_id: TRX-1750148484-1750148532
+2025-06-17 10:22:55 | VERIFIED: {}
+2025-06-17 10:22:55 | ERROR: Pesanan dengan kode TRX tidak ditemukan di database. | order_id: TRX-1750148484-1750148532
+2025-06-17 10:23:25 | VERIFIED: {}
+2025-06-17 10:23:25 | ERROR: Pesanan dengan kode TRX tidak ditemukan di database. | order_id: TRX-1750148484-1750148532
+2025-06-17 10:23:48 | VERIFIED: {}
+2025-06-17 10:23:48 | ERROR: Pesanan dengan kode TRX tidak ditemukan di database. | order_id: TRX-1750148484-1750148532
+2025-06-17 10:24:30 | VERIFIED: {}
+2025-06-17 10:24:30 | ERROR: Pesanan dengan kode TRX tidak ditemukan di database. | order_id: TRX-1750148662
+2025-06-17 10:24:59 | VERIFIED: {}
+2025-06-17 10:24:59 | ERROR: Pesanan dengan kode TRX tidak ditemukan di database. | order_id: TRX-1750148662
+2025-06-17 10:25:35 | VERIFIED: {}
+2025-06-17 10:25:35 | ERROR: Pesanan dengan kode TRX tidak ditemukan di database. | order_id: TRX-1750148662
+2025-06-17 10:27:34 | VERIFIED: {}
+2025-06-17 10:27:34 | ERROR: Pesanan dengan kode TRX tidak ditemukan di database. | order_id: TRX-1750148662
+2025-06-17 10:32:45 | VERIFIED: {}
+2025-06-17 10:32:56 | VERIFIED: {}
+2025-06-17 10:32:56 | SUCCESS: order_id: TRX-1750149156 => Paid & Diproses. Stok dikurangi.
+2025-06-17 16:06:57 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"f33e6866-571f-469f-817b-5cd34821c01f"} | order_id: N/A
+2025-06-17 16:07:42 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: <!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <!-- Responsive viewport declaration -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Cross compatibility -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Midtrans</title>
+    <meta name="description" content=""/>
+
+    <link rel="stylesheet" href="//v2/assets/css/all.css"/>
+
+</head>
+<body>
+<div class="container">
+    <div class="center desc"><p>404</p></div>
+    <div class="center click"><h3>
+        <a href="#">&#45; Ups &#45;</a>
+    </h3></div>
+</div>
+<footer>
+    <p class="center">&copy; <script>document.write(new Date().getFullYear())</script> PT Midtrans. All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
+ | order_id: N/A
+2025-06-17 16:08:12 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"eaa0605b-c7b8-44ab-a575-185d10b8e81d"} | order_id: N/A
+2025-06-17 16:08:15 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"679c2345-1b1b-4358-aa73-353789f28733"} | order_id: N/A
+2025-06-17 16:09:05 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: <!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <!-- Responsive viewport declaration -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Cross compatibility -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Midtrans</title>
+    <meta name="description" content=""/>
+
+    <link rel="stylesheet" href="//v2/assets/css/all.css"/>
+
+</head>
+<body>
+<div class="container">
+    <div class="center desc"><p>404</p></div>
+    <div class="center click"><h3>
+        <a href="#">&#45; Ups &#45;</a>
+    </h3></div>
+</div>
+<footer>
+    <p class="center">&copy; <script>document.write(new Date().getFullYear())</script> PT Midtrans. All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
+ | order_id: N/A
+2025-06-17 16:09:28 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"e05c9db2-8754-4d64-ba3e-ba96ad22dc12"} | order_id: N/A
+2025-06-17 16:09:34 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"c56436dc-4d95-4eb1-9868-f2eb963f5792"} | order_id: N/A
+2025-06-17 16:09:46 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"911ede4e-e6ca-4683-8fa2-1a0818d73284"} | order_id: N/A
+2025-06-17 16:10:01 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"aec3b7dc-30c4-4094-83b4-842ef39c2ba3"} | order_id: N/A
+2025-06-17 16:10:04 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"678ad513-89d1-46e1-992a-50e790cb1f78"} | order_id: N/A
+2025-06-17 16:10:32 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"31f8d1fd-f765-41c5-a797-53028fef8eea"} | order_id: N/A
+2025-06-17 16:11:18 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"88101771-8df2-4cfe-a673-f7135e2e0405"} | order_id: N/A
+2025-06-18 04:39:40 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"f1703162-b14c-4bbb-922b-257f3cfc1667"} | order_id: N/A
+2025-06-18 04:39:52 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"6a31142e-c626-4484-87a3-d654c0abcb71"} | order_id: N/A
+2025-06-18 04:40:35 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"9b9959c9-ce4d-47a4-a7a9-25db18758b92"} | order_id: N/A
+2025-06-18 04:41:18 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750214477 | SnapToken: 241915a2-9f5e-45fa-a3d4-8858d997abb6
+2025-06-18 04:41:33 | VERIFIED: {}
+2025-06-18 04:41:45 | ERROR: Midtrans API is returning API error. HTTP status code: 404 API response: {"status_code":"404","status_message":"Transaction doesn't exist.","id":"f030aae5-0d00-469f-b8fa-04336ea75c38"} | order_id: N/A
+2025-06-18 04:41:51 | VERIFIED: {}
+2025-06-18 04:41:51 | SUCCESS: order_id: TRX-1750214477 => Paid & Diproses. Stok dikurangi.
+2025-06-18 10:34:11 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750217651 | SnapToken: 01b0bc8b-f464-4787-8595-0a0bfcd0f34f
+2025-06-18 10:34:29 | VERIFIED: {}
+2025-06-18 10:35:41 | VERIFIED: {}
+2025-06-18 10:35:41 | SUCCESS: order_id: TRX-1750217651 => Paid & Diproses. Stok dikurangi.
+2025-06-18 10:38:16 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750217895 | SnapToken: 9f7f5367-6d3d-40e6-b4e0-7182b7375b2b
+2025-06-18 11:02:41 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750219360 | SnapToken: 25706ac1-cd2a-4f84-801a-1cf69164ac22
+2025-06-18 11:29:47 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750220987 | SnapToken: 6e760f4b-1709-43b9-b19b-1308867450ad
+2025-06-18 11:44:36 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750221875 | SnapToken: 2fb99926-7928-49b6-93d9-737e7c3d3f5d
+2025-06-18 11:46:59 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750222018 | SnapToken: 5a556092-0c17-4bf3-ad8f-48610d354a4b
+2025-06-18 11:57:29 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750222648 | SnapToken: 871a10f4-79f4-422b-9f8b-a40722ae5585
+2025-06-18 11:59:22 | VERIFIED: {}
+2025-06-18 11:59:22 | ERROR: Pesanan dengan kode TRX-1750222648-1750222671 tidak ditemukan di database. | order_id: TRX-1750222648-1750222671
+2025-06-18 11:59:32 | VERIFIED: {}
+2025-06-18 11:59:32 | ERROR: Pesanan dengan kode TRX-1750222648-1750222671 tidak ditemukan di database. | order_id: TRX-1750222648-1750222671
+2025-06-18 12:00:40 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750222839 | SnapToken: 613859d4-a81a-4e26-994a-81465c8acdcb
+2025-06-18 12:00:45 | VERIFIED: {}
+2025-06-18 12:00:48 | VERIFIED: {}
+2025-06-18 12:00:48 | ERROR: Pesanan dengan kode TRX-1750222648-1750222671 tidak ditemukan di database. | order_id: TRX-1750222648-1750222671
+2025-06-18 12:00:57 | VERIFIED: {}
+2025-06-18 12:00:57 | SUCCESS: order_id: TRX-1750222839 => Paid & Diproses. Stok dikurangi.
+2025-06-18 12:01:27 | VERIFIED: {}
+2025-06-18 12:01:27 | ERROR: Pesanan dengan kode TRX-1750222648-1750222671 tidak ditemukan di database. | order_id: TRX-1750222648-1750222671
+2025-06-18 12:01:36 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750222896 | SnapToken: d7c4b949-4613-42d6-9dea-e431d4e2c113
+2025-06-18 12:12:25 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750223545 | SnapToken: c1fa6317-6564-415b-b858-228fe580e24d
+2025-06-18 12:14:12 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750223652 | SnapToken: 7199df55-d472-45b9-ad5d-126c42c5b96f
+2025-06-18 13:12:13 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750227133 | SnapToken: 8da7ae05-c3b1-4d48-a0d4-204d54bfa760
+2025-06-18 13:13:36 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750227215 | SnapToken: 80af11de-2967-44cc-a075-b5103a92b74b
+2025-06-18 13:18:32 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750227511 | SnapToken: 81751955-3d0f-4f60-808e-cb7a35a1ff98
+2025-06-18 13:47:21 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750229240 | SnapToken: 53febcad-4d9c-4dcb-b8d5-5665aede15e4
+2025-06-18 14:55:24 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750233321 | SnapToken: e9f20ff0-6ad1-4fbb-8b06-0d86c6ac788f
+2025-06-18 14:55:34 | VERIFIED: {}
+2025-06-18 14:56:36 | VERIFIED: {}
+2025-06-18 14:56:36 | SUCCESS: order_id: TRX-1750233321 => Paid & Diproses. Stok dikurangi.
+2025-06-18 15:20:35 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750234834 | SnapToken: 878471a4-41c9-4d4c-8b6c-203088c88977
+2025-06-18 15:31:18 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750235477 | SnapToken: f8b95289-205d-49fc-9375-39e9539e2e34
+2025-06-19 20:12:13 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750338732 | SnapToken: 7feced91-57f3-4d0f-b3c2-a29c2531c014
+2025-06-19 20:33:05 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750339984 | SnapToken: fb0d7cbb-931d-40bf-979a-be38dcc82f0a
+2025-06-19 22:17:04 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750346222 | SnapToken: dea6723d-97d5-44de-8f95-c96b3cd09716
+2025-06-19 22:28:33 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750346911 | SnapToken: 41d3bc88-1e5c-4a17-ab4e-a84723620438
+2025-06-19 22:29:19 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750346958 | SnapToken: 94356088-5f29-4cf3-a4e3-ff5a2005dfa1
+2025-06-20 09:17:36 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750385854 | SnapToken: 48bb2abe-126d-4c77-bee7-c99bbd03d405
+2025-06-20 11:23:30 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750393410 | SnapToken: a60074c4-b2b4-46fc-a6e3-291d5c6c2996
+2025-06-23 19:51:00 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750683060 | SnapToken: bb40152a-5b88-4231-b013-8e8592fe8a29
+2025-06-24 15:10:03 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750752602 | SnapToken: be8f27be-0535-42ed-aa61-95af3e002cd3
+2025-06-24 15:10:07 | VERIFIED: {}
+2025-06-24 15:10:21 | VERIFIED: {}
+2025-06-24 15:10:21 | SUCCESS: order_id: TRX-1750752602 => Paid & Diproses. Stok dikurangi.
+2025-06-24 15:21:45 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750753304 | SnapToken: 80b50dac-2fcf-432f-af70-67090e6411aa
+2025-06-24 15:22:00 | VERIFIED: {}
+2025-06-24 15:22:37 | VERIFIED: {}
+2025-06-24 15:22:37 | SUCCESS: order_id: TRX-1750753304 => Paid & Diproses. Stok dikurangi.
+2025-06-24 15:31:30 | CREATE_TOKEN_SUCCESS | order_id: TRX-1750753889 | SnapToken: 275061fc-36f4-4348-8816-5721252a7bc5
+2025-06-28 10:39:30 | CREATE_TOKEN_SUCCESS | order_id: TRX-1751081968 | SnapToken: e8f7a38b-6607-4789-bd0e-5da38c40fde1
+2025-06-28 11:19:59 | CREATE_TOKEN_SUCCESS | order_id: TRX-1751084381 | SnapToken: 23d0fea8-3219-4fc4-987e-a87c67d8eff1
+2025-06-28 11:26:51 | CREATE_TOKEN_SUCCESS | order_id: TRX-1751084809 | SnapToken: 80ed1d6c-a49d-477a-9999-8682ae01d795
+2025-06-28 11:38:45 | CREATE_TOKEN_SUCCESS | order_id: TRX-1751085524 | SnapToken: 674a6c6f-e052-4e7f-9eb9-e95922983420
+2025-06-28 11:44:23 | CREATE_TOKEN_SUCCESS | order_id: TRX-1751085862 | SnapToken: f933dfc5-052e-450d-8c29-b053af6f646e
+2025-06-28 11:45:29 | CREATE_TOKEN_SUCCESS | order_id: TRX-1751085927 | SnapToken: 050f52ae-e7b8-4c99-a844-e1a6e0cb92fc

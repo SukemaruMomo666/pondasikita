@@ -1,0 +1,294 @@
+/* === FONT & VARIABEL WARNA === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #5E1914; /* Warna utama Maroon Gelap */
+    --secondary-color: #7a251f;
+    --background-color: #f4f5f7;
+    --card-background: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --border-color: #dee2e6;
+    --success-color: #198754;
+}
+
+/* === GAYA DASAR === */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    color: var(--text-primary);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+.checkout-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* === HEADER === */
+.checkout-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+}
+.checkout-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+.checkout-header i {
+    margin-right: 10px;
+}
+
+
+/* === KARTU GENERIC === */
+.card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+.card-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: #fcfcfc;
+}
+.card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+.card-header h3 i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+.card-body {
+    padding: 1.5rem;
+}
+.card-footer {
+    padding: 1rem 1.5rem;
+    background-color: #fcfcfc;
+    border-top: 1px solid var(--border-color);
+}
+/* ... CSS Anda yang sudah ada ... */
+.voucher-section { display: flex; gap: 10px; margin: 15px 0; }
+.voucher-section input { flex-grow: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+.voucher-section button { padding: 8px 12px; border: none; background-color: #007bff; color: white; border-radius: 4px; cursor: pointer; }
+.voucher-section button:hover { background-color: #0056b3; }
+.hidden { display: none !important; }
+#discount-amount { color: #28a745; font-weight: bold; }
+
+/* === STRUKTUR LAYOUT UTAMA (DESKTOP) === */
+.checkout-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+/* === DAFTAR PRODUK === */
+.product-list .product-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+.product-list .product-item:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+.product-image {
+    width: 60px;
+    height: 60px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    overflow: hidden; /* Tambahan kecil untuk memastikan tidak ada yang meluber */
+}
+
+/* === TAMBAHKAN BLOK INI === */
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* ========================== */
+
+.product-info {
+    flex-grow: 1;
+}
+.product-info .product-name {
+    font-weight: 500;
+    margin: 0 0 4px 0;
+}
+.product-info .product-quantity {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+.product-price {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* === FORMULIR === */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+.form-group:last-child {
+    margin-bottom: 0;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+textarea, select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.2s;
+}
+textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+.checkbox-group input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary-color);
+}
+.checkbox-group label {
+    margin-bottom: 0;
+    font-weight: 400;
+}
+
+/* === RINGKASAN PEMBAYARAN === */
+.summary-card {
+    position: sticky; /* Tetap terlihat saat scroll di desktop */
+    top: 20px;
+}
+.summary-row, .summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+.summary-row span:first-child, .summary-total span:first-child {
+    color: var(--text-secondary);
+}
+.summary-row span:last-child, .summary-total span:last-child {
+    font-weight: 500;
+}
+.summary-divider {
+    border: 0;
+    border-top: 1px dashed var(--border-color);
+    margin: 1rem 0;
+}
+.summary-total {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.summary-total span:first-child {
+    color: var(--text-primary);
+}
+.summary-total span:last-child {
+    color: var(--primary-color);
+}
+.btn-submit {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-submit:hover {
+    background-color: var(--secondary-color);
+}
+.empty-cart {
+    text-align: center;
+    padding: 4rem;
+}
+.empty-cart a {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+
+/* === TAMPILAN MOBILE (Layar 768px ke bawah) === */
+/* === TAMPILAN MOBILE (Layar 768px ke bawah) === */
+@media (max-width: 768px) {
+    body {
+        /* Increase padding-bottom to ensure enough space for the sticky footer,
+           accounting for the height of the summary card. */
+        padding-bottom: 250px; /* Adjust this value as needed based on your summary card's height */
+    }
+    .checkout-container {
+        padding: 10px;
+    }
+    .checkout-content {
+        grid-template-columns: 1fr; /* Ubah ke 1 kolom */
+    }
+    .card-body {
+        padding: 1rem;
+        position: relative;
+    }
+    .product-item {
+        font-size: 0.9rem;
+    }
+    .checkout-summary {
+        /* Jadikan footer menempel di bawah */
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: var(--card-background);
+        box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+        border-top: 1px solid var(--border-color);
+        border-radius: 12px 12px 0 0;
+        /* Ensure the summary content is scrollable if it's too tall,
+           though we primarily want to prevent overlap. */
+        overflow-y: auto; /* Allow scrolling within the fixed summary if content is too long */
+        max-height: 80vh; /* Limit height to prevent it from taking up too much screen */
+    }
+    .summary-card {
+        margin-bottom: 0;
+        box-shadow: none;
+        border: none;
+    }
+    /* Sembunyikan header kartu ringkasan di mobile */
+    .summary-card .card-header {
+        display: none;
+    }
+
+    /* Ensure all elements within the summary card are visible when scrolled */
+    .summary-card .card-body {
+        padding-bottom: 1rem; /* Add some padding if needed at the bottom of the summary card body */
+    }
+}

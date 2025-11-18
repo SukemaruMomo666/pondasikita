@@ -1,0 +1,313 @@
+/* ======================================= */
+/* ====== HALAMAN DAFTAR PRODUK (produk.css) ====== */
+/* ======================================= */
+
+body { background-color: #f5f5f5; font-family: Arial, sans-serif; }
+
+/* --- Layout Utama Dua Kolom --- */
+.page-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    gap: 20px;
+    padding: 0 16px;
+}
+/* Placeholder menjaga ruang untuk sidebar di desktop */
+.sidebar-placeholder {
+    flex: 0 0 240px;
+}
+
+/* --- Sidebar Filter (Default untuk Desktop) --- */
+.sidebar-filters {
+    flex: 0 0 240px;
+    background-color: #fff;
+    align-self: flex-start; /* Agar tidak memanjang ke bawah */
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #efefef;
+    font-weight: bold;
+    font-size: 16px;
+}
+.close-filter-btn {
+    display: none; /* Sembunyi di desktop */
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+}
+.filter-group {
+    padding: 16px;
+    border-bottom: 1px solid #efefef;
+}
+.filter-group:last-of-type {
+    border-bottom: none;
+}
+.filter-title {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #555;
+}
+.filter-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.filter-group input {
+    margin-right: 8px;
+}
+
+.apply-filter-btn {
+    width: calc(100% - 32px);
+    margin: 0 16px 16px 16px;
+    padding: 12px;
+    background-color: #7A1E1E;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Overlay Gelap untuk Mobile */
+.filter-overlay {
+    display: none;
+}
+
+/* --- Konten Utama (Kanan) --- */
+.main-content {
+    flex: 1;
+    min-width: 0;
+}
+.page-header {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+}
+.page-header h3 {
+    margin: 0 0 5px 0;
+    font-size: 20px;
+    color: #333;
+}
+.page-header p {
+    margin: 0;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Bar Aksi untuk Mobile (Filter & Sort) */
+.mobile-action-bar {
+    display: none; /* Sembunyi di desktop */
+}
+
+/* Grid Produk */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 16px;
+}
+/* Kartu Produk (item-card) dan isinya bisa sama persis seperti di search.css */
+.item-card { display: flex; flex-direction: column; text-decoration: none; background-color: #fff; border: 1px solid #efefef; border-radius: 8px; color: #333; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+.item-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+.item-image-container { position: relative; width: 100%; padding-top: 100%; }
+.item-image-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.item-tag-promo { position: absolute; top: 8px; left: 8px; background-color: #FFD700; color: #333; font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 2px; }
+/* ======================================= */
+/* ====== Perbaikan untuk Kartu Produk ====== */
+/* ======================================= */
+
+.item-details {
+    padding: 12px;           /* Padding di sekeliling konten detail */
+    display: flex;
+    flex-direction: column;  /* Menyusun elemen di dalamnya secara vertikal */
+    flex-grow: 1;            /* Membuat div ini mengisi sisa ruang di kartu */
+}
+
+.item-title {
+    font-size: 14px;
+    line-height: 1.4;
+    height: 38px;
+    overflow: hidden;
+    margin: 0 0 8px 0;      /* Hanya margin bawah untuk spasi ke harga */
+}
+
+
+.item-price {
+    color: #7A1E1E;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 4px 0;      /* Margin bawah lebih sedikit, agar dekat dengan stok */
+}
+
+/* PERBAIKAN UTAMA DI SINI */
+.item-stock {
+    font-size: 14px;
+    color: #757575;
+    margin-top: 4px;
+}
+
+.item-price-row {
+    margin-top: auto;        /* INI KUNCINYA: Mendorong blok ini ke bagian paling bawah kartu */
+    padding-top: 8px;        /* Beri sedikit ruang pemisah di atasnya */
+    border-top: 1px solid #f0f0f0; /* Opsional: garis pemisah tipis */
+}
+
+.item-location {
+    font-size: 12px;
+    color: #757575;
+    margin-top: 0;           /* Hapus margin-top karena sudah diatur oleh parent-nya */
+}
+
+.item-meta {
+    display: none; /* Sembunyikan saja jika tidak digunakan */
+}
+
+/* ======================================= */
+/* ====== RESPONSIVE UNTUK MOBILE ====== */
+/* ======================================= */
+@media (max-width: 768px) {
+    .page-container {
+        flex-direction: column;
+        padding: 0;
+        gap: 0;
+        margin: 0;
+    }
+    .sidebar-placeholder {
+        display: none; /* Sembunyikan placeholder di mobile */
+    }
+    .main-content {
+        padding: 10px;
+    }
+    .page-header {
+        display: none; /* Sembunyikan header desktop */
+    }
+    .item-stock {
+    font-size: 12px;
+    color: #757575;
+    margin-top: 4px;
+}
+    
+    /* Atur Sidebar jadi Off-canvas (muncul dari samping) */
+    .sidebar-filters {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Sembunyi di kiri */
+        width: 85%;
+        max-width: 320px;
+        height: 100%;
+        z-index: 1001;
+        transition: left 0.3s ease-in-out;
+        overflow-y: auto;
+        border-radius: 0;
+    }
+    .sidebar-filters.active {
+        left: 0; /* Munculkan */
+    }
+    .close-filter-btn {
+        display: block; /* Tampilkan tombol close */
+    }
+    .filter-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+    .filter-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Tampilkan dan atur Mobile Action Bar */
+    .mobile-action-bar {
+        display: flex;
+        gap: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .mobile-btn {
+        flex: 1;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #dbdbdb;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+    }
+    
+    /* Dropdown Urutkan di Mobile */
+    .sort-dropdown {
+        flex: 1;
+        position: relative;
+    }
+    .sort-dropdown-toggle {
+        width: 100%;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #dbdbdb;
+        border-radius: 4px;
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .sort-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        border: 1px solid #dbdbdb;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        z-index: 10;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.2s;
+    }
+    .sort-dropdown.active .sort-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .sort-dropdown-menu a {
+        display: block;
+        padding: 12px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+    }
+    .sort-dropdown-menu a:hover {
+        background-color: #f5f5f5;
+    }
+
+    /* Grid Produk 2 Kolom */
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .item-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}

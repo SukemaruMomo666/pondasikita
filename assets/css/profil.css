@@ -1,0 +1,84 @@
+/* --- Gaya Dasar (Untuk Desktop dan sebagai fallback) --- */
+/* --- Gaya Dasar (Untuk Desktop dan sebagai fallback) --- */
+.container-profil {
+    /* PERBAIKAN 1: Gunakan max-width agar fleksibel */
+    max-width: 850px; 
+    width: 90%; /* Ambil 90% dari lebar parent */
+
+    margin: 80px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    box-sizing: border-box; 
+}
+
+.container-profil h2 {
+    color: #5E1914;
+    margin-top: 0; /* Hapus margin atas default dari h2 */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.profil-box p {
+    font-size: 16px;
+    line-height: 1.6; /* Meningkatkan keterbacaan */
+    margin: 10px 0;
+    color: #333;
+}
+
+.profil-actions {
+    margin-top: 30px; /* Sedikit lebih banyak ruang */
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Memberi jarak jika tombol menyempit */
+}
+
+.btn-edit, .btn-password {
+    background-color: #5E1914;
+    color: #fff;
+    padding: 12px 20px; /* Padding sedikit lebih besar agar mudah di-klik */
+    text-decoration: none;
+    text-align: center;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+    flex-grow: 1; /* Membuat tombol mengisi ruang jika perlu */
+    border: none; /* Menghapus border default jika ini adalah tag <button> */
+    cursor: pointer;
+}
+
+.btn-edit:hover, .btn-password:hover {
+    background-color: #7a2621;
+    transform: translateY(-2px); /* Efek angkat saat di-hover */
+}
+
+
+/* --- Aturan untuk Layar Mobile (di bawah 600px) --- */
+@media (max-width: 768px) {
+    .container-profil {
+        /* PERBAIKAN 2: Atur ulang margin untuk mobile agar tidak terlalu jauh */
+        margin: 20px auto; 
+        /* PERBAIKAN 3: Pastikan lebarnya 90% atau sesuai kebutuhan */
+        width: 90%;
+        padding: 15px;
+
+        box-shadow: none; 
+        border: 1px solid #eee;
+    }
+
+    .container-profil h2 {
+        font-size: 22px; /* Sesuaikan ukuran judul di mobile */
+    }
+
+    .profil-actions {
+        /* Mengubah arah flexbox menjadi vertikal (menumpuk ke bawah) */
+        flex-direction: column; 
+        gap: 15px; /* Memberi jarak antar tombol yang ditumpuk */
+    }
+
+    .btn-edit, .btn-password {
+        /* Tombol dibuat lebar penuh agar mudah disentuh (tap) */
+        width: 100%; 
+    }
+}

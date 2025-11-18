@@ -1,0 +1,270 @@
+/* ======================================= */
+/* ====== HALAMAN SEMUA PRODUK (PONDASIKITA) ====== */
+/* ======================================= */
+
+/* --- 1. LAYOUT UTAMA --- */
+.page-container {
+    display: flex;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 20px;
+    gap: 30px;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* --- 2. SIDEBAR FILTER --- */
+.sidebar-filters {
+    flex: 0 0 260px;
+    background-color: var(--surface-color);
+    align-self: flex-start;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.close-filter-btn {
+    display: none; /* Hanya tampil di mobile */
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.filter-group {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.filter-group:last-of-type {
+    border-bottom: none;
+}
+
+.filter-title {
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.filter-group label.filter-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+.filter-group input[type="checkbox"] {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+.filter-harga {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.filter-harga input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background-color: var(--main-bg);
+}
+
+.apply-filter-btn {
+    width: calc(100% - 32px);
+    margin: 16px;
+    padding: 12px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.apply-filter-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+/* --- 3. KONTEN PRODUK (KANAN) --- */
+.top-bar {
+    background-color: var(--surface-color);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.top-bar span {
+    font-weight: 500;
+}
+.top-bar .form-select {
+    width: auto;
+    min-width: 180px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px;
+    background-color: var(--surface-color);
+    border-radius: 12px;
+}
+
+/* --- 4. KARTU PRODUK --- */
+.item-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+.item-image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Rasio 1:1 */
+}
+.item-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.item-details {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.item-title {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    height: 54px; /* Cukup untuk 2-3 baris */
+    overflow: hidden;
+    margin: 0 0 8px 0;
+}
+.item-price {
+    color: var(--shopee-orange); /* Pakai warna oranye untuk harga */
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+.product-seller-info {
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+}
+.store-name, .store-location {
+    display: block;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.store-name i, .store-location i {
+    margin-right: 5px;
+}
+
+/* --- 5. RESPONSIVE UNTUK MOBILE --- */
+.filter-overlay { display: none; }
+.mobile-action-bar { display: none; }
+
+@media (max-width: 992px) {
+    .page-container {
+        flex-direction: column;
+        padding: 10px;
+        gap: 10px;
+    }
+    .sidebar-filters {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 85%;
+        max-width: 320px;
+        height: 100%;
+        z-index: 1001;
+        transition: left 0.3s ease-in-out;
+        overflow-y: auto;
+        border-radius: 0;
+    }
+    .sidebar-filters.active {
+        left: 0;
+    }
+    .close-filter-btn {
+        display: block;
+    }
+    .filter-overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+    .filter-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    .mobile-action-bar {
+        display: flex;
+        gap: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .mobile-btn {
+        flex: 1;
+        padding: 10px;
+        background-color: var(--surface-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+    }
+    .top-bar {
+        display: none; /* Sembunyikan bar urutkan versi desktop */
+    }
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 kolom di mobile */
+    }
+}

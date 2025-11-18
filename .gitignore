@@ -1,0 +1,24 @@
+# Folder upload user
+/assets/uploads/
+
+# Sistem PHP / cache
+*.log
+*.cache
+*.bak
+*.tmp
+
+# Composer
+/vendor/
+
+
+# NodeJS (jika digunakan)
+node_modules/
+
+# Environment
+.env
+
+# Sistem editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

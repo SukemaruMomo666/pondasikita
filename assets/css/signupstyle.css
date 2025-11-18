@@ -1,0 +1,237 @@
+/* === General & Layout Styles === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+    min-height: 100vh;
+    width: 100%;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.left-section {
+    flex: 1;
+    background-color: #5E1914;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+}
+
+.right-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: white;
+    overflow-y: auto;
+}
+
+/* === Form & Component Styles === */
+.signup-form {
+    width: 100%;
+    max-width: 400px;
+}
+.signup-form h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+.login-link { margin-bottom: 2rem; }
+.login-link a { color: #5E1914; text-decoration: none; font-weight: 500; }
+.social-login { margin-bottom: 1.5rem; }
+
+/* =========================================================
+=== TAMBAHAN BARU UNTUK HALAMAN LOGIN (GAYA DARI CSS LAMA) ===
+=========================================================
+*/
+
+/* Style untuk Tombol Google */
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.8rem;
+    background: white; 
+    border: 1px solid #ddd; 
+    border-radius: 4px;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-google:hover {
+    background-color: #f5f5f5;
+}
+
+/* Style untuk logo Google di dalam tombol */
+.btn-google img {
+    width: 29px;
+    margin-right: 12px;
+}
+.divider { 
+    display: flex; 
+    align-items: center; 
+    text-align: center;
+    margin: 1.5rem 0; 
+    color: #999; 
+}
+.divider::before, .divider::after { 
+    content: ""; 
+    flex: 1; 
+    border-bottom: 1px solid #ddd; 
+}
+.divider span { 
+    padding: 0 1rem; 
+}
+
+/* Style untuk link "Lupa password?" */
+.forgot-password {
+    text-align: right;
+    margin-top: 1px;
+    margin-bottom: 20px;
+}
+.forgot-password a {
+    font-size: 0.9em;
+    color: #5E1914;
+    text-decoration: none;
+}
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+=== AKHIR DARI TAMBAHAN BARU ===
+=========================================================
+*/
+
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+.form-control { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; }
+.form-control:focus { outline: none; border-color: #5E1914; }
+.checkbox-group { display: flex; align-items: flex-start; margin-bottom: 1.5rem; }
+.checkbox-group input[type="checkbox"] { margin-top: 3px; margin-right: 10px; flex-shrink: 0; }
+.checkbox-group .terms-label a { color: #5E1914; text-decoration: none; font-weight: bold; cursor: pointer; }
+.checkbox-group .terms-label a:hover { text-decoration: underline; }
+.btn-signup { background-color: #5E1914; color: white; border: none; width: 100%; padding: 0.8rem; font-size: 1rem; font-weight: 500; border-radius: 4px; cursor: pointer; transition: background-color 0.3s; }
+.btn-signup:hover { background-color: #4A1611; }
+
+.btn-kembali-top-kanan {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+.btn-kembali {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%; 
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.btn-kembali img {
+    width: 34px;
+    height: auto;
+}
+
+.btn-kembali:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.05);
+}
+
+/* === MODAL POP-UP STYLES === */
+.modal-container {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+.modal-container.active {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+.modal-container.active .modal-content {
+    transform: scale(1);
+}
+.modal-header { padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+.modal-header h2 { margin: 0; font-size: 1.25rem; }
+.modal-close { font-size: 1.8rem; font-weight: bold; color: #aaa; cursor: pointer; }
+.modal-body { padding: 20px; overflow-y: auto; line-height: 1.6; }
+.modal-footer { padding: 15px 20px; border-top: 1px solid #eee; text-align: right; }
+#modal-agree-btn { width: auto; }
+#modal-agree-btn:disabled { background-color: #ccc; cursor: not-allowed; opacity: 0.7; }
+#modal-agree-btn:disabled:hover { background-color: #ccc; }
+
+
+/* === MOBILE RESPONSIVE === */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .btn-google img {
+    width: 26px;
+    margin-right: 12px;}
+    .left-section {
+        min-height: 200px;
+        flex: 0 1 auto;
+    }
+    .forgot-password {
+    text-align: right;
+    margin-top: -2px;
+    margin-bottom: 20px;
+}
+    /* .btn-kembali-top-kanan removed because it was an empty ruleset */
+}
+@media (max-width: 430px) {
+    /* .btn-kembali-top-kanan ruleset removed because it was empty */
+}

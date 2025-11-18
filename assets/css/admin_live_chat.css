@@ -1,0 +1,232 @@
+
+        /* Custom CSS untuk Live Chat Admin */
+        .chat-admin-container {
+            display: flex;
+            height: calc(100vh - 100px); /* Sesuaikan tinggi agar tidak tumpang tindih dengan header/footer admin */
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .chat-sidebar {
+            flex: 0 0 250px;
+            background-color: #343a40; /* Warna sidebar admin */
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #495057;
+        }
+
+        .chat-list {
+            flex: 0 0 300px;
+            background-color: #fff;
+            border-right: 1px solid #e9ecef;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-window-admin {
+            flex-grow: 1;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Chat Sidebar (Status Admin) */
+        .admin-status-control {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #495057;
+            text-align: center;
+        }
+        .admin-status-control h5 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .admin-status-control .status-label {
+            font-size: 1.1em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .admin-status-control .status-circle {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .admin-status-control .status-circle.online { background-color: #28a745; }
+        .admin-status-control .status-circle.offline { background-color: #dc3545; }
+
+        /* Chat List */
+        .chat-list-header {
+            padding: 15px;
+            background-color: #e9ecef;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .chat-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-item:hover {
+            background-color: #f1f1f1;
+        }
+        .chat-item.active {
+            background-color: #e0f7fa; /* Highlight aktif */
+            font-weight: bold;
+        }
+        .chat-item .customer-name {
+            font-size: 1.1em;
+            color: #333;
+        }
+        .chat-item .last-message {
+            font-size: 0.9em;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 80%;
+        }
+        .chat-item .chat-status-badge {
+            font-size: 0.8em;
+            padding: 3px 6px;
+            border-radius: 3px;
+            color: #fff;
+        }
+        .chat-item .chat-status-badge.open { background-color: #28a745; }
+        .chat-item .chat-status-badge.pending { background-color: #ffc107; } /* Kuning */
+        .chat-item .chat-status-badge.bot { background-color: #6c757d; } /* Abu-abu */
+        .chat-item .chat-status-badge.closed { background-color: #dc3545; } /* Merah */
+
+        /* Chat Window (Active Chat) */
+        .chat-messages-admin {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-messages-admin .message-bubble {
+            max-width: 70%;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            word-wrap: break-word;
+            font-size: 15px;
+        }
+        .chat-messages-admin .message-bubble.admin {
+            align-self: flex-end;
+            background-color: #007bff; /* Biru untuk admin */
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        .chat-messages-admin .message-bubble.customer {
+            align-self: flex-start;
+            background-color: #e9ecef; /* Abu-abu muda untuk customer */
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+        .chat-messages-admin .message-info {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 2px;
+            text-align: right;
+        }
+        .chat-messages-admin .message-bubble.customer + .message-info {
+            text-align: left;
+        }
+
+        .chat-input-area-admin {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #dee2e6;
+            background-color: #fff;
+            position: relative;
+        }
+        .chat-input-area-admin #admin-chat-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 25px;
+            font-size: 15px;
+            margin-right: 10px;
+        }
+        .chat-input-area-admin #admin-chat-input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        .chat-input-area-admin #send-admin-chat-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .chat-input-area-admin #send-admin-chat-btn:hover {
+            background-color: #0056b3;
+        }
+        .typing-indicator-admin {
+            position: absolute;
+            top: 5px; /* Sesuaikan posisi agar di atas input */
+            left: 15px;
+            font-size: 12px;
+            color: #666;
+            background-color: #e2e6ea;
+            padding: 3px 8px;
+            border-radius: 5px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 10;
+        }
+        .typing-indicator-admin.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .chat-no-selection {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #6c757d;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .chat-no-selection i {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+
+        .chat-actions {
+            padding: 10px 15px;
+            border-top: 1px solid #dee2e6;
+            background-color: #fff;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
