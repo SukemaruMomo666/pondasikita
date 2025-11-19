@@ -1,5 +1,5 @@
 <?php
-require_once '../../config/koneksi.php';
+require_once '../config/koneksi.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
