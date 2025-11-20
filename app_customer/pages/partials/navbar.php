@@ -35,10 +35,10 @@ if ($is_logged_in && $user_level !== 'admin' && $user_id !== null) { // Tambahka
 <header class="navbar-fixed">
     <div class="navbar-container">
         <div class="navbar-left">
-            <a href="/index.php" class="navbar-logo">
+            <a href="/" class="navbar-logo">
                 <h3>Pondasikita</h3>
             </a>
-            <form action="../search.php" method="GET" class="search-bar">
+            <form action="search.php" method="GET" class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" name="query" placeholder="Cari produk, toko, atau merek...">
             </form>
@@ -46,8 +46,8 @@ if ($is_logged_in && $user_level !== 'admin' && $user_id !== null) { // Tambahka
 
         <nav class="navbar-right">
             <ul class="nav-links js-nav-links">
-                <li><a href="../pages/produk.php" class="nav-link">Produk</a></li>
-                <li><a href="../pages/semua_toko.php" class="nav-link">Toko</a></li>
+                <li><a href="produk.php" class="nav-link">Produk</a></li>
+                <li><a href="semua_toko.php" class="nav-link">Toko</a></li>
             </ul>
 
             <div class="nav-actions">

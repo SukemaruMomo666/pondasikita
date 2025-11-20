@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Toko Bangunan Tiga Daya. Hak Cipta Dilindungi.</p>
+                <p>&copy; 2025 Pondasikita. Hak Cipta Dilindungi.</p>
             </div>
         </div>
     </footer>
