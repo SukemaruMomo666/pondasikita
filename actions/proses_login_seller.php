@@ -71,7 +71,7 @@ if ($result->num_rows === 1) {
         ];
         
         // Redirect ke dashboard seller
-        header('Location: ../app_seller/dashboard_seller.php'); // Sesuaikan path ini
+        header('Location: ../app_seller/dashboard.php'); // Sesuaikan path ini
         exit;
 
     } else {
