@@ -1,0 +1,335 @@
+/* ========================================= */
+/* ==      PREMIUM SELLER SIDEBAR v2.0    == */
+/* ========================================= */
+
+:root {
+    /* Warna Khusus Sidebar (Dark Mode Elegan) */
+    --sb-bg: #111827;          /* Slate 900 */
+    --sb-bg-hover: #1F2937;    /* Slate 800 */
+    --sb-text-main: #F3F4F6;   /* Slate 100 */
+    --sb-text-muted: #9CA3AF;  /* Slate 400 */
+    --sb-accent: #6366F1;      /* Indigo 500 */
+    --sb-accent-glow: rgba(99, 102, 241, 0.15);
+    --sb-border: rgba(255, 255, 255, 0.08);
+    --sb-width: 260px;
+}
+
+/* === Container Sidebar Utama === */
+.sidebar {
+    width: var(--sb-width);
+    background-color: var(--sb-bg);
+    min-height: 100vh;
+    height: 100vh; /* Fix height agar bisa scroll internal */
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--sb-border);
+    overflow-y: auto; /* Scroll vertikal */
+    overflow-x: hidden; /* Cegah scroll horizontal */
+    flex-shrink: 0;
+    z-index: 1000;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Sembunyikan Scrollbar tapi tetap bisa scroll (Firefox) */
+    scrollbar-width: thin;
+    scrollbar-color: #374151 transparent;
+}
+
+/* Custom Scrollbar (Chrome/Safari/Edge) */
+.sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #374151;
+    border-radius: 20px;
+}
+.sidebar:hover::-webkit-scrollbar-thumb {
+    background-color: #4B5563; /* Muncul saat di-hover */
+}
+
+/* === 1. Brand Logo Area === */
+.sidebar-brand-logo {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--sb-border);
+    background: linear-gradient(to bottom, rgba(255,255,255,0.03), transparent);
+}
+
+.sidebar-brand-logo .brand-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+}
+
+.sidebar-brand-logo .brand-subtext {
+    font-size: 0.7rem;
+    color: var(--sb-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    display: inline-block;
+    padding: 2px 6px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 4px;
+}
+
+/* === 2. User Profile Card (Desain Baru) === */
+.sidebar-profile {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--sb-border);
+}
+
+.profile-card {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--sb-border);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.profile-card:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Avatar Inisial (CSS Only - Tanpa Gambar) */
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--sb-accent), #4338CA);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.profile-info {
+    flex: 1;
+    min-width: 0; /* Penting untuk truncate teks */
+}
+
+.profile-welcome {
+    font-size: 0.7rem;
+    color: var(--sb-text-muted);
+    margin-bottom: 2px;
+}
+
+.profile-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--sb-text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+/* === 3. Navigation Menu === */
+.nav {
+    list-style: none;
+    padding: 1rem 0.75rem;
+    margin: 0;
+    flex-grow: 1;
+}
+
+/* Judul Kategori (Manajemen Penjualan, dll) */
+.nav-item-header {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6B7280; /* Slate 500 */
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 1.2rem 0.75rem 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.nav-item {
+    margin-bottom: 2px;
+}
+
+/* Link Utama */
+.nav-item .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    color: var(--sb-text-muted);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    position: relative;
+}
+
+/* Efek Hover */
+.nav-item .nav-link:hover {
+    color: var(--sb-text-main);
+    background-color: var(--sb-bg-hover);
+}
+
+.nav-item .nav-link:hover .menu-icon {
+    color: var(--sb-accent);
+    transform: translateX(2px);
+}
+
+/* Status Aktif (Desain Modern) */
+.nav-item.active > .nav-link {
+    background: var(--sb-accent-glow);
+    color: var(--sb-accent);
+    font-weight: 600;
+}
+
+/* Garis indikator aktif di kiri */
+.nav-item.active > .nav-link::before {
+    content: '';
+    position: absolute;
+    left: -0.75rem; /* Menempel di pinggir layar */
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 4px;
+    background-color: var(--sb-accent);
+    border-radius: 0 4px 4px 0;
+}
+
+/* Ikon Menu */
+.menu-icon {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+    margin-right: 12px;
+    color: #6B7280;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+.nav-item.active .menu-icon {
+    color: var(--sb-accent);
+}
+
+/* Judul Menu */
+.menu-title {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Panah Dropdown */
+.menu-arrow {
+    font-size: 1rem;
+    color: #4B5563;
+    transition: transform 0.2s ease;
+    opacity: 0.7;
+}
+.nav-link[aria-expanded="true"] .menu-arrow {
+    transform: rotate(90deg);
+    color: var(--sb-text-main);
+}
+
+/* === 4. Sub Menu (Dropdown) === */
+.collapse {
+    transition: all 0.3s ease;
+}
+
+.collapse.show {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-top: 4px;
+    border: 1px solid rgba(255,255,255,0.02);
+}
+
+.sub-menu {
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+}
+
+.sub-menu .nav-item .nav-link {
+    padding: 8px 15px 8px 48px; /* Indentasi dalam */
+    font-size: 0.85rem;
+    color: #9CA3AF;
+}
+
+.sub-menu .nav-item .nav-link:hover {
+    background-color: transparent;
+    color: #fff;
+    padding-left: 52px; /* Animasi geser */
+}
+
+.sub-menu .nav-item.active .nav-link {
+    color: var(--sb-accent);
+    font-weight: 600;
+    background-color: transparent;
+}
+.sub-menu .nav-item.active .nav-link::before {
+    content: '•'; /* Bullet point indikator */
+    position: absolute;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: var(--sb-accent);
+}
+
+/* === 5. Footer (Logout) === */
+.sidebar-footer {
+    margin-top: auto; /* Dorong ke paling bawah */
+    padding: 1rem;
+    border-top: 1px solid var(--sb-border);
+    background-color: var(--sb-bg);
+}
+
+.sidebar-footer .nav-link {
+    color: #EF4444; /* Warna merah */
+    background-color: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.1);
+    justify-content: center;
+}
+
+.sidebar-footer .nav-link:hover {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
+}
+
+.sidebar-footer .menu-icon {
+    color: #EF4444;
+}
+
+/* ========================================= */
+/* ==       RESPONSIVE MOBILE (Off-Canvas) == */
+/* ========================================= */
+@media (max-width: 992px) { 
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%); /* Sembunyi default */
+        box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+    }
+
+    /* Class ini akan ditambahkan via JavaScript saat toggle diklik */
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    /* Penyesuaian scrollbar di mobile agar lebih mudah disentuh */
+    .sidebar::-webkit-scrollbar {
+        width: 0px; /* Sembunyikan scrollbar di mobile untuk tampilan bersih */
+    }
+}

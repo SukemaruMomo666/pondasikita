@@ -28,6 +28,7 @@ $daftar_bank = ['SeaBank', 'BCA', 'BRI', 'BNI', 'Bank Mandiri', 'Bank Raya Indon
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/template/spica/template/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/css/seller_style.css">
+        <link rel="stylesheet" href="/assets/css/sidebar.css">
     
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.css" rel="stylesheet">
     

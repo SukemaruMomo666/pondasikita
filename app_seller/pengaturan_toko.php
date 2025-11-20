@@ -34,6 +34,7 @@ if (!in_array($current_tab, $allowed_tabs)) {
     <!-- CSS Utama -->
     <link rel="stylesheet" href="../assets/css/seller_style.css">
     <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="/assets/css/sidebar.css">
 
     <!-- ✅ 1. TAMBAHKAN CSS UNTUK SELECT2 DI SINI -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
