@@ -13,7 +13,7 @@ $provinces = $koneksi->query("SELECT id, name FROM provinces ORDER BY name ASC")
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buka Toko - Pondasikita</title>
-    <link rel="stylesheet" type="text/css" href="../assets/css/auth_style.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/register_seller.css">
     
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
