@@ -4,11 +4,23 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// PERUBAHAN LOGIKA: DATA DIKELOMPOKKAN PER TOKO
+// --- PERBAIKAN UTAMA: DETEKSI USER ID ---
+$user_id = null;
+
+// Cek format session baru (yang kita perbaiki di login)
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} 
+// Cek format session lama (jaga-jaga/fallback)
+elseif (isset($_SESSION['user']['id'])) {
+    $user_id = $_SESSION['user']['id'];
+}
+// ----------------------------------------
+
 $keranjang_per_toko = [];
-// PERBAIKAN DI SINI: Akses ID user dari $_SESSION['user']['id']
-if (isset($_SESSION['user']['id'])) {
-    $user_id = $_SESSION['user']['id']; // <-- PERBAIKAN UTAMA
+
+// Hanya jalankan query jika User ID ditemukan
+if ($user_id) {
 
     // PERUBAHAN KUERI: JOIN dengan tb_toko untuk mendapatkan info penjual
     $query_str = "SELECT 
@@ -27,10 +39,9 @@ if (isset($_SESSION['user']['id'])) {
                     WHERE k.user_id = ?";
                     
     $stmt = $koneksi->prepare($query_str);
-    // Tambahkan pengecekan jika prepare statement gagal
+    
     if (!$stmt) {
         error_log("Prepare statement gagal di keranjang.php: " . $koneksi->error);
-        // Mungkin tampilkan pesan error ke user jika diperlukan
     } else {
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
@@ -66,10 +77,7 @@ if (isset($_SESSION['user']['id'])) {
 <body>
 
 <?php 
-    // ✅ PERBAIKAN: Menggunakan path absolut dari file ini untuk include
-    // Pastikan partials/navbar.php ada di direktori yang benar dari keranjang.php
-    // Jika keranjang.php ada di app_customer/pages/, maka partials/navbar.php ada di partials/
-    // Jadi, pathnya adalah '../partials/navbar.php'
+    // Include Navbar
     include __DIR__ . '/../partials/navbar.php'; 
 ?>
 
@@ -144,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append('action', action);
         formData.append('item_id', itemId);
 
-        // ✅ PERBAIKAN: Menggunakan path absolut dari root website
+        // Pastikan path ini benar
         fetch('/actions/update_keranjang.php', { method: 'POST', body: formData })
             .then(response => response.json())
             .then(data => {

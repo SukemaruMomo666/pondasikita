@@ -1,7 +1,7 @@
 <?php
-// File: /pages/produk/detail_produk.php (Contoh path)
+// File: /pages/produk/detail_produk.php
 
-// Aktifkan error reporting untuk debugging (hapus atau beri komentar saat production)
+// Aktifkan error reporting untuk debugging
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -9,7 +9,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Pastikan path ke file koneksi sudah benar, relatif dari posisi file ini
+// Pastikan path ke file koneksi sudah benar
 require_once __DIR__ . '/../../config/koneksi.php';
 
 // Cek apakah koneksi database berhasil
@@ -22,7 +22,7 @@ if ($product_id <= 0) {
     die("<h1>ID Produk tidak valid.</h1>");
 }
 
-// Query Utama untuk mendapatkan detail produk dan informasi toko
+// Query Utama
 $product_query = "SELECT p.*, k.nama_kategori, t.id AS toko_id, t.nama_toko, t.slug AS slug_toko, t.city_id AS kota_toko, t.logo_toko 
                   FROM tb_barang p 
                   LEFT JOIN tb_kategori k ON p.kategori_id = k.id 
@@ -39,7 +39,7 @@ if (!$product) {
     die("<h1>Produk Tidak Ditemukan atau Tidak Aktif.</h1>");
 }
 
-// Mengambil SEMUA gambar produk dari tb_gambar_barang
+// Mengambil gambar produk
 $gallery_images = [];
 $gambar_query = "SELECT nama_file FROM tb_gambar_barang WHERE barang_id = ? ORDER BY is_utama DESC, id ASC";
 $stmt_gambar = $koneksi->prepare($gambar_query);
@@ -51,12 +51,11 @@ while ($row_gambar = $result_gambar->fetch_assoc()) {
 }
 $stmt_gambar->close();
 
-// Fallback jika tidak ada gambar di tb_gambar_barang
 if (empty($gallery_images) && !empty($product['gambar_utama'])) {
     $gallery_images[] = $product['gambar_utama'];
 }
 
-// Query untuk produk terkait
+// Query produk terkait
 $related_query = "SELECT id, nama_barang, harga, gambar_utama FROM tb_barang WHERE toko_id = ? AND id != ? AND is_active = 1 LIMIT 5";
 $stmt_related = $koneksi->prepare($related_query);
 $stmt_related->bind_param("ii", $product['toko_id'], $product_id);
@@ -64,7 +63,7 @@ $stmt_related->execute();
 $related_products = $stmt_related->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt_related->close();
 
-// Query untuk ulasan produk
+// Query ulasan
 $ulasan_query = "SELECT r.*, u.nama AS username FROM tb_review_produk r JOIN tb_user u ON r.user_id = u.id WHERE r.barang_id = ? ORDER BY r.created_at DESC";
 $stmt_ulasan = $koneksi->prepare($ulasan_query);
 $stmt_ulasan->bind_param("i", $product['id']);
@@ -89,31 +88,17 @@ if ($jumlah_ulasan > 0) {
     <title><?= htmlspecialchars($product['nama_barang']) ?> - Pondasikita</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- MEMANGGIL SEMUA CSS YANG DIBUTUHKAN -->
-    <!-- Gunakan path absolut (diawali '/') agar berfungsi di semua halaman -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/assets/css/theme.css">         <!-- CSS Tema Global -->
-    <link rel="stylesheet" href="/assets/css/navbar_style.css"> <!-- CSS Navbar -->
-    <link rel="stylesheet" href="/assets/css/produk_detail.css"> <!-- CSS Khusus Halaman Ini -->
+    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="stylesheet" href="/assets/css/navbar_style.css">
+    <link rel="stylesheet" href="/assets/css/produk_detail.css">
 </head>
 <body>
 
-<?php 
-    // MEMANGGIL NAVBAR
-    // Pastikan path ini benar sesuai struktur folder Anda (misal: /templates/navbar.php)
-    require_once __DIR__ . '/partials/navbar.php'; 
-?>
+<?php require_once __DIR__ . '/partials/navbar.php'; ?>
 
 <main class="container">
-
-    <?php if (isset($_SESSION['feedback'])) : ?>
-        <div class="alert alert-<?= $_SESSION['feedback']['tipe'] == 'sukses' ? 'success' : 'danger' ?>" role="alert" style="margin-top: 1rem; padding: 1rem; border-radius: 4px;">
-            <?= htmlspecialchars($_SESSION['feedback']['pesan']) ?>
-        </div>
-        <?php unset($_SESSION['feedback']); ?>
-    <?php endif; ?>
-
     <section class="product-showcase">
         <div class="product-gallery">
             <div class="main-image-wrapper">
@@ -146,27 +131,28 @@ if ($jumlah_ulasan > 0) {
                 Rp <?= number_format($product['harga'], 0, ',', '.') ?>
             </div>
 
-            <form action="../../actions/keranjang.php" method="POST">
+            <form id="formTambahKeranjang">
                 <input type="hidden" name="barang_id" value="<?= $product['id'] ?>">
+                
                 <div class="product-actions">
                     <div class="action-row">
                         <span class="action-label">Kuantitas</span>
                         <div class="quantity-selector">
-                            <button type="button" class="quantity-btn" id="btn-minus" aria-label="Kurangi kuantitas">-</button>
-                            <input type="number" class="quantity-input" name="jumlah" id="quantity-input" value="1" min="1" max="<?= $product['stok'] ?>" aria-label="Kuantitas produk">
-                            <button type="button" class="quantity-btn" id="btn-plus" aria-label="Tambah kuantitas">+</button>
+                            <button type="button" class="quantity-btn" id="btn-minus">-</button>
+                            <input type="number" class="quantity-input" name="jumlah" id="quantity-input" value="1" min="1" max="<?= $product['stok'] ?>">
+                            <button type="button" class="quantity-btn" id="btn-plus">+</button>
                         </div>
                     </div>
                 </div>
 
                 <?php if ($product['stok'] > 0) : ?>
                     <div class="action-buttons">
-                        <button type="submit" name="add_to_cart" class="btn btn--secondary">
+                        <button type="submit" class="btn btn--secondary">
                             <i class="mdi mdi-cart-plus"></i> Masukkan Keranjang
                         </button>
-                        <button type="submit" name="buy_now" class="btn btn--primary">
+                        <a href="#" onclick="alert('Fitur Beli Langsung menyusul ya!')" class="btn btn--primary">
                             Beli Sekarang
-                        </button>
+                        </a>
                     </div>
                 <?php else : ?>
                     <div class="out-of-stock-notice">
@@ -174,7 +160,7 @@ if ($jumlah_ulasan > 0) {
                     </div>
                 <?php endif; ?>
             </form>
-        </div>
+            </div>
     </section>
 
     <section class="product-details-section">
@@ -249,14 +235,11 @@ if ($jumlah_ulasan > 0) {
     </section>
 </main>
 
-<!-- MEMANGGIL SEMUA JAVASCRIPT YANG DIBUTUHKAN -->
-<!-- 1. Panggil JavaScript untuk NAVBAR (agar menu hamburger & dropdown berfungsi) -->
 <script src="/assets/js/navbar.js"></script>
 
-<!-- 2. JavaScript KHUSUS untuk halaman ini (Galeri & Kuantitas) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Image Gallery Interaction
+    // 1. LOGIKA GAMBAR & QUANTITY (Bawaan)
     const mainImage = document.getElementById('mainProductImage');
     const thumbnails = document.querySelectorAll('.thumbnail');
     if (mainImage && thumbnails.length > 0) {
@@ -269,7 +252,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Quantity Selector Interaction
     const quantityInput = document.getElementById('quantity-input');
     const btnMinus = document.getElementById('btn-minus');
     const btnPlus = document.getElementById('btn-plus');
@@ -279,16 +261,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
         btnMinus.addEventListener('click', function() {
             let currentValue = parseInt(quantityInput.value, 10);
-            if (currentValue > minStock) {
-                quantityInput.value = currentValue - 1;
-            }
+            if (currentValue > minStock) quantityInput.value = currentValue - 1;
         });
 
         btnPlus.addEventListener('click', function() {
             let currentValue = parseInt(quantityInput.value, 10);
-            if (currentValue < maxStock) {
-                quantityInput.value = currentValue + 1;
-            }
+            if (currentValue < maxStock) quantityInput.value = currentValue + 1;
+        });
+    }
+
+    // 2. LOGIKA AJAX KERANJANG (YANG KITA PERBAIKI)
+    const formKeranjang = document.getElementById('formTambahKeranjang');
+
+    if (formKeranjang) {
+        formKeranjang.addEventListener('submit', function(e) {
+            e.preventDefault(); // Tahan dulu, jangan reload
+
+            const formData = new FormData(this);
+
+            // Kirim data ke backend
+            fetch('/actions/tambah_keranjang.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Tampilkan Pesan Sukses
+                    alert('✅ Berhasil! ' + data.message);
+                    
+                    // [PENTING] Reload Halaman supaya angka Keranjang di Navbar berubah
+                    window.location.reload(); 
+                    
+                } else {
+                    alert('❌ Gagal: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan sistem.');
+            });
         });
     }
 });

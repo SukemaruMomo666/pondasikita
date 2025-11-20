@@ -1,102 +1,99 @@
 <?php
-// Selalu mulai session di awal
+// actions/update_keranjang.php
 session_start();
+require_once '../config/koneksi.php';
 
-// Sesuaikan path ini jika perlu. Diasumsikan folder 'actions' sejajar dengan 'config'
-require_once __DIR__ . '/../config/koneksi.php';
-
-// Atur header untuk memberitahu browser bahwa responsnya adalah JSON
 header('Content-Type: application/json');
 
-// Fungsi helper untuk mengirimkan respons JSON dan menghentikan skrip
-function send_response($status, $message, $data = []) {
-    echo json_encode(['status' => $status, 'message' => $message, 'data' => $data]);
+// 1. Deteksi User ID (Sesuai standar baru kita)
+$user_id = null;
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} elseif (isset($_SESSION['user']['id'])) {
+    $user_id = $_SESSION['user']['id'];
+}
+
+// Jika tidak ada user_id, tolak akses
+if (!$user_id) {
+    echo json_encode(['status' => 'error', 'message' => 'Sesi tidak valid. Silakan login ulang.']);
     exit;
 }
 
-// 1. Validasi Keamanan dan Sesi
+// 2. Validasi Input POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    send_response('error', 'Metode request tidak valid.');
+    echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+    exit;
 }
 
-// ✅ PERBAIKAN: Menggunakan $_SESSION['user_id'] yang konsisten dengan file lain
-if (!isset($_SESSION['user_id'])) {
-    send_response('error', 'Sesi tidak valid. Silakan login kembali.');
+$action = $_POST['action'] ?? ''; // 'increase', 'decrease', atau 'remove'
+$item_id = intval($_POST['item_id'] ?? 0);
+
+if ($item_id <= 0 || empty($action)) {
+    echo json_encode(['status' => 'error', 'message' => 'Data tidak lengkap.']);
+    exit;
 }
 
-// 2. Ambil dan Validasi Input
-$id_user = $_SESSION['user_id']; // ✅ PERBAIKAN: Menggunakan variabel session yang benar
-$action = $_POST['action'] ?? '';
-$item_id = isset($_POST['item_id']) ? intval($_POST['item_id']) : 0;
-
-if (empty($action) || $item_id <= 0) {
-    send_response('error', 'Aksi atau ID item tidak lengkap.');
-}
-
-// Mulai transaksi untuk menjaga integritas data
-$koneksi->begin_transaction();
-
+// 3. Proses Database
 try {
-    // 3. Ambil data item keranjang & stok produk dalam satu query
-    $stmt_check = $koneksi->prepare(
-        "SELECT k.jumlah, b.stok 
-         FROM tb_keranjang k 
-         JOIN tb_barang b ON k.barang_id = b.id 
-         WHERE k.id = ? AND k.user_id = ?"
-    );
-    $stmt_check->bind_param("ii", $item_id, $id_user);
-    $stmt_check->execute();
-    $result = $stmt_check->get_result();
-    $item_data = $result->fetch_assoc();
-    $stmt_check->close();
+    // Cek dulu apakah item ini benar milik user yang sedang login
+    $stmt_cek = $koneksi->prepare("SELECT k.id, k.jumlah, b.stok, b.stok_di_pesan 
+                                   FROM tb_keranjang k 
+                                   JOIN tb_barang b ON k.barang_id = b.id 
+                                   WHERE k.id = ? AND k.user_id = ?");
+    $stmt_cek->bind_param("ii", $item_id, $user_id);
+    $stmt_cek->execute();
+    $result = $stmt_cek->get_result();
 
-    // Jika item tidak ditemukan atau bukan milik user, kirim error
-    if (!$item_data) {
-        throw new Exception('Item keranjang tidak ditemukan atau bukan milik Anda.');
+    if ($result->num_rows === 0) {
+        throw new Exception("Item tidak ditemukan atau bukan milik Anda.");
     }
 
-    $current_qty = $item_data['jumlah'];
-    $stok_tersedia = $item_data['stok'];
+    $item = $result->fetch_assoc();
+    $current_qty = $item['jumlah'];
+    $max_stok = $item['stok'] - $item['stok_di_pesan'];
 
-    // 4. Logika Berdasarkan Aksi (Action)
-    if ($action === 'increase') {
-        if ($current_qty < $stok_tersedia) {
-            $stmt = $koneksi->prepare("UPDATE tb_keranjang SET jumlah = jumlah + 1 WHERE id = ? AND user_id = ?");
-            $stmt->bind_param("ii", $item_id, $id_user);
-            $stmt->execute();
+    if ($action === 'remove') {
+        // --- LOGIKA HAPUS ---
+        $stmt_del = $koneksi->prepare("DELETE FROM tb_keranjang WHERE id = ?");
+        $stmt_del->bind_param("i", $item_id);
+        
+        if ($stmt_del->execute()) {
+            echo json_encode(['status' => 'success', 'message' => 'Item berhasil dihapus.']);
         } else {
-            throw new Exception('Stok tidak mencukupi untuk menambah jumlah.');
+            throw new Exception("Gagal menghapus item.");
         }
-    } 
-    elseif ($action === 'decrease') {
+        $stmt_del->close();
+
+    } elseif ($action === 'increase') {
+        // --- LOGIKA TAMBAH JUMLAH ---
+        if ($current_qty >= $max_stok) {
+            throw new Exception("Stok maksimal tercapai ({$max_stok}).");
+        }
+        $new_qty = $current_qty + 1;
+        $stmt_upd = $koneksi->prepare("UPDATE tb_keranjang SET jumlah = ? WHERE id = ?");
+        $stmt_upd->bind_param("ii", $new_qty, $item_id);
+        $stmt_upd->execute();
+        echo json_encode(['status' => 'success', 'message' => 'Jumlah ditambah.']);
+
+    } elseif ($action === 'decrease') {
+        // --- LOGIKA KURANG JUMLAH ---
         if ($current_qty > 1) {
-            $stmt = $koneksi->prepare("UPDATE tb_keranjang SET jumlah = jumlah - 1 WHERE id = ? AND user_id = ?");
-            $stmt->bind_param("ii", $item_id, $id_user);
-            $stmt->execute();
+            $new_qty = $current_qty - 1;
+            $stmt_upd = $koneksi->prepare("UPDATE tb_keranjang SET jumlah = ? WHERE id = ?");
+            $stmt_upd->bind_param("ii", $new_qty, $item_id);
+            $stmt_upd->execute();
+            echo json_encode(['status' => 'success', 'message' => 'Jumlah dikurangi.']);
+        } else {
+            // Jika jumlah 1 dan dikurangi, hapus item? (Opsional, biasanya user prefer tombol hapus)
+            throw new Exception("Minimal pembelian 1 item. Gunakan tombol hapus jika ingin membatalkan.");
         }
-        // Jika jumlah sudah 1, tidak melakukan apa-apa (tombol minus seharusnya non-aktif di frontend)
-    } 
-    elseif ($action === 'remove') {
-        $stmt = $koneksi->prepare("DELETE FROM tb_keranjang WHERE id = ? AND user_id = ?");
-        $stmt->bind_param("ii", $item_id, $id_user);
-        $stmt->execute();
-    } 
-    else {
-        throw new Exception('Aksi tidak dikenal.');
+    } else {
+        throw new Exception("Aksi tidak dikenali.");
     }
 
-    // Jika ada statement yang dieksekusi, tutup
-    if (isset($stmt)) {
-        $stmt->close();
-    }
-
-    // Jika semua query berhasil, commit transaksi
-    $koneksi->commit();
-    send_response('success', 'Keranjang berhasil diperbarui.');
+    $stmt_cek->close();
 
 } catch (Exception $e) {
-    // Jika ada error, batalkan semua perubahan
-    $koneksi->rollback();
-    send_response('error', $e->getMessage());
+    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
 ?>
