@@ -1,0 +1,306 @@
+/* =========================================
+   1. SETUP & VARIABLES
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #1a1a1a;
+    --accent-color: #007BFF;
+    --text-dark: #1F2937;
+    --text-light: #6B7280;
+    --bg-light: #F3F4F6;
+    --white: #FFFFFF;
+    --error-bg: #FEF2F2;
+    --error-text: #B91C1C;
+    --success-bg: #ECFDF5;
+    --success-text: #047857;
+    --border-color: #E5E7EB;
+    --border-radius: 12px;
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text-dark);
+    overflow: hidden; 
+}
+
+/* =========================================
+   2. CONTAINER LAYOUT
+   ========================================= */
+.auth-container {
+    display: flex;
+    flex-direction: row-reverse; /* Sidebar KANAN, Form KIRI */
+    width: 100%;
+    max-width: 1100px;
+    height: 90vh; 
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    position: relative;
+    margin: 20px;
+}
+
+/* =========================================
+   3. SIDEBAR (KANAN - Slide from Right)
+   ========================================= */
+.auth-sidebar {
+    flex: 0 0 350px;
+    background: linear-gradient(135deg, #434343 0%, var(--primary-color) 100%);
+    color: var(--white);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+
+    /* ANIMASI: Muncul dari KANAN ke Kiri */
+    animation: slideInFromRight 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
+}
+
+.auth-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.auth-sidebar h1 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.auth-sidebar p {
+    font-size: 1rem;
+    opacity: 0.9;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.auth-sidebar span {
+    margin-top: auto;
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* =========================================
+   4. MAIN CONTENT (KIRI - Slide from Left)
+   ========================================= */
+.auth-main {
+    flex: 1;
+    background-color: var(--white);
+    position: relative;
+    z-index: 1;
+    
+    /* Setup Scroll */
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    padding: 50px;
+
+    /* ANIMASI: Muncul dari KIRI ke Kanan */
+    animation: slideInFromLeft 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
+}
+
+/* Scrollbar Styling */
+.auth-main::-webkit-scrollbar { width: 8px; }
+.auth-main::-webkit-scrollbar-track { background: #f1f1f1; }
+.auth-main::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+.auth-main::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+.form-wrapper {
+    width: 100%;
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+.form-wrapper h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.form-wrapper h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-top: 25px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--bg-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-wrapper > p {
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+/* Update bagian link ini untuk menambah animasi garis */
+.form-wrapper a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    position: relative; /* Penting untuk posisi garis */
+}
+
+.form-wrapper a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--accent-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: right;
+}
+
+.form-wrapper a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* =========================================
+   5. FORM ELEMENTS & SELECT2
+   ========================================= */
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 500; color: var(--text-dark); }
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="tel"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    background-color: #FAFAFA;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    background-color: var(--white);
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+    outline: none;
+}
+
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-group input[type="file"] { padding: 10px; background: var(--white); border: 1px dashed var(--border-color); width: 100%; border-radius: 8px; cursor: pointer; }
+.form-group input[type="file"]:hover { border-color: var(--accent-color); }
+
+/* Select2 Overrides */
+.select2-container--default .select2-selection--single {
+    background-color: #FAFAFA;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+.select2-container--default.select2-container--open .select2-selection--single {
+    border-color: var(--primary-color);
+    background-color: var(--white);
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: var(--text-dark);
+    padding-left: 16px;
+    font-size: 1rem;
+    line-height: normal;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow { height: 44px; right: 10px; }
+.select2-dropdown { border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; z-index: 9999; }
+
+/* Buttons & Alerts */
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.btn-submit:hover:not(:disabled) { background-color: #000; transform: translateY(-2px); }
+.btn-submit:disabled { background-color: #9CA3AF; cursor: not-allowed; }
+
+.message-box { padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; font-weight: 500; animation: fadeIn 0.3s ease; }
+.message-box.success { background-color: var(--success-bg); color: var(--success-text); border: 1px solid #A7F3D0; }
+.message-box.error { background-color: var(--error-bg); color: var(--error-text); border: 1px solid #FECACA; }
+
+/* =========================================
+   6. KEYFRAME ANIMATIONS
+   ========================================= */
+
+/* Sidebar/Form meluncur dari KIRI ke posisi normal */
+@keyframes slideInFromLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Sidebar/Form meluncur dari KANAN ke posisi normal */
+@keyframes slideInFromRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    body { overflow: auto; padding: 20px 0; height: auto; }
+    .auth-container { flex-direction: column; height: auto; overflow: visible; margin: 0; border-radius: 0; box-shadow: none; }
+    .auth-sidebar { flex: 0 0 auto; padding: 30px 20px; animation: none; opacity: 1; transform: none; }
+    .auth-main { overflow: visible; animation: none; opacity: 1; transform: none; padding: 30px 20px; }
+    .form-wrapper { padding: 0; }
+}

@@ -52,7 +52,7 @@ $result_toko = $stmt_toko->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../assets/css/theme.css">
     <link rel="stylesheet" href="../../assets/css/navbar_style.css">
-    <link rel="stylesheet" href="../../assets/css/toko_page_style.css">
+    <link rel="stylesheet" href="../../assets/css/toko_page.css">
     <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
 </head>
 <body>
