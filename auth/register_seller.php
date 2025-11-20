@@ -57,7 +57,7 @@ $provinces = $koneksi->query("SELECT id, name FROM provinces ORDER BY name ASC")
         <div class="auth-main">
             <div class="form-wrapper">
                 <h2>Formulir Pendaftaran Toko</h2>
-                <p>Sudah punya akun? <a href="login.php">Masuk di sini</a></p>
+                <p>Sudah punya akun? <a href="login_seller.php">Masuk di sini</a></p>
                 
                 <form id="registerSellerForm" method="POST" enctype="multipart/form-data">
                     <div id="message" class="message-box" style="display:none;"></div>
@@ -223,7 +223,7 @@ $provinces = $koneksi->query("SELECT id, name FROM provinces ORDER BY name ASC")
                     $('#kecamatan').val(null).trigger('change');
                     
                     setTimeout(() => {
-                        window.location.href = 'login.php?status=reg_seller_success';
+                        window.location.href = 'login_seller.php?status=reg_seller_success';
                     }, 3000);
                 } else {
                     submitButton.disabled = false;
