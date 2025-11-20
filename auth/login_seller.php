@@ -10,7 +10,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Penjual - Pondasikita Seller Centre</title>
-    <link rel="stylesheet" type="text/css" href="../assets/css/auth_style.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/auth_style.css">
 </head>
 <body>
     <div class="auth-container seller-theme">
@@ -28,7 +28,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 
                 <?php include '_auth_messages.php'; ?>
 
-                <form action="../actions/proses_login.php" method="POST">
+                <form action="../actions/proses_login_seller.php" method="POST">
                     <div class="form-group">
                         <input type="text" id="username" name="username" placeholder="Email atau Username Toko" required>
                     </div>

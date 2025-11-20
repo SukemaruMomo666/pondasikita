@@ -571,3 +571,80 @@ section {
         height: 100px;
     }
 }
+
+/* =========================================
+   9. FOOTER
+   ========================================= */
+.main-footer {
+    background-color: var(--primary-color); /* Hitam pekat elegan */
+    color: #ffffff;
+    padding: 70px 0 25px;
+    margin-top: auto; /* Push footer ke bawah jika konten sedikit */
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-grid {
+    display: grid;
+    /* Grid responsif: kolom akan turun otomatis jika layar kecil */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.footer-col h3 {
+    font-size: 1.1em;
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+/* Garis aksen kecil di bawah judul */
+.footer-col h3::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background-color: #f0f0f0;
+    margin-top: 10px;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 12px;
+}
+
+.footer-col ul li a {
+    color: #9CA3AF; /* Abu-abu soft agar tidak menyakitkan mata */
+    font-size: 0.95em;
+    transition: var(--transition-standard);
+    display: inline-block;
+}
+
+.footer-col ul li a:hover {
+    color: #ffffff;
+    transform: translateX(5px); /* Efek geser halus saat hover */
+}
+
+.copyright {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 25px;
+    text-align: center;
+    font-size: 0.85em;
+    color: #6B7280;
+}
+
+/* Responsif Mobile */
+@media (max-width: 768px) {
+    .main-footer {
+        padding: 50px 0 20px;
+    }
+    .footer-grid {
+        gap: 30px;
+    }
+}

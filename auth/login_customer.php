@@ -49,7 +49,7 @@ if (isset($_GET['success']) && $_GET['success'] === 'reset') {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login Pelanggan - Pondasikita</title>
-    <link rel="stylesheet" type="text/css" href="../assets/css/auth_style.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/auth_style_customer.css" />
 </head>
 <body>
     <div class="auth-container customer-theme">
