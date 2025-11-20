@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var sidebarBtn = document.querySelector('.sidebar-toggle-btn');
     var sidebar = document.querySelector('.sidebar');
     
-    if(sidebarBtn && sidebar) {
+    if(sidebarBtn && sidebar) { 
         sidebarBtn.addEventListener('click', function() {
             sidebar.classList.toggle('active');
         });
