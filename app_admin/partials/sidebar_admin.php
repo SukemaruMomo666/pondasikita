@@ -2,188 +2,123 @@
 if (!isset($current_page_name)) {
     $current_page_name = basename($_SERVER['PHP_SELF']);
 }
-function isAdminMenuActive($menu_page, $current_page) {
-    return ($menu_page === $current_page) ? 'active' : '';
+
+// --- PENCEGAHAN ERROR PHP (Function Redeclare) ---
+if (!function_exists('isAdminActive')) {
+    function isAdminActive($link) {
+        global $current_page_name;
+        return $current_page_name === $link ? 'active' : '';
+    }
+}
+
+if (!function_exists('isParentOpen')) {
+    function isParentOpen($links) {
+        global $current_page_name;
+        return in_array($current_page_name, $links) ? 'show' : '';
+    }
+}
+
+if (!function_exists('isParentActive')) {
+    function isParentActive($links) {
+        global $current_page_name;
+        return in_array($current_page_name, $links) ? 'active' : '';
+    }
 }
 ?>
-<style>
-  .sidebar {
-    background-color: #1e2235;
-    color: #e1e4f2;
-    width: 260px;
-    height: 100vh;
-   
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-    box-shadow: 3px 0 8px rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 
-.sidebar-brand-logo {
-    padding: 1.5rem 1.5rem 1rem;
-    border-bottom: 1px solid #2c3048;
-    text-align: center;
-}
+<!-- Memanggil CSS & JS Sidebar -->
+<link rel="stylesheet" href="../assets/css/sidebar_admin.css">
 
-.sidebar-brand-logo .brand-link {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #f5f7ff;
-    text-decoration: none;
-    margin-bottom: 0.2rem;
-    display: inline-block;
-    letter-spacing: 1.2px;
-}
-
-.sidebar-brand-logo .brand-subtext {
-    font-size: 0.85rem;
-    color: #a3a8c2;
-    font-weight: 500;
-}
-
-.sidebar-profile {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #2c3048;
-    background-color: #2a2f4a;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #c8cce5;
-    user-select: none;
-}
-
-.sidebar-profile p {
-    margin: 0;
-}
-
-.nav {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-    flex-grow: 1;
-}
-
-.nav-item-header {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #6f73a4;
-    border-bottom: 1px solid #2c3048;
-    margin-top: 1rem;
-}
-
-.nav-item {
-    margin: 0;
-}
-
-.nav-item.active > a.nav-link,
-.nav-item > a.nav-link.active {
-    background-color: #4e63ff;
-    color: #fff;
-    font-weight: 700;
-    border-left: 4px solid #2f40ff;
-}
-
-.nav-link {
-    display: flex;
-    align-items: center;
-    padding: 0.85rem 1.5rem;
-    font-size: 1rem;
-    color: #c8cce5;
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
-    border-left: 4px solid transparent;
-}
-
-.nav-link:hover {
-    background-color: #3a3f66;
-    color: #fff;
-    border-left-color: #4e63ff;
-}
-
-.menu-icon {
-    font-size: 1.25rem;
-    margin-right: 1rem;
-    color: #8a8fbf;
-    flex-shrink: 0;
-}
-
-.sidebar-footer {
-    border-top: 1px solid #2c3048;
-    padding: 1rem 1.5rem;
-    background-color: #2a2f4a;
-}
-
-.sidebar-footer .nav-link {
-    color: #c75a5a;
-    font-weight: 600;
-    border-left: none;
-    padding-left: 0;
-}
-
-.sidebar-footer .nav-link:hover {
-    background-color: #a63a3a;
-    color: #fff;
-}
-
-</style>
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <div class="sidebar-brand-logo">
-        <a class="brand-link" href="dashboard_admin.php">Pondasikita</a>
-        <span class="brand-subtext">Admin Panel</span>
+<nav class="modern-sidebar" id="adminSidebar">
+    <!-- 1. HEADER: LOGO -->
+    <div class="sidebar-header">
+        <a href="dashboard_admin.php" class="brand-wrapper">
+            <div class="brand-icon">P</div>
+            <div class="brand-text">
+                <span>Pondasikita</span>
+                <small>ADMIN PANEL</small>
+            </div>
+        </a>
     </div>
-    <ul class="nav">
-        <li class="nav-item <?= isAdminMenuActive('dashboard_admin.php', $current_page_name) ?>">
-            <a class="nav-link" href="dashboard_admin.php"><i class="mdi mdi-view-dashboard menu-icon"></i><span class="menu-title">Dashboard</span></a>
-        </li>
+
+    <!-- 2. BODY: MENU SCROLL -->
+    <div class="sidebar-body">
         
-        <li class="nav-item-header">Manajemen</li>
-        <li class="nav-item <?= isAdminMenuActive('kelola_pengguna.php', $current_page_name) ?>">
-            <a class="nav-link" href="kelola_pengguna.php"><i class="mdi mdi-account-group menu-icon"></i><span class="menu-title">Kelola Pengguna</span></a>
-        </li>
-        <li class="nav-item <?= isAdminMenuActive('kelola_toko.php', $current_page_name) ?>">
-            <a class="nav-link" href="kelola_toko.php"><i class="mdi mdi-store menu-icon"></i><span class="menu-title">Kelola Toko</span></a>
-        </li>
-        <li class="nav-item <?= isAdminMenuActive('moderasi_produk.php', $current_page_name) ?>">
-            <a class="nav-link" href="moderasi_produk.php"><i class="mdi mdi-cube-send menu-icon"></i><span class="menu-title">Moderasi Produk</span></a>
-        </li>
+        <!-- Profil Admin Mini -->
+        <div class="admin-profile-card">
+            <div class="admin-avatar">
+                <?= strtoupper(substr($_SESSION['nama'] ?? 'A', 0, 1)) ?>
+            </div>
+            <div class="admin-info">
+                <span class="name"><?= htmlspecialchars($_SESSION['nama'] ?? 'Administrator') ?></span>
+                <span class="role">Super Admin</span>
+            </div>
+        </div>
 
-        <li class="nav-item-header">Marketing</li>
-        <li class="nav-item <?= isAdminMenuActive('kelola_flash_sale.php', $current_page_name) ?>">
-            <a class="nav-link" href="kelola_flash_sale.php"><i class="mdi mdi-flash menu-icon"></i><span class="menu-title">Flash Sale</span></a>
-        </li>
+        <ul class="nav-list">
+            <li class="nav-header">UTAMA</li>
+            <li class="nav-item">
+                <a href="dashboard_admin.php" class="nav-link <?= isAdminActive('dashboard_admin.php') ?>">
+                    <i class="mdi mdi-view-dashboard-outline nav-icon"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
 
-        <li class="nav-item-header">Keuangan & Laporan</li>
-        <li class="nav-item <?= isAdminMenuActive('kelola_payout.php', $current_page_name) ?>">
-            <a class="nav-link" href="kelola_payout.php"><i class="mdi mdi-currency-usd menu-icon"></i><span class="menu-title">Manajemen Payout</span></a>
-        </li>
-        <li class="nav-item <?= isAdminMenuActive('laporan_penjualan_toko.php', $current_page_name) ?>">
-            <a class="nav-link" href="laporan_penjualan_toko.php"><i class="mdi mdi-chart-line menu-icon"></i><span class="menu-title">Laporan Penjualan</span></a>
-        </li>
-         <li class="nav-item <?= isAdminMenuActive('laporan_transaksi.php', $current_page_name) ?>">
-            <a class="nav-link" href="laporan_transaksi.php"><i class="mdi mdi-file-document menu-icon"></i><span class="menu-title">Semua Transaksi</span></a>
-        </li>
+            <li class="nav-header">MANAJEMEN</li>
+            <li class="nav-item">
+                <a href="kelola_pengguna.php" class="nav-link <?= isAdminActive('kelola_pengguna.php') ?>">
+                    <i class="mdi mdi-account-group-outline nav-icon"></i>
+                    <span class="nav-text">Kelola Pengguna</span>
+                </a>
+            </li>
 
-        <li class="nav-item-header">Pengaturan</li>
-         <li class="nav-item <?= isAdminMenuActive('pengaturan_kategori.php', $current_page_name) ?>">
-            <a class="nav-link" href="pengaturan_kategori.php"><i class="mdi mdi-tag-multiple menu-icon"></i><span class="menu-title">Kategori</span></a>
-        </li>
-        <!-- MENU BARU DITAMBAHKAN DI SINI -->
-        <li class="nav-item <?= isAdminMenuActive('pengaturan_zona.php', $current_page_name) ?>">
-            <a class="nav-link" href="pengaturan_zona.php"><i class="mdi mdi-map-marker-radius menu-icon"></i><span class="menu-title">Logistik & Pengiriman</span></a>
-        </li>
-        <li class="nav-item <?= isAdminMenuActive('pengaturan_website.php', $current_page_name) ?>">
-            <a class="nav-link" href="pengaturan_website.php"><i class="mdi mdi-cogs menu-icon"></i><span class="menu-title">Pengaturan Website</span></a>
-        </li>
-    </ul>
-    <div class="sidebar-footer">
-        <ul class="nav">
-            <li class="nav-item"><a class="nav-link" href="logout.php"><i class="mdi mdi-logout menu-icon"></i><span class="menu-title">Keluar</span></a></li>
+            <!-- Dropdown Toko -->
+            <?php $toko_group = ['kelola_toko.php', 'moderasi_produk.php']; ?>
+            <li class="nav-item has-sub <?= isParentActive($toko_group) ?>">
+                <a href="javascript:void(0)" class="nav-link dropdown-toggle" aria-expanded="<?= in_array($current_page_name, $toko_group) ? 'true' : 'false' ?>">
+                    <i class="mdi mdi-store-outline nav-icon"></i>
+                    <span class="nav-text">Toko & Produk</span>
+                    <i class="mdi mdi-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu <?= isParentOpen($toko_group) ?>">
+                    <ul>
+                        <li><a href="kelola_toko.php" class="<?= isAdminActive('kelola_toko.php') ?>"><span class="dot"></span> Kelola Toko</a></li>
+                        <li><a href="moderasi_produk.php" class="<?= isAdminActive('moderasi_produk.php') ?>"><span class="dot"></span> Moderasi Produk</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-header">KEUANGAN & LAPORAN</li>
+            <li class="nav-item">
+                <a href="kelola_payout.php" class="nav-link <?= isAdminActive('kelola_payout.php') ?>">
+                    <i class="mdi mdi-wallet-outline nav-icon"></i>
+                    <span class="nav-text">Payout</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="laporan.php" class="nav-link <?= isAdminActive('laporan.php') ?>">
+                    <i class="mdi mdi-file-chart-outline nav-icon"></i>
+                    <span class="nav-text">Laporan</span>
+                </a>
+            </li>
+
+            <li class="nav-header">SISTEM</li>
+            <li class="nav-item">
+                <a href="pengaturan.php" class="nav-link <?= isAdminActive('pengaturan.php') ?>">
+                    <i class="mdi mdi-cog-outline nav-icon"></i>
+                    <span class="nav-text">Pengaturan</span>
+                </a>
+            </li>
         </ul>
     </div>
+
+    <!-- 3. FOOTER: LOGOUT -->
+    <div class="sidebar-footer">
+        <a href="logout.php" class="logout-link">
+            <span>Keluar</span>
+        </a>
+    </div>
 </nav>
+
+<!-- JS Sidebar Wajib -->
+<script src="../assets/js/sidebar_admin.js"></script>

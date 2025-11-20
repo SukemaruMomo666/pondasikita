@@ -1,0 +1,208 @@
+/* ========================================= */
+/* ==   MODERN ADMIN SIDEBAR (ULTIMATE)   == */
+/* ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --sb-width: 260px;         /* Lebar Sidebar Fix */
+    --sb-bg: #0f172a;          /* Dark Slate */
+    --sb-header-bg: #0f172a;
+    --sb-text-main: #e2e8f0;   /* Light Text */
+    --sb-text-muted: #64748b;  /* Muted Text */
+    --sb-hover-bg: rgba(255, 255, 255, 0.05);
+    --sb-active-bg: #4f46e5;   /* Indigo Accent */
+    --sb-active-text: #ffffff;
+    --sb-border: rgba(255, 255, 255, 0.06);
+    --font-sidebar: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* --- Container Sidebar --- */
+.modern-sidebar {
+    width: var(--sb-width);
+    height: 100vh;
+    background-color: var(--sb-bg);
+    position: fixed; /* Sidebar Melayang */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--sb-border);
+    z-index: 1050; /* Di atas konten */
+    font-family: var(--font-sidebar);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 1. Header Section --- */
+.sidebar-header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    border-bottom: 1px solid var(--sb-border);
+    background-color: var(--sb-header-bg);
+    flex-shrink: 0;
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.brand-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #4f46e5, #818cf8);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.2rem; color: #fff;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-text span { font-weight: 700; font-size: 1.05rem; }
+.brand-text small { font-size: 0.65rem; color: var(--sb-text-muted); letter-spacing: 0.5px; }
+
+/* --- 2. Body Section --- */
+.sidebar-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem 1rem;
+    scrollbar-width: none; /* Firefox hide scroll */
+}
+.sidebar-body::-webkit-scrollbar { display: none; } /* Chrome hide scroll */
+
+/* Profile Card */
+.admin-profile-card {
+    display: flex; align-items: center; gap: 12px; padding: 12px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--sb-border);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+.admin-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background-color: #334155; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 1rem;
+}
+.admin-info { display: flex; flex-direction: column; min-width: 0; }
+.admin-info .name { font-size: 0.9rem; font-weight: 600; color: var(--sb-text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-info .role { font-size: 0.75rem; color: var(--sb-text-muted); }
+
+/* Nav Menu */
+.nav-list { list-style: none; padding: 0; margin: 0; }
+.nav-header {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--sb-text-muted); font-weight: 700;
+    margin: 1.5rem 0 0.5rem 0.75rem;
+}
+.nav-item { margin-bottom: 4px; }
+
+.nav-link {
+    display: flex; align-items: center; padding: 11px 14px;
+    color: #94a3b8; text-decoration: none; border-radius: 8px;
+    font-size: 0.9rem; font-weight: 500; transition: all 0.2s;
+    position: relative; cursor: pointer;
+}
+.nav-icon { font-size: 1.25rem; margin-right: 12px; color: #64748b; transition: color 0.2s; }
+.nav-text { flex-grow: 1; }
+.chevron { font-size: 1rem; transition: transform 0.3s; opacity: 0.7; }
+
+/* Hover & Active */
+.nav-link:hover { background-color: var(--sb-hover-bg); color: #fff; }
+.nav-link:hover .nav-icon { color: #fff; }
+
+.nav-link.active {
+    background-color: var(--sb-active-bg);
+    color: var(--sb-active-text);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+.nav-link.active .nav-icon { color: #fff; }
+
+/* Dropdown Style */
+.nav-link[aria-expanded="true"] .chevron { transform: rotate(90deg); color: #fff; }
+.nav-link[aria-expanded="true"] { background-color: rgba(255,255,255,0.03); color: #fff; }
+
+.sub-menu {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sub-menu.show { max-height: 500px; } /* Show state */
+
+.sub-menu ul {
+    list-style: none; padding: 4px 0 4px 2.2rem; margin: 0;
+    border-left: 1px solid var(--sb-border); margin-left: 1.2rem;
+}
+.sub-menu a {
+    display: flex; align-items: center; padding: 8px 12px;
+    color: #94a3b8; text-decoration: none; font-size: 0.85rem;
+    border-radius: 6px; transition: all 0.2s; margin-bottom: 2px;
+}
+.sub-menu a:hover { color: #fff; background-color: rgba(255,255,255,0.02); }
+.sub-menu a.active { color: #fff; background-color: rgba(79, 70, 229, 0.1); font-weight: 600; }
+.sub-menu .dot {
+    width: 6px; height: 6px; border-radius: 50%; background-color: #475569;
+    margin-right: 10px; transition: all 0.2s;
+}
+.sub-menu a.active .dot { background-color: var(--sb-active-bg); box-shadow: 0 0 5px var(--sb-active-bg); }
+
+/* --- 3. Footer --- */
+.sidebar-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--sb-border);
+    background-color: var(--sb-bg);
+}
+.logout-link {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 10px; background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 8px; text-decoration: none; font-weight: 600;
+    font-size: 0.9rem; transition: all 0.2s;
+}
+.logout-link:hover { background-color: #ef4444; color: #fff; }
+
+
+/* ============================================================ */
+/* ==   LAYOUT FIX - SOLUSI KONTEN NABRAK (PENTING!)         == */
+/* ============================================================ */
+
+/* Aturan untuk Desktop (Layar Besar) */
+@media (min-width: 992px) {
+    /* Geser seluruh wrapper konten utama ke kanan */
+    body .page-body-wrapper {
+        margin-left: var(--sb-width) !important; 
+        width: calc(100% - var(--sb-width)) !important;
+        transition: margin-left 0.3s ease;
+        min-height: 100vh;
+    }
+
+    /* Geser Navbar Atas (Jika ada) */
+    body .top-navbar, 
+    body .navbar {
+        left: var(--sb-width) !important;
+        width: calc(100% - var(--sb-width)) !important;
+    }
+}
+
+/* Aturan untuk Mobile (Layar Kecil) */
+@media (max-width: 991px) {
+    .modern-sidebar {
+        transform: translateX(-100%); /* Sembunyi default */
+    }
+    .modern-sidebar.active {
+        transform: translateX(0); /* Muncul jika aktif */
+        box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+    }
+    /* Konten Penuh di Mobile */
+    body .page-body-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+    body .top-navbar {
+        left: 0 !important;
+        width: 100% !important;
+    }
+}

@@ -221,5 +221,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+<script src="../assets/js/admin_script.js"></script>
 </body>
 </html>

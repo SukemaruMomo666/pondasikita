@@ -1,0 +1,363 @@
+/* ========================================= */
+/* ==      MODERASI PRODUK STYLE UI       == */
+/* ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary: #4F46E5;       /* Indigo Utama */
+    --primary-hover: #4338CA;
+    --secondary: #6B7280;     /* Abu-abu Teks */
+    --success: #10B981;       /* Hijau */
+    --danger: #EF4444;        /* Merah */
+    --warning: #F59E0B;       /* Kuning */
+    --bg-body: #F9FAFB;       /* Background Halaman */
+    --bg-card: #FFFFFF;       /* Background Kartu */
+    --border: #E5E7EB;        /* Warna Border */
+    --text-main: #111827;     /* Teks Utama Gelap */
+    --sidebar-width: 260px;   /* Lebar Sidebar Admin */
+}
+
+/* --- 1. Global & Layout Fix --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.container-scroller {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Fix Layout agar tidak tertutup Sidebar Fixed */
+.page-body-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    transition: margin-left 0.3s ease;
+}
+
+/* Responsive Layout Logic */
+@media (min-width: 992px) {
+    .page-body-wrapper {
+        margin-left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+    }
+}
+
+.main-panel {
+    flex-grow: 1;
+    padding: 2rem;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* --- 2. Page Header --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+/* --- 3. Card Container --- */
+.card {
+    background: var(--bg-card);
+    border-radius: 16px; /* Sudut lebih bulat */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* --- 4. Tabs & Filter Bar --- */
+/* Container atas tabel */
+.d-flex.justify-content-between {
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Styling Tabs */
+.nav-tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 2rem;
+    border: none;
+}
+
+.nav-item .nav-link {
+    text-decoration: none;
+    color: var(--secondary);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding-bottom: 1rem; /* Jarak ke garis bawah */
+    position: relative;
+    transition: color 0.2s;
+    background: transparent;
+    display: block;
+}
+
+.nav-item .nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-item .nav-link.active {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Garis Indikator Aktif (Animated) */
+.nav-item .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -17px; /* Menempel di garis border container */
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary);
+    border-radius: 2px 2px 0 0;
+}
+
+/* Form Pencarian */
+.form-control {
+    border: 1px solid var(--border);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-width: 250px;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* --- 5. Table Styling (Modern) --- */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Agar tidak hancur di mobile */
+}
+
+.table thead th {
+    background-color: #F9FAFB;
+    color: var(--secondary);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.table tbody td {
+    padding: 1rem 1.5rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table tbody tr:hover {
+    background-color: #F9FAFB; /* Hover effect baris */
+}
+
+/* Info Produk di Tabel */
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-info img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    background-color: #fff;
+}
+
+.product-info span {
+    font-weight: 600;
+    color: var(--text-main);
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* --- 6. Buttons --- */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-hover); }
+
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { background: #059669; }
+
+.btn-danger { background: var(--danger); color: white; }
+.btn-danger:hover { background: #DC2626; }
+
+.btn-outline {
+    background: white;
+    border-color: var(--border);
+    color: var(--text-main);
+}
+.btn-outline:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+}
+
+/* --- 7. Feedback Alert --- */
+.feedback-alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.feedback-alert.success {
+    background-color: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
+}
+.feedback-alert.error {
+    background-color: #FEF2F2;
+    color: #991B1B;
+    border: 1px solid #FECACA;
+}
+.close-btn {
+    background: none; border: none; cursor: pointer; font-size: 1.2rem; color: inherit; opacity: 0.7;
+}
+
+/* --- 8. Modal (Tolak Produk) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px); /* Efek blur background */
+    z-index: 2000; /* Di atas sidebar */
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: modalSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-title { font-size: 1.2rem; font-weight: 600; margin: 0; }
+.modal-body { padding: 1.5rem; }
+.modal-footer {
+    padding: 1.2rem 1.5rem;
+    border-top: 1px solid var(--border);
+    background-color: #F9FAFB;
+    border-radius: 0 0 16px 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+textarea.form-control {
+    width: 100%;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Responsive Mobile Adjustments */
+@media (max-width: 991px) {
+    .page-body-wrapper { margin-left: 0; width: 100%; }
+    .d-flex.gap-2 { flex-direction: column; width: 100%; }
+    .form-control { width: 100%; min-width: 0; box-sizing: border-box; }
+    .btn { width: 100%; }
+    
+    /* Hide columns on very small screens if needed */
+    .table th:nth-child(3), .table td:nth-child(3) { /* Kategori */
+        display: none; 
+    }
+}
