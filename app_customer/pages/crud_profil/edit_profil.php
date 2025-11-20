@@ -203,7 +203,7 @@ if ($alamat_utama) { // Jika $alamat_utama ditemukan
             
             <div class="form-group"><label for="kode_pos">Kode Pos</label><input type="text" id="kode_pos" name="kode_pos" class="form-control" value="<?= htmlspecialchars($alamat_utama['kode_pos'] ?? '') ?>" placeholder="Kode Pos (Opsional)"></div>
 
-            <div class="form-actions"><button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Simpan Perubahan</button><a href="/pages/profil.php" class="btn btn-secondary">Batal</a></div>
+            <div class="form-actions"><button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Simpan Perubahan</button><a href="../profil.php" class="btn btn-secondary">Batal</a></div>
         </form>
     </div>
 </div>

@@ -1,4 +1,6 @@
 <?php
+// actions/tambah_keranjang.php (atau nama file action kamu)
+
 // Selalu mulai session di baris paling atas
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -9,18 +11,35 @@ include '../config/koneksi.php';
 // Atur header untuk memberitahu browser bahwa outputnya adalah JSON
 header('Content-Type: application/json');
 
+// --- DETEKSI USER ID (PERBAIKAN UTAMA) ---
+$current_user_id = null;
+if (isset($_SESSION['user_id'])) {
+    $current_user_id = $_SESSION['user_id']; // Format Baru
+} elseif (isset($_SESSION['user']['id'])) {
+    $current_user_id = $_SESSION['user']['id']; // Format Lama (Jaga-jaga)
+}
+// -----------------------------------------
+
 // Fungsi untuk mengirim respon JSON dan menghentikan skrip
 function json_response($status, $message, $data = []) {
+    global $koneksi, $current_user_id; // Ambil variabel user_id dari luar
+    
     $new_cart_count = 0;
-    // Perhitungan new_cart_count harus lebih akurat dan memperhitungkan kedua skenario
-    if (isset($_SESSION['user']['id'])) {
-        $user_id = $_SESSION['user']['id'];
-        global $koneksi;
-        $count_res = $koneksi->query("SELECT SUM(jumlah) as total FROM tb_keranjang WHERE user_id = $user_id");
-        $new_cart_count = (int)($count_res->fetch_assoc()['total'] ?? 0);
-    } elseif (isset($_SESSION['keranjang']) && is_array($_SESSION['keranjang'])) {
-        // Asumsi $_SESSION['keranjang'] adalah [kode_barang => jumlah, ...]
-        $new_cart_count = array_sum($_SESSION['keranjang']);
+    
+    // LOGIKA HITUNG KERANJANG DIPERBAIKI
+    if ($current_user_id) {
+        // Jika User Login: Hitung dari Database
+        $stmt_count = $koneksi->prepare("SELECT SUM(jumlah) as total FROM tb_keranjang WHERE user_id = ?");
+        $stmt_count->bind_param("i", $current_user_id);
+        $stmt_count->execute();
+        $res = $stmt_count->get_result()->fetch_assoc();
+        $new_cart_count = (int)($res['total'] ?? 0);
+        $stmt_count->close();
+    } else {
+        // Jika Tamu: Hitung dari Session
+        if (isset($_SESSION['keranjang']) && is_array($_SESSION['keranjang'])) {
+            $new_cart_count = array_sum($_SESSION['keranjang']);
+        }
     }
 
     $response = ['status' => $status, 'message' => $message, 'new_cart_count' => $new_cart_count];
@@ -64,12 +83,11 @@ try {
     $stmt_cek_barang->close();
 
     // 4. Logika Penambahan ke Keranjang
-    if (isset($_SESSION['user']['id'])) {
-        // --- LOGIKA UNTUK USER YANG SUDAH LOGIN ---
-        $user_id = $_SESSION['user']['id'];
-
+    if ($current_user_id) {
+        // --- LOGIKA UNTUK USER YANG SUDAH LOGIN (MASUK DB) ---
+        
         $stmt_cek_keranjang = $koneksi->prepare("SELECT id, jumlah FROM tb_keranjang WHERE user_id = ? AND barang_id = ? FOR UPDATE");
-        $stmt_cek_keranjang->bind_param("ii", $user_id, $barang_id);
+        $stmt_cek_keranjang->bind_param("ii", $current_user_id, $barang_id);
         $stmt_cek_keranjang->execute();
         $result_keranjang = $stmt_cek_keranjang->get_result();
 
@@ -80,7 +98,7 @@ try {
             $jumlah_di_keranjang = $keranjang_item['jumlah'];
         }
 
-        // --- PERUBAHAN LOGIKA VALIDASI STOK ---
+        // Validasi Stok
         if (($jumlah_di_keranjang + $jumlah_diminta) > $stok_tersedia_total) {
             $sisa_bisa_ditambah = $stok_tersedia_total - $jumlah_di_keranjang;
             throw new Exception('Stok tidak mencukupi! Anda hanya bisa menambah ' . max(0, $sisa_bisa_ditambah) . ' item lagi.');
@@ -96,20 +114,21 @@ try {
         } else {
             // Jika produk belum ada, INSERT baris baru
             $stmt_insert = $koneksi->prepare("INSERT INTO tb_keranjang (user_id, barang_id, jumlah) VALUES (?, ?, ?)");
-            $stmt_insert->bind_param("iii", $user_id, $barang_id, $jumlah_diminta);
+            $stmt_insert->bind_param("iii", $current_user_id, $barang_id, $jumlah_diminta);
             $stmt_insert->execute();
             $stmt_insert->close();
         }
         $stmt_cek_keranjang->close();
+        
     } else {
-        // --- LOGIKA UNTUK TAMU / BELUM LOGIN ---
+        // --- LOGIKA UNTUK TAMU / BELUM LOGIN (MASUK SESSION) ---
         if (!isset($_SESSION['keranjang'])) {
             $_SESSION['keranjang'] = [];
         }
         
         $jumlah_di_keranjang = isset($_SESSION['keranjang'][$kode_barang]) ? $_SESSION['keranjang'][$kode_barang] : 0;
         
-        // --- PERUBAHAN LOGIKA VALIDASI STOK ---
+        // Validasi Stok
         if (($jumlah_di_keranjang + $jumlah_diminta) > $stok_tersedia_total) {
             $sisa_bisa_ditambah = $stok_tersedia_total - $jumlah_di_keranjang;
             throw new Exception('Stok tidak mencukupi! Anda hanya bisa menambah ' . max(0, $sisa_bisa_ditambah) . ' item lagi.');
@@ -121,6 +140,7 @@ try {
 
     $koneksi->commit();
     json_response('success', 'Produk berhasil ditambahkan ke keranjang!');
+    
 } catch (Exception $e) {
     $koneksi->rollback();
     json_response('error', $e->getMessage());
