@@ -14,6 +14,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['level'] !== 'seller') {
     <link rel="stylesheet" href="../assets/template/spica/template/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/template/spica/template/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="../assets/template/spica/template/css/style.css">
+        <link rel="stylesheet" href="/assets/css/sidebar.css">
     <style>
         .chat-container { display: flex; height: 80vh; border: 1px solid #dee2e6; background: #fff; }
         .chat-list-pane { width: 30%; border-right: 1px solid #dee2e6; overflow-y: auto; }

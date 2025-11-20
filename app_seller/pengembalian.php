@@ -52,7 +52,8 @@ while($req = $result_requests->fetch_assoc()) {
     <title>Manajemen Pengembalian/Pembatalan - Pondasikita Seller Center</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/template/spica/template/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../assets/css/seller_style.css"> 
+    <link rel="stylesheet" href="../assets/css/seller_style.css">
+        <link rel="stylesheet" href="/assets/css/sidebar.css"> 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> 
 </head>
 <body>

@@ -80,9 +80,20 @@ $toko_sub_menus = [
         <a class="brand-link" href="/app_customer/index.php" title="Lihat Tampilan Toko">Pondasikita</a>
         <span class="brand-subtext">Seller Center</span>
     </div>
-    <div class="sidebar-profile">
-        <p class="profile-name">Halo, <?= htmlspecialchars($_SESSION['nama'] ?? 'Seller') ?>!</p>
+<div class="sidebar-profile">
+    <div class="profile-card">
+        <div class="profile-avatar">
+            <!-- Ambil huruf depan nama -->
+            <?= strtoupper(substr($_SESSION['nama'] ?? 'S', 0, 1)) ?>
+        </div>
+        <div class="profile-info">
+            <div class="profile-welcome">Selamat Datang,</div>
+            <div class="profile-name" title="<?= htmlspecialchars($_SESSION['nama'] ?? 'Seller') ?>">
+                <?= htmlspecialchars($_SESSION['nama'] ?? 'Seller') ?>
+            </div>
+        </div>
     </div>
+</div>
     <ul class="nav">
         <li class="nav-item <?= isActive('app_seller/dashboard.php', $current_page_full_path) ?>">
             <a class="nav-link" href="/app_seller/dashboard.php">

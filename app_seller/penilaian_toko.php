@@ -63,6 +63,7 @@ $result_reviews = $stmt_reviews->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/template/spica/template/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/css/seller_style.css">
+        <link rel="stylesheet" href="/assets/css/sidebar.css">
 </head>
 <body>
 <div class="container-scroller">

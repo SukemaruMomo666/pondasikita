@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-// Jika admin sudah login, langsung arahkan ke dashboard admin
-// Ganti 'dashboard_admin.php' jika nama filenya berbeda
+// Jika admin sudah login, langsung ke dashboard
 if (isset($_SESSION['logged_in']) && isset($_SESSION['level']) && $_SESSION['level'] === 'admin') {
     header("Location: dashboard_admin.php"); 
     exit;
@@ -15,93 +14,7 @@ if (isset($_SESSION['logged_in']) && isset($_SESSION['level']) && $_SESSION['lev
     <title>Admin Panel - Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../assets/css/seller_style.css"> 
-    
-    <style>
-        /* Style khusus untuk halaman login admin */
-        body {
-            /* Menggunakan warna background utama dari tema */
-            background-color: var(--main-bg, #F9FAFB);
-        }
-        .login-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-        .login-card {
-            width: 100%;
-            max-width: 450px;
-            background-color: var(--surface-color, #FFFFFF);
-            padding: 2.5rem 3rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border: 1px solid var(--border-color, #E5E7EB);
-        }
-        .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .login-header .brand-link {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary, #1F2937);
-            text-decoration: none;
-        }
-        .login-header h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .login-header p {
-            color: var(--text-secondary, #6B7280);
-        }
-
-        /* Styling untuk form input dengan ikon */
-        .form-group {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-        .input-icon {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 15px;
-            font-size: 1.25rem;
-            color: var(--text-secondary, #6B7280);
-        }
-        .form-control.with-icon {
-            padding-left: 45px; /* Beri ruang untuk ikon */
-        }
-        
-        /* Tombol lihat/sembunyikan password */
-        .password-toggle {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 15px;
-            cursor: pointer;
-            color: var(--text-secondary, #6B7280);
-            background: none;
-            border: none;
-            font-size: 1.25rem;
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 0.85rem;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        .login-footer {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary, #6B7280);
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/login_admin.css"> 
 </head>
 <body>
     <div class="login-container">
@@ -111,6 +24,16 @@ if (isset($_SESSION['logged_in']) && isset($_SESSION['level']) && $_SESSION['lev
                 <h2>Admin Panel Login</h2>
                 <p>Silakan masuk untuk mengelola website.</p>
             </div>
+
+            <!-- PERBAIKAN: Menampilkan Alert Error -->
+            <?php if (isset($_SESSION['login_error'])): ?>
+                <div class="alert alert-danger">
+                    <i class="mdi mdi-alert-circle-outline"></i>
+                    <span><?= $_SESSION['login_error']; ?></span>
+                </div>
+                <!-- Hapus session error agar tidak muncul terus saat direfresh -->
+                <?php unset($_SESSION['login_error']); ?>
+            <?php endif; ?>
 
             <form action="proses_login_mimin.php" method="POST">
                 <div class="form-group">
@@ -144,7 +67,6 @@ if (isset($_SESSION['logged_in']) && isset($_SESSION['level']) && $_SESSION['lev
     </div>
 
     <script>
-        // Skrip untuk toggle lihat/sembunyikan password
         document.addEventListener('DOMContentLoaded', function() {
             const passwordField = document.getElementById('password-field');
             const toggleBtn = document.getElementById('password-toggle-btn');

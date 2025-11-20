@@ -14,14 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validasi dasar agar tidak kosong
     if (empty($username) || empty($password)) {
-        // Jika kosong, kembalikan ke login dengan pesan error
         $_SESSION['login_error'] = "Username dan Password wajib diisi.";
         header("Location: login_mimin.php");
         exit;
     }
 
-    // 2. Siapkan query untuk mencari admin
-    // Ini bagian paling penting: WHERE username = ? AND level = 'admin'
+    // 2. Siapkan query
     $sql = "SELECT id, username, password, nama, level FROM tb_user WHERE username = ? AND level = 'admin'";
     
     $stmt = $koneksi->prepare($sql);
@@ -37,10 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows === 1) {
         $admin = $result->fetch_assoc();
 
-        // 4. Verifikasi password
+        // 4. Verifikasi password (DB Wajib Hash)
         if (password_verify($password, $admin['password'])) {
-            // Jika password cocok, login berhasil
             
+            // KEAMANAN TAMBAHAN: Regenerasi ID session untuk cegah session fixation
+            session_regenerate_id(true);
+
             // Hapus session error jika ada
             unset($_SESSION['login_error']);
 
@@ -48,9 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['logged_in'] = true;
             $_SESSION['user_id'] = $admin['id'];
             $_SESSION['nama'] = $admin['nama'];
-            $_SESSION['level'] = $admin['level']; // Levelnya pasti 'admin'
+            $_SESSION['level'] = $admin['level'];
 
-            // Arahkan ke dashboard admin
             header("Location: dashboard_admin.php");
             exit;
         }
@@ -62,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 
 } else {
-    // Jika halaman diakses langsung tanpa POST, tendang ke halaman login
     header("Location: login_mimin.php");
     exit;
 }
