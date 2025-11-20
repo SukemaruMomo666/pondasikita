@@ -1,5 +1,5 @@
 <footer class="footer">
-    <p>&copy; 2025 Toko Bangunan Tiga Daya. All rights reserved.</p>
+    <p>&copy; 2025 Pondasikita. All rights reserved.</p>
   </footer>
 <style>
   body {

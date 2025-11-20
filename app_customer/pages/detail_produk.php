@@ -95,7 +95,7 @@ if ($jumlah_ulasan > 0) {
     <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="/assets/css/theme.css">         <!-- CSS Tema Global -->
     <link rel="stylesheet" href="/assets/css/navbar_style.css"> <!-- CSS Navbar -->
-    <link rel="stylesheet" href="/assets/css/shopee_theme.css"> <!-- CSS Khusus Halaman Ini -->
+    <link rel="stylesheet" href="/assets/css/produk_detail.css"> <!-- CSS Khusus Halaman Ini -->
 </head>
 <body>
 
