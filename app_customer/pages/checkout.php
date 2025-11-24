@@ -18,6 +18,15 @@ if (!isset($_SESSION['user']['id'])) {
 
 $id_user = $_SESSION['user']['id'];
 
+// --- [FIXED] AMBIL EMAIL USER (PENTING BUAT MIDTRANS) ---
+$stmt_user = $koneksi->prepare("SELECT email FROM tb_user WHERE id = ?");
+$stmt_user->bind_param("i", $id_user);
+$stmt_user->execute();
+$user_data = $stmt_user->get_result()->fetch_assoc();
+$user_email = $user_data['email'] ?? 'customer@example.com'; // Default kalau kosong
+$stmt_user->close();
+
+
 // --- AMBIL DATA ALAMAT PROFIL ---
 $stmt_alamat = $koneksi->prepare("
     SELECT ua.id, ua.alamat_lengkap, ua.kode_pos, ua.province_id, ua.city_id, ua.district_id,
@@ -224,6 +233,8 @@ $total = $total_produk;
 
             <form id="checkout-form" action="/actions/proses_checkout.php" method="post">
                 <input type="hidden" name="total_produk_subtotal" value="<?= $total ?>">
+                
+                <input type="hidden" name="user_email" value="<?= htmlspecialchars($user_email) ?>">
 
                 <input type="hidden" name="shipping_label_alamat" id="final_label" value="<?= htmlspecialchars($alamat_user['label_alamat'] ?? 'Alamat Utama') ?>">
                 <input type="hidden" name="shipping_nama_penerima" id="final_nama" value="<?= htmlspecialchars($alamat_user['nama_penerima'] ?? '') ?>">
@@ -283,8 +294,8 @@ $total = $total_produk;
                             <div class="shipping-option" id="shipping-option-<?= $toko_id ?>" style="margin-top:10px;">
                                 <label>Pengiriman: <?= htmlspecialchars($data['nama_toko']) ?></label>
                                 <select name="shipping[<?= $toko_id ?>]" class="shipping-select form-control">
-                                    <option value="15000">Reguler - Rp15.000</option>
-                                    <option value="30000">Kargo - Rp30.000</option>
+                                    <option value="reguler_15000">Reguler - Rp15.000</option>
+                                    <option value="kargo_30000">Kargo - Rp30.000</option>
                                 </select>
                             </div>
                         <?php endforeach; ?>
@@ -422,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
     handleAddressTypeChange();
 
 
-    // --- LOGIKA HITUNG TOTAL (BAWAAN) ---
+    // --- [FIXED] LOGIKA HITUNG TOTAL YANG AMAN ---
     const subtotal = <?= $total ?>;
     const shippingSelects = document.querySelectorAll('.shipping-select');
     const tipePengambilan = document.getElementById('tipe_pengambilan');
@@ -430,7 +441,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function calculateTotal() {
         let shippingCost = 0;
         if (tipePengambilan.value === 'pengiriman') {
-            shippingSelects.forEach(sel => shippingCost += parseInt(sel.value));
+            shippingSelects.forEach(sel => {
+                // Parse value format "kode_harga" (contoh: "reguler_15000")
+                let valParts = sel.value.split('_'); // Pecah berdasarkan underscore
+                if(valParts.length > 1) {
+                    shippingCost += parseInt(valParts[1]); // Ambil angka di belakang
+                }
+            });
             document.querySelectorAll('.shipping-option').forEach(el => el.style.display = 'block');
         } else {
             document.querySelectorAll('.shipping-option').forEach(el => el.style.display = 'none');

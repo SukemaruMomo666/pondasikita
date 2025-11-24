@@ -1,0 +1,322 @@
+/* File: assets/css/css_detailPesanan.css */
+
+:root {
+    --primary-blue: #007bff;
+    --primary-dark: #0056b3;
+    --text-black: #212529;
+    --text-grey: #6c757d;
+    --bg-light: #f4f6f9;
+    --white: #ffffff;
+    --border-color: #dee2e6;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-black);
+    margin: 0;
+    padding-bottom: 60px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* --- CARD STYLE --- */
+.card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: var(--white);
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-black);
+}
+
+.card-header span {
+    font-size: 0.9rem;
+    color: var(--text-grey);
+    background: #f8f9fa;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.card-body { padding: 25px; }
+
+h4 {
+    margin: 0 0 20px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+/* --- PROGRESS BAR (STATUS TRACKER) --- */
+.status-tracker {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 40px 20px;
+}
+
+/* Garis Background (Abu-abu) */
+.status-tracker::before {
+    content: '';
+    position: absolute;
+    top: 20px; /* Setengah dari tinggi icon (40px / 2) */
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #e9ecef;
+    z-index: 1;
+    border-radius: 4px;
+}
+
+/* Garis Progress (Biru) - Lebarnya diatur via Inline CSS di PHP */
+.status-tracker .line {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    height: 4px;
+    background-color: var(--primary-blue);
+    z-index: 2;
+    transition: width 0.6s ease-in-out;
+    border-radius: 4px;
+}
+
+/* Item Step */
+.status-step {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    width: 25%; /* Bagi rata 4 step */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Icon Bulat */
+.status-step .icon {
+    width: 40px;
+    height: 40px;
+    background: var(--white);
+    border: 3px solid #e9ecef;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #fff;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Label Teks */
+.status-step .label {
+    font-size: 0.8rem;
+    color: var(--text-grey);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+/* --- STATE: ACTIVE & COMPLETED --- */
+/* Kalau step ini sudah lewat atau sedang aktif */
+.status-step.completed .icon,
+.status-step.active .icon {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2); /* Efek Glow Biru */
+}
+
+/* Teks Biru untuk status aktif */
+.status-step.active .label {
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+/* State: Gagal/Cancel */
+.status-step.failed .icon {
+    background: var(--danger);
+    border-color: var(--danger);
+}
+
+/* --- PRODUCT LIST --- */
+.product-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+.product-item:last-child { border-bottom: none; }
+
+.product-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-right: 15px;
+}
+
+.product-details { flex: 1; }
+.product-details h5 {
+    margin: 0 0 5px;
+    font-size: 1rem;
+    color: var(--text-black);
+    font-weight: 600;
+}
+.product-details p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-grey);
+}
+.product-price {
+    font-weight: 700;
+    color: var(--text-black);
+    font-size: 1rem;
+    text-align: right;
+}
+
+/* --- BUTTONS --- */
+.btn {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    width: 100%;
+}
+
+.btn-pay {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+.btn-pay:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    background-color: var(--white);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    margin-top: 10px;
+}
+.btn-cancel:hover {
+    background-color: #fff5f5;
+}
+
+/* Tombol Ulasan */
+.btn-review {
+    background-color: var(--warning);
+    color: #212529;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    width: auto;
+    margin-top: 8px;
+}
+.btn-sudah-diulas {
+    background-color: #e9ecef;
+    color: var(--text-grey);
+    cursor: default;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    width: auto;
+}
+
+/* --- SUMMARY FOOTER --- */
+.payment-summary .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-grey);
+}
+.payment-summary .total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px dashed var(--border-color);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--primary-blue);
+}
+
+/* --- ALERTS --- */
+.alert { padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid transparent; text-align: center; }
+.alert-success { background: #d1e7dd; color: #0f5132; border-color: #badbcc; }
+.alert-danger { background: #f8d7da; color: #842029; border-color: #f5c2c7; }
+
+/* --- TIMER --- */
+.timer-box {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--danger);
+    margin: 15px 0;
+    letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- MODAL --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 1000;
+    display: none; justify-content: center; align-items: center;
+    backdrop-filter: blur(2px);
+}
+.modal-content {
+    background: var(--white);
+    width: 90%; max-width: 450px;
+    border-radius: 12px; padding: 30px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.stars { font-size: 2rem; color: #e9ecef; cursor: pointer; display: flex; justify-content: center; gap: 5px; }
+.stars span.active { color: var(--warning); }
+textarea.form-control {
+    width: 100%; padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: vertical;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .status-step .label { font-size: 0.65rem; }
+    .status-tracker { margin: 30px 0; }
+}
