@@ -3,20 +3,16 @@ require_once '../config/koneksi.php'; // Sesuaikan path jika berbeda
 session_start();
 
 // Cek apakah pengguna sudah login
-$is_logged_in = isset($_SESSION['user']['id']); // Menggunakan $_SESSION['user']['id'] untuk cek login
-$nama_user = $is_logged_in ? $_SESSION['user']['nama'] : 'Tamu'; // Menggunakan $_SESSION['user']['nama']
+$is_logged_in = isset($_SESSION['user']['id']); 
+$nama_user = $is_logged_in ? $_SESSION['user']['nama'] : 'Tamu'; 
 
 $id_user = $is_logged_in ? $_SESSION['user']['id'] : null;
 $customer_city_id = null;
-$customer_district_id = null; // Tambahan untuk district_id
+$customer_district_id = null; 
 
-// Jika user login, coba ambil alamat utamanya untuk mendapatkan city_id dan district_id
+// Jika user login, ambil alamat utama
 if ($is_logged_in) {
-    $stmt_alamat = $koneksi->prepare("
-        SELECT city_id, district_id
-        FROM tb_user_alamat
-        WHERE user_id = ? AND is_utama = 1
-    ");
+    $stmt_alamat = $koneksi->prepare("SELECT city_id, district_id FROM tb_user_alamat WHERE user_id = ? AND is_utama = 1");
     if ($stmt_alamat) {
         $stmt_alamat->bind_param("i", $id_user);
         $stmt_alamat->execute();
@@ -30,37 +26,29 @@ if ($is_logged_in) {
     }
 }
 
-// Logika untuk query toko populer (bisa terdekat atau nasional)
+// Logika Toko Populer
 $query_toko = "";
 $toko_params = [];
 $toko_types = "";
-$toko_section_title = "Toko Populer Nasional"; // Default title
+$toko_section_title = "Toko Populer Nasional"; 
 
 if ($customer_city_id) {
-    // Jika ada city_id pelanggan, prioritaskan toko di kota yang sama atau distrik terdekat
     $query_toko = "
-        SELECT 
-            t.id, t.nama_toko, t.slug, t.logo_toko, t.banner_toko, c.name as kota,
-            (SELECT COUNT(id) FROM tb_barang WHERE toko_id = t.id AND is_active = 1 AND status_moderasi = 'approved') as jumlah_produk_aktif
-        FROM tb_toko t
-        JOIN cities c ON t.city_id = c.id
+        SELECT t.id, t.nama_toko, t.slug, t.logo_toko, t.banner_toko, c.name as kota,
+        (SELECT COUNT(id) FROM tb_barang WHERE toko_id = t.id AND is_active = 1 AND status_moderasi = 'approved') as jumlah_produk_aktif
+        FROM tb_toko t JOIN cities c ON t.city_id = c.id
         WHERE t.status = 'active' AND t.status_operasional = 'Buka' AND (t.city_id = ? OR t.district_id = ?)
-        ORDER BY jumlah_produk_aktif DESC, t.nama_toko ASC
-        LIMIT 4";
+        ORDER BY jumlah_produk_aktif DESC, t.nama_toko ASC LIMIT 4";
     $toko_params = [&$customer_city_id, &$customer_district_id];
     $toko_types = "ii";
-    $toko_section_title = "Toko di Wilayah Anda"; // Ganti judul
+    $toko_section_title = "Toko di Wilayah Anda"; 
 } else {
-    // Jika tidak ada city_id pelanggan, ambil toko populer nasional
     $query_toko = "
-        SELECT 
-            t.id, t.nama_toko, t.slug, t.logo_toko, t.banner_toko, c.name as kota,
-            (SELECT COUNT(id) FROM tb_barang WHERE toko_id = t.id AND is_active = 1 AND status_moderasi = 'approved') as jumlah_produk_aktif
-        FROM tb_toko t
-        JOIN cities c ON t.city_id = c.id
+        SELECT t.id, t.nama_toko, t.slug, t.logo_toko, t.banner_toko, c.name as kota,
+        (SELECT COUNT(id) FROM tb_barang WHERE toko_id = t.id AND is_active = 1 AND status_moderasi = 'approved') as jumlah_produk_aktif
+        FROM tb_toko t JOIN cities c ON t.city_id = c.id
         WHERE t.status = 'active' AND t.status_operasional = 'Buka'
-        ORDER BY jumlah_produk_aktif DESC
-        LIMIT 4";
+        ORDER BY jumlah_produk_aktif DESC LIMIT 4";
 }
 
 $stmt_toko = $koneksi->prepare($query_toko);
@@ -76,24 +64,17 @@ if ($stmt_toko) {
     }
     $stmt_toko->close();
 } else {
-    error_log("Failed to prepare statement for fetching stores: " . $koneksi->error);
     $list_toko = [];
 }
 
-// ==========================================================
-// Logika untuk query Produk Terlaris Toko Terdekat
+// Logika Produk Terlaris Lokal
 $list_produk_terlaris_lokal = [];
 if ($customer_city_id) {
     $query_produk_lokal_sql = "
-        SELECT
-            b.id, b.nama_barang, b.harga, b.gambar_utama,
-            t.nama_toko, t.slug AS slug_toko -- Pastikan t.slug juga diambil di sini
-        FROM tb_barang b
-        JOIN tb_toko t ON b.toko_id = t.id
-        WHERE b.is_active = 1 AND b.status_moderasi = 'approved'
-        AND (t.city_id = ? OR t.district_id = ?)
-        ORDER BY (SELECT SUM(jumlah) FROM tb_detail_transaksi WHERE barang_id = b.id) DESC
-        LIMIT 8";
+        SELECT b.id, b.nama_barang, b.harga, b.gambar_utama, t.nama_toko, t.slug AS slug_toko 
+        FROM tb_barang b JOIN tb_toko t ON b.toko_id = t.id
+        WHERE b.is_active = 1 AND b.status_moderasi = 'approved' AND (t.city_id = ? OR t.district_id = ?)
+        ORDER BY (SELECT SUM(jumlah) FROM tb_detail_transaksi WHERE barang_id = b.id) DESC LIMIT 8";
 
     $stmt_produk_lokal = $koneksi->prepare($query_produk_lokal_sql);
     if ($stmt_produk_lokal) {
@@ -104,14 +85,8 @@ if ($customer_city_id) {
             $list_produk_terlaris_lokal[] = $row;
         }
         $stmt_produk_lokal->close();
-    } else {
-        error_log("Failed to prepare statement for fetching local popular products: " . $koneksi->error);
     }
 }
-// ==========================================================
-
-// Cek apakah mode hyperlocal aktif dari parameter URL (ini tidak dipakai lagi, tapi biarkan saja dulu)
-$is_hyperlocal_mode = isset($_GET['lat']) && isset($_GET['lon']);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -122,11 +97,68 @@ $is_hyperlocal_mode = isset($_GET['lat']) && isset($_GET['lon']);
     
     <link rel="stylesheet" type="text/css" href="../assets/css/theme.css"> 
     <link rel="stylesheet" type="text/css" href="../assets/css/navbar_style.css"> 
-    <link rel="stylesheet" type="text/css" href="../assets/css/livechat.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- HAPUS PEMANGGILAN SCRIPT livechat.js DI SINI -->
-    </head>
+    <style>
+        /* === STYLING KHUSUS LIVE CHAT AI === */
+        .live-chat-toggle {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #007bff; color: white; border: none;
+            padding: 15px 20px; border-radius: 50px;
+            font-size: 16px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 9999; display: flex; align-items: center; gap: 8px;
+            transition: transform 0.3s;
+        }
+        .live-chat-toggle:hover { transform: scale(1.05); }
+        
+        .live-chat-window {
+            position: fixed; bottom: 90px; right: 20px;
+            width: 350px; height: 450px;
+            background: white; border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none; /* Default Hidden */
+            flex-direction: column; overflow: hidden;
+            z-index: 9999; border: 1px solid #eee;
+        }
+        .live-chat-window.active { display: flex; }
+        
+        .chat-header {
+            background: #007bff; color: white; padding: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-weight: bold;
+        }
+        .close-chat-btn { background: none; border: none; color: white; font-size: 18px; cursor: pointer; }
+        
+        .chat-messages {
+            flex: 1; padding: 15px; overflow-y: auto;
+            background: #f9f9f9; display: flex; flex-direction: column; gap: 10px;
+        }
+        
+        .chat-message {
+            max-width: 80%; padding: 10px 14px; border-radius: 10px;
+            font-size: 14px; line-height: 1.4; word-wrap: break-word;
+        }
+        .chat-message.bot { background: #e9ecef; color: #333; align-self: flex-start; border-bottom-left-radius: 0; }
+        .chat-message.user { background: #007bff; color: white; align-self: flex-end; border-bottom-right-radius: 0; }
+        .chat-message.loading { background: transparent; color: #888; font-style: italic; font-size: 12px; padding: 0; margin-left: 5px; }
+
+        .chat-input-area {
+            padding: 10px; border-top: 1px solid #eee; background: white;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .chat-input-area input {
+            flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px;
+            outline: none; font-size: 14px;
+        }
+        .chat-input-area button {
+            background: #007bff; color: white; border: none;
+            width: 35px; height: 35px; border-radius: 50%;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+        }
+        .chat-input-area button:hover { background: #0056b3; }
+    </style>
+</head>
 <body>
     
     <?php include './partials/navbar.php'; ?>
@@ -234,22 +266,16 @@ $is_hyperlocal_mode = isset($_GET['lat']) && isset($_GET['lon']);
                 <div class="product-grid">
                 <?php
                     $query_terlaris_sql = "
-                        SELECT 
-                            b.id, b.nama_barang, b.harga, b.gambar_utama,
-                            t.nama_toko, t.slug AS slug_toko
-                        FROM tb_barang b
-                        JOIN tb_toko t ON b.toko_id = t.id
+                        SELECT b.id, b.nama_barang, b.harga, b.gambar_utama, t.nama_toko, t.slug AS slug_toko
+                        FROM tb_barang b JOIN tb_toko t ON b.toko_id = t.id
                         WHERE b.is_active = 1 AND b.status_moderasi = 'approved'
-                        ORDER BY (SELECT SUM(jumlah) FROM tb_detail_transaksi WHERE barang_id = b.id) DESC
-                        LIMIT 8";
+                        ORDER BY (SELECT SUM(jumlah) FROM tb_detail_transaksi WHERE barang_id = b.id) DESC LIMIT 8";
                     
                     $result_terlaris = $koneksi->query($query_terlaris_sql);
                     
                     if ($result_terlaris && $result_terlaris->num_rows > 0) {
                         while ($row = $result_terlaris->fetch_assoc()) {
-                            // Periksa apakah gambar_utama ada dan valid, jika tidak pakai default
                             $gambar_produk_path = !empty($row['gambar_utama']) ? '/assets/uploads/products/' . htmlspecialchars($row['gambar_utama']) : '/assets/uploads/products/default.jpg';
-
                             echo '
                             <a href="pages/detail_produk.php?id=' . $row['id'] . '&toko_slug=' . htmlspecialchars($row['slug_toko']) . '" class="product-link">
                                 <div class="product-card">
@@ -275,37 +301,104 @@ $is_hyperlocal_mode = isset($_GET['lat']) && isset($_GET['lon']);
             </section>
         </div>
     </main>
+    
     <?php include 'partials/footer.php'; ?>
     <script src="/assets/js/navbar.js"></script>
-    <!-- PANGGIL livechat.js HANYA SATU KALI DI SINI -->
-    <script src="/assets/js/livechat.js"></script> 
 
-    <button id="live-chat-toggle" class="live-chat-toggle">
-        <i class="fas fa-comment"></i>
-        <span class="chat-toggle-text">Live Chat</span>
+    <button id="live-chat-toggle" class="live-chat-toggle" onclick="toggleChat()">
+        <i class="fas fa-robot"></i>
+        <span class="chat-toggle-text">Tanya AI</span>
     </button>
     
     <div id="live-chat-window" class="live-chat-window">
         <div class="chat-header">
-            <span id="chat-header-title">Live Chat</span>
-            <span id="agent-status" class="status-indicator"></span>
-            <button id="close-chat" class="close-chat-btn"><i class="fas fa-times"></i></button>
+            <span id="chat-header-title">Asisten Pondasikita</span>
+            <button id="close-chat" class="close-chat-btn" onclick="toggleChat()"><i class="fas fa-times"></i></button>
         </div>
+        
         <div class="chat-messages" id="chat-messages">
-            <div class="chat-message bot">Halo! Selamat datang di Pondasikita. Ada yang bisa kami bantu?</div>
+            <div class="chat-message bot">Halo <?= htmlspecialchars($nama_user) ?>! Saya AI Asisten Pondasikita. Ada yang bisa saya bantu cari bahan bangunan hari ini?</div>
         </div>
+        
         <div class="chat-input-area">
-            <span id="typing-indicator" class="typing-indicator"></span>
-            <input type="text" id="chat-input" placeholder="Ketik pesan Anda...">
-            <button id="send-chat-btn"><i class="fas fa-paper-plane"></i></button>
-        </div>
-        <div class="chat-pre-chat-form" id="pre-chat-form">
-            <h3>Mulai Percakapan</h3>
-            <p>Silakan isi nama dan email Anda untuk memulai chat.</p>
-            <input type="text" id="pre-chat-name" placeholder="Nama Anda" required>
-            <input type="email" id="pre-chat-email" placeholder="Email Anda" required>
-            <button id="start-chat-btn">Mulai Chat</button>
+            <input type="text" id="chat-input" placeholder="Tanya sesuatu..." onkeypress="handleEnter(event)">
+            <button id="send-chat-btn" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
+
+    <script>
+        const chatWindow = document.getElementById('live-chat-window');
+        const messagesContainer = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const toggleBtn = document.getElementById('live-chat-toggle');
+
+        function toggleChat() {
+            chatWindow.classList.toggle('active');
+            if (chatWindow.classList.contains('active')) {
+                chatInput.focus();
+                // Sembunyikan tombol toggle saat chat terbuka jika di mobile
+                if (window.innerWidth < 768) toggleBtn.style.display = 'none';
+            } else {
+                toggleBtn.style.display = 'flex';
+            }
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendChat();
+        }
+
+        function appendMessage(text, sender) {
+            const div = document.createElement('div');
+            div.classList.add('chat-message', sender);
+            div.innerText = text;
+            messagesContainer.appendChild(div);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        async function sendChat() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // 1. Tampilkan pesan user
+            appendMessage(text, 'user');
+            chatInput.value = '';
+
+            // 2. Indikator loading
+            const loadingDiv = document.createElement('div');
+            loadingDiv.classList.add('chat-message', 'loading');
+            loadingDiv.innerText = 'AI sedang mengetik...';
+            loadingDiv.id = 'loading-indicator';
+            messagesContainer.appendChild(loadingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            try {
+                // 3. Request ke API (PENTING: Pastikan file api-chat.php sudah dibuat)
+                const response = await fetch('/api/chat/api_chat.php', { // Path relatif, pastikan file ada di folder yg sama
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+
+                const data = await response.json();
+                
+                // 4. Hapus loading & tampilkan balasan
+                const loader = document.getElementById('loading-indicator');
+                if(loader) loader.remove();
+                
+                if (data.reply) {
+                    appendMessage(data.reply, 'bot');
+                } else {
+                    appendMessage("Maaf, terjadi kesalahan pada server.", 'bot');
+                }
+
+            } catch (error) {
+                const loader = document.getElementById('loading-indicator');
+                if(loader) loader.remove();
+                appendMessage("Gagal terhubung ke AI. Cek koneksi internet Anda.", 'bot');
+                console.error(error);
+            }
+        }
+    </script>
+
 </body>
 </html>
