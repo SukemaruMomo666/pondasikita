@@ -1,91 +1,90 @@
 <?php
-// Pastikan session selalu ada di paling atas
+// 1. Session & Config
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Panggil koneksi sekali saja
-require_once __DIR__ . '/../config/koneksi.php';
 
-// Cek status login dan peran pengguna
-$is_logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
-$user_level = $is_logged_in ? $_SESSION['level'] : 'guest';
-$user_name = $is_logged_in ? $_SESSION['nama'] : '';
-$user_id = $is_logged_in ? $_SESSION['user_id'] : null;
+// Gunakan __DIR__ biar path-nya absolut & aman (mundur 1 langkah dari partials ke root)
+// Sesuaikan jika file ini ada di folder lain
+if (file_exists(__DIR__ . '/../../config/koneksi.php')) {
+    require_once __DIR__ . '/../../config/koneksi.php';
+} elseif (file_exists(__DIR__ . '/../config/koneksi.php')) {
+    require_once __DIR__ . '/../config/koneksi.php';
+}
 
-// Hitung item di keranjang
+// 2. Cek User Login
+$is_logged_in = isset($_SESSION['user']['id']); // Sesuaikan dengan session login kamu
+$user_level = $is_logged_in ? ($_SESSION['user']['level'] ?? 'customer') : 'guest';
+$user_name = $is_logged_in ? ($_SESSION['user']['nama'] ?? 'User') : '';
+$user_id = $is_logged_in ? $_SESSION['user']['id'] : null;
+
+// 3. Hitung Keranjang (Khusus Customer)
 $total_item_keranjang = 0;
-if ($is_logged_in && $user_level !== 'admin') {
+if ($is_logged_in && $user_level === 'customer') {
+    // Pastikan tabel keranjang & kolomnya benar
     $stmt = $koneksi->prepare("SELECT SUM(jumlah) as total FROM tb_keranjang WHERE user_id = ?");
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $data = $result->fetch_assoc();
-    $total_item_keranjang = $data['total'] ?? 0;
-    $stmt->close();
+    if ($stmt) {
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $total_item_keranjang = $data['total'] ?? 0;
+        $stmt->close();
+    }
 }
 ?>
 
-<header class="navbar-fixed">
+<nav class="navbar">
     <div class="navbar-container">
-        <div class="navbar-left">
-            <a href="/index.php" class="navbar-logo">
-                <h3>Pondasikita</h3>
+        
+        <div class="navbar-brand">
+            <a href="/index.php" style="text-decoration: none;">
+                <h3 style="margin: 0; color: #5e1914; font-weight: 800;">Pondasikita</h3>
             </a>
-<form action="/pages/search.php" method="GET" class="search-bar">
-    <i class="fas fa-magnifying-glass"></i> 
-    <input type="text" ...>
-</form>
+        </div>
 
-        <nav class="navbar-right">
+        <div class="navbar-search">
+            <form action="/app_customer/pages/search.php" method="GET" style="display: flex; align-items: center; border: 1px solid #ddd; border-radius: 20px; padding: 5px 15px; background: #f9f9f9;">
+                <input type="text" name="keyword" placeholder="Cari bahan bangunan..." style="border: none; background: transparent; outline: none; width: 250px; padding: 5px;">
+                <button type="submit" style="border: none; background: transparent; cursor: pointer; color: #5e1914;">
+                    <i class="fas fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="navbar-menu">
             <ul class="nav-links">
-                <li><a href="/pages/produk.php" class="nav-link">Produk</a></li>
-                <li><a href="/pages/semua_toko.php" class="nav-link">Toko</a></li>
-                <?php if (!$is_logged_in || $user_level === 'customer'): ?>
-
-                <?php endif; ?>
+                <li><a href="/app_customer/pages/produk.php">Produk</a></li>
+                <li><a href="/app_customer/pages/toko.php">Toko</a></li>
             </ul>
 
-            <div class="nav-actions">
-                <a href="/pages/keranjang.php" class="action-btn cart-btn">
-                    <i class="fas fa-shopping-cart"></i>
+            <div class="nav-icons">
+                <a href="/app_customer/pages/keranjang.php" class="icon-btn" style="position: relative;">
+                    <i class="fas fa-shopping-cart" style="font-size: 1.2rem; color: #333;"></i>
                     <?php if ($total_item_keranjang > 0): ?>
-                        <span class="cart-badge"><?= $total_item_keranjang ?></span>
+                        <span style="position: absolute; top: -8px; right: -10px; background: #dc3545; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 50%;">
+                            <?= $total_item_keranjang ?>
+                        </span>
                     <?php endif; ?>
                 </a>
 
                 <?php if ($is_logged_in): ?>
-                    <div class="dropdown">
-                        <button class="action-btn profile-btn">
-                            <i class="fas fa-user"></i>
-                        </button>
-                        <div class="dropdown-content">
-                            <div class="dropdown-header">
-                                Halo, <strong><?= htmlspecialchars($user_name) ?></strong>
-                                <small><?= ucfirst($user_level) ?></small>
-                            </div>
-                            <?php if ($user_level == 'admin'): ?>
-                                <a href="/admin/dashboard.php">Admin Dashboard</a>
-                                <a href="/admin/verifikasi.php">Verifikasi Toko</a>
-                            <?php elseif ($user_level == 'seller'): ?>
-                                <a href="/seller/dashboard.php">Dashboard Toko</a>
-                                <a href="/seller/produk.php">Produk Saya</a>
-                                <a href="/seller/pesanan.php">Pesanan Masuk</a>
-                            <?php else: // Customer ?>
-                                <a href="/customer/profil.php">Profil Saya</a>
-                                <a href="/customer/pesanan.php">Pesanan Saya</a>
-                            <?php endif; ?>
-                            <a href="/auth/logout.php" class="logout-link">Keluar</a>
+                    <div class="dropdown" style="position: relative; display: inline-block;">
+                        <a href="/app_customer/pages/profil.php" class="icon-btn">
+                            <i class="fas fa-user-circle" style="font-size: 1.4rem; color: #007bff;"></i>
+                        </a>
                         </div>
+                    <a href="/auth/logout.php" style="margin-left: 10px; color: #dc3545; font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+                        Keluar
+                    </a>
+                <?php else: ?>
+                    <div class="auth-buttons" style="margin-left: 15px;">
+                        <a href="/auth/login_customer.php" style="margin-right: 10px; text-decoration: none; color: #333; font-weight: 600;">Masuk</a>
+                        <a href="/auth/register_customer.php" style="text-decoration: none; background: #007bff; color: white; padding: 8px 15px; border-radius: 5px; font-weight: 600;">Daftar</a>
                     </div>
-                <?php else: // Pengguna adalah tamu (guest) ?>
-                    <a href="/auth/login_customer.php" class="btn btn-secondary">Masuk</a>
-                    <a href="auth/register_customer.php" class="btn btn-primary">Daftar</a>
                 <?php endif; ?>
             </div>
-            
-            <div class="hamburger-menu">
-                <i class="fas fa-bars"></i>
-            </div>
-        </nav>
+        </div>
+
     </div>
-</header>
+</nav>
