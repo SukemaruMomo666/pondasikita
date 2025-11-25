@@ -84,7 +84,7 @@ img {
     HERO BANNER (Dari main_index.css yang Anda suka)
     ================== */
 .hero-banner {
-    background: url('/assets/image/bannerbg.png') no-repeat center center/cover; /* Pastikan path gambar ini benar */
+    background: url('/assets/image/MainBanner.png') no-repeat center center/cover; /* Pastikan path gambar ini benar */
     color: #fff; /* Warna teks putih untuk banner */
     text-align: center;
     padding: 100px 0;
@@ -120,7 +120,7 @@ img {
 
 .hero-content .btn-primary:hover {
     background-color: var(--primary-color);
-    color: #fff;
+    color: #242424;
     border-color: #fff;
 }
 

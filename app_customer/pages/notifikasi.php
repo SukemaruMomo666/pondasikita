@@ -1,56 +1,18 @@
 <?php
-// ==============================================================================
-// NOTIFICATION HANDLER MIDTRANS (FINAL)
-// ==============================================================================
+// File: actions/notification_handler.php
 
-// 1. Setting Error Log (Biar Midtrans dapet respon bersih 200 OK)
+// 1. Matikan display error biar Midtrans dapet HTTP 200 bersih
 error_reporting(E_ALL);
-ini_set('display_errors', 0); // Jangan tampilkan error di layar (browser/midtrans)
-ini_set('log_errors', 1);     // Tulis error ke file log aja
-ini_set('error_log', __DIR__ . '/php_error_log.txt');
+ini_set('display_errors', 0); 
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/php_error.log');
 
-// 2. AUTO-DETECT PATH KONEKSI & VENDOR
-// Ini otomatis nyari file koneksi, mau ditaruh di folder 'actions' atau 'pages' tetep jalan.
-$paths_to_check = [
-    __DIR__ . '/../config/koneksi.php',       // Jika file ini ada di folder 'actions'
-    __DIR__ . '/../../config/koneksi.php',    // Jika file ini ada di folder 'app_customer/pages'
-    $_SERVER['DOCUMENT_ROOT'] . '/PondasiKita/config/koneksi.php', // Jalur mutlak (Laragon)
-];
-
-$koneksi_found = false;
-foreach ($paths_to_check as $path) {
-    if (file_exists($path)) {
-        require_once $path;
-        $koneksi_found = true;
-        break;
-    }
-}
-
-// Load Autoload Composer (Midtrans Library) dengan logika sama
-$vendor_paths = [
-    __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/../../vendor/autoload.php',
-    $_SERVER['DOCUMENT_ROOT'] . '/PondasiKita/vendor/autoload.php',
-];
-
-$vendor_found = false;
-foreach ($vendor_paths as $path) {
-    if (file_exists($path)) {
-        require_once $path;
-        $vendor_found = true;
-        break;
-    }
-}
-
-// Cek Fatal Error kalau file gak ketemu
-if (!$koneksi_found || !$vendor_found) {
-    http_response_code(500);
-    die("CRITICAL ERROR: File koneksi.php atau vendor/autoload.php tidak ditemukan. Cek struktur folder.");
-}
+// 2. Load file koneksi (Mundur 1 langkah dari folder 'actions' ke root)
+require_once __DIR__ . '/../../config/koneksi.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 // 3. Konfigurasi Midtrans
-// GANTI ServerKey DENGAN PUNYA LU YANG BENAR
-\Midtrans\Config::$serverKey = 'SB-Mid-server-KfGZdmNmRhhouinEJzESiAjl'; 
+\Midtrans\Config::$serverKey = 'SB-Mid-server-KfGZdmNmRhhouinEJzESiAjl'; // Pastikan Server Key BENAR
 \Midtrans\Config::$isProduction = false;
 \Midtrans\Config::$isSanitized = true;
 \Midtrans\Config::$is3ds = true;
@@ -61,11 +23,11 @@ function tulisLog($msg) {
     file_put_contents($log_file, date('Y-m-d H:i:s') . " | " . $msg . "\n", FILE_APPEND);
 }
 
-// MULAI PROSES
+// Mulai Transaksi Database
 $koneksi->begin_transaction();
 
 try {
-    // 4. Ambil Notifikasi
+    // 4. Ambil Notifikasi dari Midtrans
     try {
         $notif = new \Midtrans\Notification();
     } catch (Exception $e) {
@@ -81,7 +43,7 @@ try {
 
     tulisLog("Notif Masuk: $order_id | Status: $transaction");
 
-    // 5. Cek Transaksi di Database (tb_transaksi)
+    // 5. Cek Transaksi di Database
     $stmt = $koneksi->prepare("SELECT id, status_pembayaran FROM tb_transaksi WHERE kode_invoice = ? FOR UPDATE");
     $stmt->bind_param("s", $order_id);
     $stmt->execute();
@@ -97,11 +59,10 @@ try {
     $data = $result->fetch_assoc();
     $trx_id = $data['id'];
 
-    // Idempotency: Kalau sudah sukses, jangan diproses lagi biar gak double deduct stok
+    // Idempotency: Kalau sudah sukses, jangan diproses lagi
     if ($data['status_pembayaran'] == 'success') {
         tulisLog("Order $order_id sudah lunas sebelumnya. Skip.");
         $koneksi->commit();
-        http_response_code(200);
         exit("OK");
     }
 
@@ -162,11 +123,11 @@ try {
 
     $koneksi->commit();
     tulisLog("Sukses update status jadi: $status_bayar");
-    http_response_code(200); // WAJIB RESPON 200 KE MIDTRANS
+    http_response_code(200); // WAJIB
 
 } catch (Exception $e) {
     $koneksi->rollback();
     tulisLog("CRITICAL ERROR: " . $e->getMessage());
-    http_response_code(500); // Kasih tau Midtrans server kita error
+    http_response_code(500);
 }
 ?>
