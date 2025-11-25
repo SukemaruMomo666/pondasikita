@@ -173,12 +173,12 @@ try {
 
     $koneksi->commit(); // Commit transaksi jika semua berhasil
     $_SESSION['success_message'] = "Profil dan alamat utama berhasil diperbarui.";
-    redirect_with_feedback('sukses', 'Profil dan alamat utama berhasil diperbarui.', '../app_customer/pages/profil/crud_profil/edit_profil.php');
+    redirect_with_feedback('sukses', 'Profil dan alamat utama berhasil diperbarui.', '/app_customer/pages/profil/crud_profil/edit_profil.php');
 
 } catch (Exception $e) {
     $koneksi->rollback(); // Rollback transaksi jika ada error
     error_log("Update Profil Error: " . $e->getMessage() . " - SQLSTATE: " . $koneksi->sqlstate . " - MySQL Error: " . $koneksi->error);
-    redirect_with_feedback('gagal', 'Gagal memperbarui profil: ' . $e->getMessage(), '../app_customer/pages/profil/crud_profil/edit_profil.php');
+    redirect_with_feedback('gagal', 'Gagal memperbarui profil: ' . $e->getMessage(), '/app_customer/pages/profil/crud_profil/edit_profil.php');
 }
 
 ?>

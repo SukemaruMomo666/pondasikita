@@ -74,7 +74,7 @@ if (isset($_SESSION['user']['id'])) {
     // Pastikan partials/navbar.php ada di direktori yang benar dari keranjang.php
     // Jika keranjang.php ada di app_customer/pages/, maka partials/navbar.php ada di partials/
     // Jadi, pathnya adalah '../partials/navbar.php'
-    include __DIR__ . '/../partials/navbar.php'; 
+    include __DIR__ . '../partials/navbar.php'; 
 ?>
 
 <div class="cart-page-container">
