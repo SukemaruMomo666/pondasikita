@@ -141,6 +141,45 @@ if ($res_nasional) { while($r = $res_nasional->fetch_assoc()) { $list_produk_nas
         @keyframes pulse-blue { 0% { box-shadow: 0 0 0 0 rgba(79,172,254,0.7); transform: scale(1); } 70% { box-shadow: 0 0 0 20px rgba(79,172,254,0); transform: scale(1.1); } 100% { box-shadow: 0 0 0 0 rgba(79,172,254,0); transform: scale(1); } }
         
         @media (max-width: 768px) { .live-chat-window.expanded { width: 100% !important; height: 100% !important; bottom: 0 !important; right: 0 !important; border-radius: 0; } }
+    /* === JENDELA CHAT DENGAN ANIMASI POP-UP === */
+        .live-chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none; /* Default hidden */
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9999;
+            border: 1px solid #eee;
+            
+            /* Animasi Default */
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efek mantul dikit */
+        }
+
+        /* Saat Aktif (Muncul) */
+        .live-chat-window.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Mode Expanded (Layar Penuh) */
+        .live-chat-window.expanded {
+            width: 90% !important;
+            height: 90% !important;
+            bottom: 5% !important;
+            right: 5% !important;
+            border-radius: 20px;
+            z-index: 10000;
+            transition: all 0.4s ease-in-out; /* Transisi lebih lambat biar elegan */
+        }
     </style>
 </head>
 <body>
