@@ -84,7 +84,7 @@ $stmt_alamat->close();
 </head>
 <body>
     
-<?php include __DIR__ . '/partials/navbar.php'; // Path disesuaikan ?>
+<?php include __DIR__ . '/navbar.php'; // Path disesuaikan ?>
 
 <div class="profile-container">
     <div class="profile-header">
