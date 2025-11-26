@@ -130,7 +130,7 @@ if ($alamat_utama) { // Jika $alamat_utama ditemukan
 </head>
 <body>
 
-<?php include '../../partials/navbar.php'; // Sesuaikan path ini ?>
+<?php include 'partials/navbar.php'; // Sesuaikan path ini ?>
 
 <div class="profile-container">
     <div class="profile-header">
