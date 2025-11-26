@@ -1,37 +1,73 @@
 <?php
-// File: actions/notification_handler.php
+// ==============================================================================
+// NOTIFICATION HANDLER MIDTRANS (FIXED ENUM: 'paid' instead of 'success')
+// ==============================================================================
 
-// 1. Matikan display error biar Midtrans dapet HTTP 200 bersih
 error_reporting(E_ALL);
 ini_set('display_errors', 0); 
 ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/php_error.log');
+ini_set('error_log', __DIR__ . '/php_error_log.txt');
 
-// 2. Load file koneksi (Mundur 1 langkah dari folder 'actions' ke root)
-require_once __DIR__ . '/../../config/koneksi.php';
-require_once __DIR__ . '/../../vendor/autoload.php';
+// [PENTING] Cek Metode Request
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(404);
+    exit("Access Denied");
+}
+
+// 2. AUTO-DETECT PATH
+$paths_to_check = [
+    __DIR__ . '/../config/koneksi.php',       
+    __DIR__ . '/../../config/koneksi.php',    
+    $_SERVER['DOCUMENT_ROOT'] . '/PondasiKita/config/koneksi.php',
+];
+
+$koneksi_found = false;
+foreach ($paths_to_check as $path) {
+    if (file_exists($path)) {
+        require_once $path;
+        $koneksi_found = true;
+        break;
+    }
+}
+
+$vendor_paths = [
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../vendor/autoload.php',
+    $_SERVER['DOCUMENT_ROOT'] . '/PondasiKita/vendor/autoload.php',
+];
+
+$vendor_found = false;
+foreach ($vendor_paths as $path) {
+    if (file_exists($path)) {
+        require_once $path;
+        $vendor_found = true;
+        break;
+    }
+}
+
+if (!$koneksi_found || !$vendor_found) {
+    http_response_code(500);
+    die("CRITICAL ERROR: File koneksi/vendor tidak ketemu.");
+}
 
 // 3. Konfigurasi Midtrans
-\Midtrans\Config::$serverKey = 'SB-Mid-server-KfGZdmNmRhhouinEJzESiAjl'; // Pastikan Server Key BENAR
+\Midtrans\Config::$serverKey = 'SB-Mid-server-KfGZdmNmRhhouinEJzESiAjl'; 
 \Midtrans\Config::$isProduction = false;
 \Midtrans\Config::$isSanitized = true;
 \Midtrans\Config::$is3ds = true;
 
-// Fungsi Log Sederhana
 function tulisLog($msg) {
     $log_file = __DIR__ . '/midtrans_log.txt';
     file_put_contents($log_file, date('Y-m-d H:i:s') . " | " . $msg . "\n", FILE_APPEND);
 }
 
-// Mulai Transaksi Database
 $koneksi->begin_transaction();
 
 try {
-    // 4. Ambil Notifikasi dari Midtrans
     try {
         $notif = new \Midtrans\Notification();
     } catch (Exception $e) {
-        tulisLog("GAGAL INIT NOTIF: " . $e->getMessage());
+        tulisLog("GAGAL INIT: " . $e->getMessage());
         http_response_code(403);
         exit("Invalid Signature");
     }
@@ -43,14 +79,14 @@ try {
 
     tulisLog("Notif Masuk: $order_id | Status: $transaction");
 
-    // 5. Cek Transaksi di Database
+    // 4. Cek Database
     $stmt = $koneksi->prepare("SELECT id, status_pembayaran FROM tb_transaksi WHERE kode_invoice = ? FOR UPDATE");
     $stmt->bind_param("s", $order_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows == 0) {
-        tulisLog("Order ID $order_id TIDAK DITEMUKAN di database.");
+        tulisLog("Order $order_id TIDAK DITEMUKAN.");
         $koneksi->rollback();
         http_response_code(404);
         exit("Order not found");
@@ -59,48 +95,56 @@ try {
     $data = $result->fetch_assoc();
     $trx_id = $data['id'];
 
-    // Idempotency: Kalau sudah sukses, jangan diproses lagi
-    if ($data['status_pembayaran'] == 'success') {
-        tulisLog("Order $order_id sudah lunas sebelumnya. Skip.");
+    // [FIX] Cek status pake 'paid' (sesuai DB)
+    if ($data['status_pembayaran'] == 'paid') {
+        tulisLog("Order $order_id sudah lunas (paid). Skip.");
         $koneksi->commit();
+        http_response_code(200);
         exit("OK");
     }
 
-    // 6. Tentukan Status Baru
+    // 5. Tentukan Status Baru (SINKRONISASI DENGAN ENUM DB)
     $status_bayar = null;
     $status_global = null;
 
     if ($transaction == 'capture') {
         if ($type == 'credit_card') {
             if ($fraud == 'challenge') {
-                $status_bayar = 'challenge';
+                $status_bayar = 'pending'; // Challenge dianggap pending dulu
                 $status_global = 'menunggu_pembayaran';
             } else {
-                $status_bayar = 'success';
+                $status_bayar = 'paid'; // [FIX] Ganti 'success' jadi 'paid'
                 $status_global = 'diproses';
             }
         }
     } else if ($transaction == 'settlement') {
-        $status_bayar = 'success';
+        $status_bayar = 'paid'; // [FIX] Ganti 'success' jadi 'paid'
         $status_global = 'diproses';
     } else if ($transaction == 'pending') {
         $status_bayar = 'pending';
         $status_global = 'menunggu_pembayaran';
-    } else if ($transaction == 'deny' || $transaction == 'expire' || $transaction == 'cancel') {
-        $status_bayar = ($transaction == 'expire') ? 'expired' : 'cancelled';
+    } else if ($transaction == 'deny') {
+        $status_bayar = 'failed';
+        $status_global = 'dibatalkan';
+    } else if ($transaction == 'expire') {
+        $status_bayar = 'expired';
+        $status_global = 'dibatalkan';
+    } else if ($transaction == 'cancel') {
+        $status_bayar = 'cancelled';
         $status_global = 'dibatalkan';
     }
 
-    // 7. Update Database & Stok
+    // 6. Update Database
     if ($status_bayar) {
-        // Update Header Transaksi
         $upd = $koneksi->prepare("UPDATE tb_transaksi SET status_pembayaran=?, status_pesanan_global=? WHERE id=?");
         $upd->bind_param("ssi", $status_bayar, $status_global, $trx_id);
-        $upd->execute();
+        
+        if (!$upd->execute()) {
+            throw new Exception("Gagal update DB: " . $upd->error);
+        }
 
         // Logic Stok
-        if ($status_bayar == 'success') {
-            // Pembayaran Sukses -> Kurangi Stok Fisik & Bersihkan Stok Booking
+        if ($status_bayar == 'paid') { // [FIX] Cek 'paid'
             $items = $koneksi->query("SELECT barang_id, jumlah FROM tb_detail_transaksi WHERE transaksi_id = $trx_id");
             $stok_upd = $koneksi->prepare("UPDATE tb_barang SET stok = stok - ?, stok_di_pesan = stok_di_pesan - ? WHERE id = ?");
             while($it = $items->fetch_assoc()) {
@@ -110,7 +154,6 @@ try {
             tulisLog("Stok fisik dikurangi untuk $order_id");
 
         } else if ($status_global == 'dibatalkan') {
-            // Batal/Expired -> Kembalikan Stok Booking ke Pool
             $items = $koneksi->query("SELECT barang_id, jumlah FROM tb_detail_transaksi WHERE transaksi_id = $trx_id");
             $stok_upd = $koneksi->prepare("UPDATE tb_barang SET stok_di_pesan = stok_di_pesan - ? WHERE id = ?");
             while($it = $items->fetch_assoc()) {
@@ -122,8 +165,8 @@ try {
     }
 
     $koneksi->commit();
-    tulisLog("Sukses update status jadi: $status_bayar");
-    http_response_code(200); // WAJIB
+    tulisLog("Sukses update jadi: $status_bayar");
+    http_response_code(200);
 
 } catch (Exception $e) {
     $koneksi->rollback();
