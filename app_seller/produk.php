@@ -113,7 +113,7 @@ $result_produk = $produk_query->get_result();
                                         <?php $no = 1; while($produk = $result_produk->fetch_assoc()): ?>
                                         <tr data-status-moderasi="<?= htmlspecialchars($produk['status_moderasi']) ?>" data-is-active="<?= $produk['is_active'] ? 'active' : 'inactive' ?>">
                                             <td><?= $no++ ?></td>
-                                            <td><img src="/assets/img/products/<?= htmlspecialchars($produk['gambar_utama'] ?? 'default.jpg') ?>" class="product-image-thumb" alt="<?= htmlspecialchars($produk['nama_barang']) ?>" onerror="this.onerror=null;this.src='https://via.placeholder.com/60';"></td>
+                                            <td><img src="/assets/uploads/products/<?= htmlspecialchars($produk['gambar_utama'] ?? 'default.jpg') ?>" class="product-image-thumb" alt="<?= htmlspecialchars($produk['nama_barang']) ?>" onerror="this.onerror=null;this.src='https://via.placeholder.com/60';"></td>
                                             <td><?= htmlspecialchars($produk['nama_barang']) ?></td>
                                             <td>Rp<?= number_format($produk['harga'], 0, ',', '.') ?></td>
                                             <td><?= $produk['stok'] ?></td>

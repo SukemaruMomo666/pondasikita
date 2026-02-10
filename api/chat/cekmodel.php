@@ -4,7 +4,7 @@ header('Content-Type: text/plain');
 
 // ==========================================
 // MASUKKAN API KEY ANDA DI SINI
-$apiKey = 'AIzaSyANopyj7PZSefp9n8merXzeOaTRAJZPFec';
+$apiKey = 'AIzaSyBJEhT0qmIU41oVtEaPA_rj5xOh55BBnYo';
 // ==========================================
 
 $url = "https://generativelanguage.googleapis.com/v1beta/models?key=" . $apiKey;

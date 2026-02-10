@@ -16,7 +16,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="auth-container seller-theme">
         <div class="auth-sidebar">
             <div>
-                 <img src="../assets/images/logo-oranye.png" alt="Logo Pondasikita" class="logo"> <h1>Jadilah Penjual Terbaik!</h1>
+                 <img src="/assets/images/logo-oranye.png" alt="Logo Pondasikita" class="logo"> <h1>Jadilah Penjual Terbaik!</h1>
                 <p>Kelola toko Anda secara efisien di Pondasikita Seller Centre.</p>
             </div>
             <span>© Pondasikita 2025</span>
