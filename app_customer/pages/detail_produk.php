@@ -12,9 +12,32 @@ if (session_status() == PHP_SESSION_NONE) {
 // Pastikan path ke file koneksi sudah benar
 require_once __DIR__ . '/../../config/koneksi.php';
 
-// Cek apakah koneksi database berhasil
+// =================================================================
+// 1. HELPER FUNCTIONS (Untuk Inisial Toko & Warna)
+// =================================================================
+if (!function_exists('getStoreInitials')) {
+    function getStoreInitials($nama_toko) {
+        if (empty($nama_toko)) return "TK";
+        $words = explode(" ", $nama_toko);
+        $acronym = "";
+        foreach ($words as $w) {
+            $acronym .= mb_substr($w, 0, 1);
+        }
+        return strtoupper(substr($acronym, 0, 2));
+    }
+}
+
+if (!function_exists('getStoreColor')) {
+    function getStoreColor($nama_toko) {
+        $colors = ['#e53935', '#d81b60', '#8e24aa', '#5e35b1', '#3949ab', '#1e88e5', '#039be5', '#00acc1', '#00897b', '#43a047', '#7cb342', '#c0ca33', '#fdd835', '#ffb300', '#fb8c00', '#f4511e'];
+        $index = crc32($nama_toko) % count($colors);
+        return $colors[$index];
+    }
+}
+
+// Cek koneksi database
 if (!isset($koneksi) || $koneksi->connect_error) {
-    die("<h1>Koneksi ke database gagal.</h1><p>Periksa file konfigurasi koneksi Anda.</p>");
+    die("<h1>Koneksi ke database gagal.</h1>");
 }
 
 $product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -23,10 +46,11 @@ if ($product_id <= 0) {
 }
 
 // Query Utama
-$product_query = "SELECT p.*, k.nama_kategori, t.id AS toko_id, t.nama_toko, t.slug AS slug_toko, t.city_id AS kota_toko, t.logo_toko 
+$product_query = "SELECT p.*, k.nama_kategori, t.id AS toko_id, t.nama_toko, t.slug AS slug_toko, t.city_id AS kota_toko, t.logo_toko, c.name as nama_kota_toko
                   FROM tb_barang p 
                   LEFT JOIN tb_kategori k ON p.kategori_id = k.id 
                   JOIN tb_toko t ON p.toko_id = t.id 
+                  LEFT JOIN cities c ON t.city_id = c.id
                   WHERE p.id = ? AND p.is_active = 1 AND p.status_moderasi = 'approved'";
 $stmt = $koneksi->prepare($product_query);
 $stmt->bind_param("i", $product_id);
@@ -54,6 +78,10 @@ $stmt_gambar->close();
 if (empty($gallery_images) && !empty($product['gambar_utama'])) {
     $gallery_images[] = $product['gambar_utama'];
 }
+// Fallback jika tidak ada gambar sama sekali
+if (empty($gallery_images)) {
+    $gallery_images[] = 'default.jpg';
+}
 
 // Query produk terkait
 $related_query = "SELECT id, nama_barang, harga, gambar_utama FROM tb_barang WHERE toko_id = ? AND id != ? AND is_active = 1 LIMIT 5";
@@ -80,6 +108,13 @@ if ($jumlah_ulasan > 0) {
     }
     $avg_rating = $total_rating / $jumlah_ulasan;
 }
+
+// Persiapan Data Toko (Logo vs Inisial)
+$storeColor = getStoreColor($product['nama_toko']);
+$storeInitials = getStoreInitials($product['nama_toko']);
+$logoPathRel = '../../assets/uploads/logos/' . $product['logo_toko'];
+$hasLogo = !empty($product['logo_toko']) && file_exists(__DIR__ . '/../../assets/uploads/logos/' . $product['logo_toko']);
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -89,10 +124,42 @@ if ($jumlah_ulasan > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/assets/css/theme.css">
-    <link rel="stylesheet" href="/assets/css/navbar_style.css">
-    <link rel="stylesheet" href="/assets/css/produk_detail.css">
+    <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../../assets/css/theme.css">
+    <link rel="stylesheet" href="../../assets/css/navbar_style.css">
+    <link rel="stylesheet" href="../../assets/css/produk_detail.css">
+
+    <style>
+        /* Style Tambahan untuk Inisial Toko di Sidebar */
+        .seller-logo-wrapper {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid #eee;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .seller-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .seller-initial {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
 
@@ -100,13 +167,22 @@ if ($jumlah_ulasan > 0) {
 
 <main class="container">
     <section class="product-showcase">
+        
         <div class="product-gallery">
             <div class="main-image-wrapper">
-                <img src="/assets/uploads/products/<?= htmlspecialchars($gallery_images[0] ?? 'default.jpg') ?>" alt="Gambar Utama Produk" class="main-image" id="mainProductImage">
+                <img src="../../assets/uploads/products/<?= htmlspecialchars($gallery_images[0]) ?>" 
+                     alt="Gambar Utama" 
+                     class="main-image" 
+                     id="mainProductImage"
+                     onerror="this.src='../../assets/uploads/products/default.jpg'">
             </div>
             <div class="thumbnail-strip">
                 <?php foreach ($gallery_images as $index => $img) : ?>
-                    <img src="/assets/uploads/products/<?= htmlspecialchars($img ?? 'default.jpg') ?>" alt="Thumbnail <?= $index + 1 ?>" class="thumbnail <?= $index == 0 ? 'is-active' : '' ?>" data-full-image="/assets/uploads/products/<?= htmlspecialchars($img ?? 'default.jpg') ?>">
+                    <img src="../../assets/uploads/products/<?= htmlspecialchars($img) ?>" 
+                         alt="Thumb <?= $index + 1 ?>" 
+                         class="thumbnail <?= $index == 0 ? 'is-active' : '' ?>" 
+                         data-full-image="../../assets/uploads/products/<?= htmlspecialchars($img) ?>"
+                         onerror="this.src='../../assets/uploads/products/default.jpg'">
                 <?php endforeach; ?>
             </div>
         </div>
@@ -172,6 +248,7 @@ if ($jumlah_ulasan > 0) {
                         <tr><td>Kategori</td><td><?= htmlspecialchars($product['nama_kategori'] ?? 'Tidak ada kategori') ?></td></tr>
                         <tr><td>Stok</td><td><?= htmlspecialchars($product['stok']) ?></td></tr>
                         <tr><td>Berat</td><td><?= htmlspecialchars($product['berat_kg'] ?? 'N/A') ?> kg</td></tr>
+                        <tr><td>Satuan</td><td><?= htmlspecialchars($product['satuan_unit'] ?? 'pcs') ?></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -201,28 +278,49 @@ if ($jumlah_ulasan > 0) {
                         </article>
                     <?php endforeach; ?>
                 <?php else : ?>
-                    <p>Belum ada ulasan untuk produk ini.</p>
+                    <p class="p-3 text-muted">Belum ada ulasan untuk produk ini.</p>
                 <?php endif; ?>
             </div>
         </div>
 
         <aside class="details-sidebar">
             <div class="card">
-                <div class="seller-card">
-                    <img src="/assets/uploads/logos/<?= htmlspecialchars($product['logo_toko'] ?? 'default-logo.png') ?>" alt="Logo Toko" class="seller-logo">
+                <div class="seller-card" style="display: flex; align-items: center;">
+                    
+                    <div class="seller-logo-wrapper">
+                        <?php if ($hasLogo): ?>
+                            <img src="<?= $logoPathRel ?>" alt="Logo" class="seller-logo-img">
+                        <?php else: ?>
+                            <div class="seller-initial" style="background-color: <?= $storeColor ?>;">
+                                <?= $storeInitials ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
                     <div class="seller-info">
-                        <a href="/toko.php?slug=<?= $product['slug_toko'] ?>" class="name"><?= htmlspecialchars($product['nama_toko']) ?></a>
-                        <span class="location"><i class="mdi mdi-map-marker-outline"></i> <?= htmlspecialchars($product['kota_toko']) ?></span>
+                        <a href="../toko.php?slug=<?= $product['slug_toko'] ?>" class="name" style="text-decoration: none; font-weight: bold; color: #333;">
+                            <?= htmlspecialchars($product['nama_toko']) ?>
+                        </a>
+                        <span class="location" style="display: block; font-size: 12px; color: #666;">
+                            <i class="mdi mdi-map-marker-outline"></i> <?= htmlspecialchars($product['nama_kota_toko'] ?? 'Indonesia') ?>
+                        </span>
+                        <a href="../toko.php?slug=<?= $product['slug_toko'] ?>" class="btn btn-sm btn-outline-primary mt-2" style="font-size: 11px; padding: 2px 8px;">Kunjungi Toko</a>
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <h3 class="card-header">Produk Lainnya</h3>
+                <h3 class="card-header">Produk Lainnya dari Toko Ini</h3>
                 <div class="related-products-grid">
-                    <?php foreach ($related_products as $related) : ?>
+                    <?php foreach ($related_products as $related) : 
+                        $imgSrc = !empty($related['gambar_utama']) ? $related['gambar_utama'] : 'default.jpg';
+                    ?>
                         <a href="detail_produk.php?id=<?= $related['id'] ?>" class="related-product-card">
-                            <div class="image-wrapper"><img src="/assets/uploads/products/<?= htmlspecialchars($related['gambar_utama'] ?? 'default.jpg') ?>" alt="<?= htmlspecialchars($related['nama_barang']) ?>"></div>
+                            <div class="image-wrapper">
+                                <img src="../../assets/uploads/products/<?= htmlspecialchars($imgSrc) ?>" 
+                                     alt="<?= htmlspecialchars($related['nama_barang']) ?>"
+                                     onerror="this.src='../../assets/uploads/products/default.jpg'">
+                            </div>
                             <div class="details">
                                 <h4 class="title"><?= htmlspecialchars($related['nama_barang']) ?></h4>
                                 <p class="price">Rp <?= number_format($related['harga'], 0, ',', '.') ?></p>
@@ -235,11 +333,11 @@ if ($jumlah_ulasan > 0) {
     </section>
 </main>
 
-<script src="/assets/js/navbar.js"></script>
+<script src="../../assets/js/navbar.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. LOGIKA GAMBAR & QUANTITY (Bawaan)
+    // 1. LOGIKA GAMBAR & QUANTITY
     const mainImage = document.getElementById('mainProductImage');
     const thumbnails = document.querySelectorAll('.thumbnail');
     if (mainImage && thumbnails.length > 0) {
@@ -270,29 +368,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 2. LOGIKA AJAX KERANJANG (YANG KITA PERBAIKI)
+    // 2. LOGIKA AJAX KERANJANG
     const formKeranjang = document.getElementById('formTambahKeranjang');
 
     if (formKeranjang) {
         formKeranjang.addEventListener('submit', function(e) {
-            e.preventDefault(); // Tahan dulu, jangan reload
+            e.preventDefault(); 
 
             const formData = new FormData(this);
 
-            // Kirim data ke backend
-            fetch('/actions/tambah_keranjang.php', {
+            fetch('../../actions/tambah_keranjang.php', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // Tampilkan Pesan Sukses
                     alert('✅ Berhasil! ' + data.message);
-                    
-                    // [PENTING] Reload Halaman supaya angka Keranjang di Navbar berubah
                     window.location.reload(); 
-                    
                 } else {
                     alert('❌ Gagal: ' + data.message);
                 }
