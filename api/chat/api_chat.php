@@ -151,14 +151,7 @@ $contextData .= "[AREA LAYANAN]: " . implode(", ", array_unique($allCities)) . "
 if ($dataProdukString) $contextData .= "[DATA " . $labelProduk . " (Format: ID|Nama|Harga|Gambar|TokoSlug|Terjual)]:\n" . $dataProdukString . "\n";
 if ($dataTokoString) $contextData .= "[DATA TOKO (Format: Nama|Kota|Slug)]:\n" . $dataTokoString . "\n";
 
-<<<<<<< HEAD
-$apiKey = 'AIzaSyDXWCPfhMuLmiMKyHJbHdriYfE8KpqQBF8
-
-
-'; 
-=======
-$apiKey = 'AIzaSyDHP-2xmbPmyr1vMg7rx6CGFrSFr5RtT6E'; 
->>>>>>> 28078367120c440b1a4e1aa2a6445ba8e3061cf5
+$apiKey = 'AIzaSyBJEhT0qmIU41oVtEaPA_rj5xOh55BBnYo'; 
 $modelName = 'gemini-2.5-flash'; 
 $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$modelName}:generateContent?key={$apiKey}";
 
